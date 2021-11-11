@@ -15,8 +15,6 @@ namespace LaserLeague {
 
 
   let Laser: ƒ.Node;
-  //let LaserSquad: ƒ.Node;
-  //let agent: ƒ.Node;
   let agent: Agent;
   let ctrForward: ƒ.Control = new ƒ.Control("Forward", 10, ƒ.CONTROL_TYPE.PROPORTIONAL);
   ctrForward.setDelay(200);
@@ -42,7 +40,7 @@ namespace LaserLeague {
 
     Laser = root.getChildrenByName("LaserObject")[0].getChildrenByName("LaserSquad_1")[0].getChildrenByName("LaserCore_1")[0];
     //LaserSquad = root.getChildrenByName("LaserObject")[0].getChildrenByName("LaserSquad_1")[0]; // For the transition 
-    //agent = root.getChildrenByName("Agents")[0].getChildrenByName("Agent_1R")[0];
+    
 
     let graph: ƒ.Node = viewport.getBranch();
     agent = new Agent();
@@ -111,10 +109,10 @@ namespace LaserLeague {
     let lasersCheck: ƒ.Node[] = laserformation.getChildren(); // LaserCheck --> LaserCore_1
 
     for (let laser of lasersCheck) {
-      let beams: ƒ.Node[] = laser.getChildren();//ByName("LaserBeam");
+      let beams: ƒ.Node[] = laser.getChildren();
       for (let beam of beams) {
         if (collisionTest(agent, beam))
-        ctrForward.setInput(0);//console.log("hit");
+        console.log("hit");
       }
     }
 
@@ -124,10 +122,6 @@ namespace LaserLeague {
 
 
   // Other functions
-
-
-
-
 
   function collisionTest(_agent: ƒ.Node, _beam: ƒ.Node): boolean {
     let testPosition: ƒ.Vector3 = ƒ.Vector3.TRANSFORMATION(_agent.mtxWorld.translation, _beam.mtxWorldInverse);

@@ -10,7 +10,8 @@ var LaserLeague;
             this.addComponent(new ƒ.ComponentTransform);
             this.addComponent(new ƒ.ComponentMesh(new ƒ.MeshSphere("MeshAgent")));
             this.addComponent(new ƒ.ComponentMaterial(new ƒ.Material("mtrAgent", ƒ.ShaderUniColor, new ƒ.CoatColored(new ƒ.Color(1, 0, 1, 1)))));
-            this.mtxLocal.scale(ƒ.Vector3.ONE(10));
+            this.mtxLocal.scale(ƒ.Vector3.ONE(1));
+            this.mtxLocal.translate(new ƒ.Vector3(0, 0, 1));
         }
     }
     LaserLeague.Agent = Agent;
@@ -55,6 +56,39 @@ var Script;
 var LaserLeague;
 (function (LaserLeague) {
     var ƒ = FudgeCore;
+    ƒ.Project.registerScriptNamespace(LaserLeague); // Register the namespace to FUDGE for serialization
+    class LaserScript extends ƒ.ComponentScript {
+        // Register the script as component for use in the editor via drag&drop
+        static iSubclass = ƒ.Component.registerSubclass(LaserScript);
+        // Properties may be mutated by users in the editor via the automatically created user interface
+        message = "LaserScript added to ";
+        constructor() {
+            super();
+            // Don't start when running in editor
+            if (ƒ.Project.mode == ƒ.MODE.EDITOR)
+                return;
+            // Listen to this component being added to or removed from a node
+            this.addEventListener("componentAdd" /* COMPONENT_ADD */, this.hndEvent);
+            this.addEventListener("componentRemove" /* COMPONENT_REMOVE */, this.hndEvent);
+        }
+        // Activate the functions of this component as response to events
+        hndEvent = (_event) => {
+            switch (_event.type) {
+                case "componentAdd" /* COMPONENT_ADD */:
+                    ƒ.Debug.log(this.message, this.node);
+                    break;
+                case "componentRemove" /* COMPONENT_REMOVE */:
+                    this.removeEventListener("componentAdd" /* COMPONENT_ADD */, this.hndEvent);
+                    this.removeEventListener("componentRemove" /* COMPONENT_REMOVE */, this.hndEvent);
+                    break;
+            }
+        };
+    }
+    LaserLeague.LaserScript = LaserScript;
+})(LaserLeague || (LaserLeague = {}));
+var LaserLeague;
+(function (LaserLeague) {
+    var ƒ = FudgeCore;
     ƒ.Debug.info("Main Program Template running!");
     //----------------------------- Game Settings ----------------------------------------------
     let viewport;
@@ -63,8 +97,6 @@ var LaserLeague;
     let root;
     //------------------------------------------------------------------------------------------
     let Laser;
-    //let LaserSquad: ƒ.Node;
-    //let agent: ƒ.Node;
     let agent;
     let ctrForward = new ƒ.Control("Forward", 10, 0 /* PROPORTIONAL */);
     ctrForward.setDelay(200);
@@ -79,7 +111,6 @@ var LaserLeague;
         console.log(root);
         Laser = root.getChildrenByName("LaserObject")[0].getChildrenByName("LaserSquad_1")[0].getChildrenByName("LaserCore_1")[0];
         //LaserSquad = root.getChildrenByName("LaserObject")[0].getChildrenByName("LaserSquad_1")[0]; // For the transition 
-        //agent = root.getChildrenByName("Agents")[0].getChildrenByName("Agent_1R")[0];
         let graph = viewport.getBranch();
         agent = new LaserLeague.Agent();
         graph.getChildrenByName("Agents")[0].addChild(agent);
@@ -115,10 +146,10 @@ var LaserLeague;
         // ƒ.Physics.world.simulate();  // if physics is included and used
         let lasersCheck = laserformation.getChildren(); // LaserCheck --> LaserCore_1
         for (let laser of lasersCheck) {
-            let beams = laser.getChildren(); //ByName("LaserBeam");
+            let beams = laser.getChildren();
             for (let beam of beams) {
                 if (collisionTest(agent, beam))
-                    ctrForward.setInput(0); //console.log("hit");
+                    console.log("hit");
             }
         }
         viewport.draw();
