@@ -115,7 +115,7 @@ var LaserLeague;
         agent = new LaserLeague.Agent();
         graph.getChildrenByName("Agents")[0].addChild(agent);
         let domName = document.querySelector("#Hud>h1");
-        domName.textContent = agent.name;
+        domName.textContent = LaserLeague.Agent.name;
         laserformation = root.getChildrenByName("LaserObject")[0].getChildrenByName("LaserSquad_1")[0];
         ƒ.Loop.addEventListener("loopFrame" /* LOOP_FRAME */, update);
         ƒ.Loop.start(ƒ.LOOP_MODE.TIME_REAL, fps); // start the game loop to continously draw the viewport, update the audiosystem and drive the physics i/a
