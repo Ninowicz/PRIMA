@@ -1,0 +1,785 @@
+{
+  "MeshCube|2021-10-18T20:38:15.233Z|36013": {
+    "ƒ.MeshCube": {
+      "idResource": "MeshCube|2021-10-18T20:38:15.233Z|36013",
+      "name": "MeshCube",
+      "type": "MeshCube"
+    }
+  },
+  "Material|2021-10-18T20:38:27.134Z|83105": {
+    "ƒ.Material": {
+      "name": "NewMaterial",
+      "idResource": "Material|2021-10-18T20:38:27.134Z|83105",
+      "shader": "ShaderFlat",
+      "coat": {
+        "ƒ.CoatColored": {
+          "color": "[1, 1, 1, 0.41]"
+        }
+      }
+    }
+  },
+  "MeshQuad|2021-10-18T20:49:35.761Z|38319": {
+    "ƒ.MeshQuad": {
+      "idResource": "MeshQuad|2021-10-18T20:49:35.761Z|38319",
+      "name": "MeshQuad",
+      "type": "MeshQuad"
+    }
+  },
+  "Material|2021-10-18T20:47:18.451Z|81035": {
+    "ƒ.Material": {
+      "name": "NewMaterial",
+      "idResource": "Material|2021-10-18T20:47:18.451Z|81035",
+      "shader": "ShaderTexture",
+      "coat": {
+        "ƒ.CoatTextured": {
+          "color": "[0.7686274509803922, 0.09019607843137255, 0.09019607843137255, 1]"
+        }
+      }
+    }
+  },
+  "MeshSphere|2021-10-18T20:48:04.486Z|74495": {
+    "ƒ.MeshSphere": {
+      "idResource": "MeshSphere|2021-10-18T20:48:04.486Z|74495",
+      "name": "MeshSphere",
+      "type": "MeshSphere",
+      "sectors": 8,
+      "stacks": 8
+    }
+  },
+  "MeshCube|2021-10-19T12:27:14.719Z|76734": {
+    "ƒ.MeshCube": {
+      "idResource": "MeshCube|2021-10-19T12:27:14.719Z|76734",
+      "name": "MeshCube",
+      "type": "MeshCube"
+    }
+  },
+  "Material|2021-10-19T12:36:23.187Z|26226": {
+    "ƒ.Material": {
+      "name": "WallMaterial",
+      "idResource": "Material|2021-10-19T12:36:23.187Z|26226",
+      "shader": "ShaderUniColor",
+      "coat": {
+        "ƒ.CoatColored": {
+          "color": "[0.8823529411764706, 0, 1, 1]"
+        }
+      }
+    }
+  },
+  "Material|2021-10-19T12:38:15.667Z|67723": {
+    "ƒ.Material": {
+      "name": "AgentTextureR",
+      "idResource": "Material|2021-10-19T12:38:15.667Z|67723",
+      "shader": "ShaderUniColor",
+      "coat": {
+        "ƒ.CoatColored": {
+          "color": "[1, 0, 0, 1]"
+        }
+      }
+    }
+  },
+  "MeshSphere|2021-10-19T12:53:35.442Z|21443": {
+    "ƒ.MeshSphere": {
+      "idResource": "MeshSphere|2021-10-19T12:53:35.442Z|21443",
+      "name": "MeshSphere",
+      "type": "MeshSphere",
+      "sectors": 8,
+      "stacks": 8
+    }
+  },
+  "MeshSphere|2021-10-19T12:56:29.132Z|41522": {
+    "ƒ.MeshSphere": {
+      "idResource": "MeshSphere|2021-10-19T12:56:29.132Z|41522",
+      "name": "LaserCore",
+      "type": "MeshSphere",
+      "sectors": 8,
+      "stacks": 8
+    }
+  },
+  "Material|2021-10-19T12:56:59.672Z|19158": {
+    "ƒ.Material": {
+      "name": "LaserCoreColor",
+      "idResource": "Material|2021-10-19T12:56:59.672Z|19158",
+      "shader": "ShaderUniColor",
+      "coat": {
+        "ƒ.CoatColored": {
+          "color": "[0.7843137254901961, 0.27058823529411763, 0.8235294117647058, 1]"
+        }
+      }
+    }
+  },
+  "MeshCube|2021-10-19T12:59:36.802Z|58320": {
+    "ƒ.MeshCube": {
+      "idResource": "MeshCube|2021-10-19T12:59:36.802Z|58320",
+      "name": "MeshLaserWall",
+      "type": "MeshCube"
+    }
+  },
+  "Material|2021-10-19T12:59:47.985Z|01508": {
+    "ƒ.Material": {
+      "name": "LaserBeamMaterial",
+      "idResource": "Material|2021-10-19T12:59:47.985Z|01508",
+      "shader": "ShaderUniColor",
+      "coat": {
+        "ƒ.CoatColored": {
+          "color": "[0, 1, 0.06666666666666667, 1]"
+        }
+      }
+    }
+  },
+  "Material|2021-10-19T13:22:25.023Z|07730": {
+    "ƒ.Material": {
+      "name": "FloorMaterial",
+      "idResource": "Material|2021-10-19T13:22:25.023Z|07730",
+      "shader": "ShaderUniColor",
+      "coat": {
+        "ƒ.CoatColored": {
+          "color": "[1, 1, 1, 0.43]"
+        }
+      }
+    }
+  },
+  "MeshSphere|2021-11-01T19:04:34.052Z|55034": {
+    "ƒ.MeshSphere": {
+      "idResource": "MeshSphere|2021-11-01T19:04:34.052Z|55034",
+      "name": "MeshSphere",
+      "type": "MeshSphere",
+      "sectors": 8,
+      "stacks": 8
+    }
+  },
+  "MeshPyramid|2021-10-18T20:46:45.169Z|18822": {
+    "ƒ.MeshPyramid": {
+      "idResource": "MeshPyramid|2021-10-18T20:46:45.169Z|18822",
+      "name": "MeshPyramid",
+      "type": "MeshPyramid"
+    }
+  },
+  "Graph|2021-10-18T20:39:26.793Z|97414": {
+    "ƒ.Graph": {
+      "name": "LaserLeague",
+      "components": {},
+      "children": [
+        {
+          "ƒ.Node": {
+            "name": "Arena",
+            "components": {},
+            "children": [
+              {
+                "ƒ.Node": {
+                  "name": "Floor",
+                  "components": {
+                    "ComponentMesh": [
+                      {
+                        "ƒ.ComponentMesh": {
+                          "idMesh": "MeshCube|2021-10-19T12:27:14.719Z|76734",
+                          "pivot": {
+                            "translation": "[0, 0, 0]",
+                            "rotation": "[0, 0, 0]",
+                            "scaling": "[40, 25, 1]"
+                          },
+                          "Component": {
+                            "active": true
+                          }
+                        }
+                      }
+                    ],
+                    "ComponentMaterial": [
+                      {
+                        "ƒ.ComponentMaterial": {
+                          "sortForAlpha": false,
+                          "clrPrimary": "[1, 1, 1, 1]",
+                          "clrSecondary": "[1, 1, 1, 1]",
+                          "pivot": {
+                            "translation": "[0, 0]",
+                            "rotation": 0,
+                            "scaling": "[1, 1]"
+                          },
+                          "Component": {
+                            "active": true
+                          },
+                          "idMaterial": "Material|2021-10-19T13:22:25.023Z|07730"
+                        }
+                      }
+                    ]
+                  },
+                  "children": []
+                }
+              },
+              {
+                "ƒ.Node": {
+                  "name": "Walls",
+                  "components": {},
+                  "children": [
+                    {
+                      "ƒ.Node": {
+                        "name": "Wall_N",
+                        "components": {
+                          "ComponentMesh": [
+                            {
+                              "ƒ.ComponentMesh": {
+                                "idMesh": "MeshCube|2021-10-19T12:27:14.719Z|76734",
+                                "pivot": {
+                                  "translation": "[0, 12, 2]",
+                                  "rotation": "[0, 0, 0]",
+                                  "scaling": "[40, 1, 4]"
+                                },
+                                "Component": {
+                                  "active": true
+                                }
+                              }
+                            }
+                          ],
+                          "ComponentMaterial": [
+                            {
+                              "ƒ.ComponentMaterial": {
+                                "sortForAlpha": false,
+                                "clrPrimary": "[1, 1, 1, 1]",
+                                "clrSecondary": "[1, 1, 1, 1]",
+                                "pivot": {
+                                  "translation": "[0, 0]",
+                                  "rotation": 0,
+                                  "scaling": "[1, 1]"
+                                },
+                                "Component": {
+                                  "active": true
+                                },
+                                "idMaterial": "Material|2021-10-19T12:36:23.187Z|26226"
+                              }
+                            }
+                          ]
+                        },
+                        "children": []
+                      }
+                    },
+                    {
+                      "ƒ.Node": {
+                        "name": "Wall_E",
+                        "components": {
+                          "ComponentMesh": [
+                            {
+                              "ƒ.ComponentMesh": {
+                                "idMesh": "MeshCube|2021-10-19T12:27:14.719Z|76734",
+                                "pivot": {
+                                  "translation": "[20, 0, 2]",
+                                  "rotation": "[0, 0, 0]",
+                                  "scaling": "[1, 25, 4]"
+                                },
+                                "Component": {
+                                  "active": true
+                                }
+                              }
+                            }
+                          ],
+                          "ComponentMaterial": [
+                            {
+                              "ƒ.ComponentMaterial": {
+                                "sortForAlpha": false,
+                                "clrPrimary": "[1, 1, 1, 1]",
+                                "clrSecondary": "[1, 1, 1, 1]",
+                                "pivot": {
+                                  "translation": "[0, 0]",
+                                  "rotation": 0,
+                                  "scaling": "[1, 1]"
+                                },
+                                "Component": {
+                                  "active": true
+                                },
+                                "idMaterial": "Material|2021-10-19T12:36:23.187Z|26226"
+                              }
+                            }
+                          ]
+                        },
+                        "children": []
+                      }
+                    },
+                    {
+                      "ƒ.Node": {
+                        "name": "Wall_S",
+                        "components": {
+                          "ComponentMesh": [
+                            {
+                              "ƒ.ComponentMesh": {
+                                "idMesh": "MeshCube|2021-10-19T12:27:14.719Z|76734",
+                                "pivot": {
+                                  "translation": "[0, -12, 2]",
+                                  "rotation": "[0, 0, 0]",
+                                  "scaling": "[40, 1, 4]"
+                                },
+                                "Component": {
+                                  "active": true
+                                }
+                              }
+                            }
+                          ],
+                          "ComponentMaterial": [
+                            {
+                              "ƒ.ComponentMaterial": {
+                                "sortForAlpha": false,
+                                "clrPrimary": "[1, 1, 1, 1]",
+                                "clrSecondary": "[1, 1, 1, 1]",
+                                "pivot": {
+                                  "translation": "[0, 0]",
+                                  "rotation": 0,
+                                  "scaling": "[1, 1]"
+                                },
+                                "Component": {
+                                  "active": true
+                                },
+                                "idMaterial": "Material|2021-10-19T12:36:23.187Z|26226"
+                              }
+                            }
+                          ]
+                        },
+                        "children": []
+                      }
+                    },
+                    {
+                      "ƒ.Node": {
+                        "name": "Wall_O",
+                        "components": {
+                          "ComponentMesh": [
+                            {
+                              "ƒ.ComponentMesh": {
+                                "idMesh": "MeshCube|2021-10-19T12:27:14.719Z|76734",
+                                "pivot": {
+                                  "translation": "[-20, 0, 2]",
+                                  "rotation": "[0, 0, 0]",
+                                  "scaling": "[1, 25, 4]"
+                                },
+                                "Component": {
+                                  "active": true
+                                }
+                              }
+                            }
+                          ],
+                          "ComponentMaterial": [
+                            {
+                              "ƒ.ComponentMaterial": {
+                                "sortForAlpha": false,
+                                "clrPrimary": "[1, 1, 1, 1]",
+                                "clrSecondary": "[1, 1, 1, 1]",
+                                "pivot": {
+                                  "translation": "[0, 0]",
+                                  "rotation": 0,
+                                  "scaling": "[1, 1]"
+                                },
+                                "Component": {
+                                  "active": true
+                                },
+                                "idMaterial": "Material|2021-10-19T12:36:23.187Z|26226"
+                              }
+                            }
+                          ]
+                        },
+                        "children": []
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "ƒ.Node": {
+            "name": "Agents",
+            "components": {},
+            "children": [
+              {
+                "ƒ.Node": {
+                  "name": "Agent_1R",
+                  "components": {
+                    "ComponentMaterial": [
+                      {
+                        "ƒ.ComponentMaterial": {
+                          "sortForAlpha": false,
+                          "clrPrimary": "[1, 1, 1, 1]",
+                          "clrSecondary": "[1, 1, 1, 1]",
+                          "pivot": {
+                            "translation": "[0, 0]",
+                            "rotation": 0,
+                            "scaling": "[1, 1]"
+                          },
+                          "Component": {
+                            "active": true
+                          },
+                          "idMaterial": "Material|2021-10-19T12:38:15.667Z|67723"
+                        }
+                      }
+                    ],
+                    "ComponentMesh": [
+                      {
+                        "ƒ.ComponentMesh": {
+                          "idMesh": "MeshSphere|2021-11-01T19:04:34.052Z|55034",
+                          "pivot": {
+                            "translation": "[0, 0, 1]",
+                            "rotation": "[0, 0, 0]",
+                            "scaling": "[1, 1, 1]"
+                          },
+                          "Component": {
+                            "active": true
+                          }
+                        }
+                      }
+                    ],
+                    "ComponentTransform": [
+                      {
+                        "ƒ.ComponentTransform": {
+                          "local": {
+                            "translation": "[0, 0, 0]",
+                            "rotation": "[0, 0, 0]",
+                            "scaling": "[1, 1, 1]"
+                          },
+                          "Component": {
+                            "active": true
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "children": [
+                    {
+                      "ƒ.Node": {
+                        "name": "Nose",
+                        "components": {
+                          "ComponentMesh": [
+                            {
+                              "ƒ.ComponentMesh": {
+                                "idMesh": "MeshPyramid|2021-10-18T20:46:45.169Z|18822",
+                                "pivot": {
+                                  "translation": "[0, 0, 1]",
+                                  "rotation": "[0, 0, 0]",
+                                  "scaling": "[1.0000001192092896, 0.7999999523162842, 1]"
+                                },
+                                "Component": {
+                                  "active": true
+                                }
+                              }
+                            }
+                          ],
+                          "ComponentMaterial": [
+                            {
+                              "ƒ.ComponentMaterial": {
+                                "sortForAlpha": false,
+                                "clrPrimary": "[1, 1, 1, 1]",
+                                "clrSecondary": "[1, 1, 1, 1]",
+                                "pivot": {
+                                  "translation": "[0, 0]",
+                                  "rotation": 0,
+                                  "scaling": "[1, 1]"
+                                },
+                                "Component": {
+                                  "active": true
+                                },
+                                "idMaterial": "Material|2021-10-19T12:38:15.667Z|67723"
+                              }
+                            }
+                          ]
+                        },
+                        "children": []
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "ƒ.Node": {
+                  "name": "Agent_2R",
+                  "components": {},
+                  "children": []
+                }
+              },
+              {
+                "ƒ.Node": {
+                  "name": "Agent_3B",
+                  "components": {},
+                  "children": []
+                }
+              },
+              {
+                "ƒ.Node": {
+                  "name": "Agent_4B",
+                  "components": {},
+                  "children": []
+                }
+              }
+            ]
+          }
+        },
+        {
+          "ƒ.Node": {
+            "name": "LaserObject",
+            "components": {},
+            "children": [
+              {
+                "ƒ.Node": {
+                  "name": "LaserSquad_1",
+                  "components": {
+                    "ComponentTransform": [
+                      {
+                        "ƒ.ComponentTransform": {
+                          "local": {
+                            "translation": "[0, 0, 0]",
+                            "rotation": "[0, 0, 0]",
+                            "scaling": "[1, 1, 1]"
+                          },
+                          "Component": {
+                            "active": true
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "children": [
+                    {
+                      "ƒ.Node": {
+                        "name": "LaserCore_1",
+                        "components": {
+                          "ComponentMesh": [
+                            {
+                              "ƒ.ComponentMesh": {
+                                "idMesh": "MeshSphere|2021-10-19T12:56:29.132Z|41522",
+                                "pivot": {
+                                  "translation": "[0, 0, 1]",
+                                  "rotation": "[0, 0, 0]",
+                                  "scaling": "[1, 1, 2.5]"
+                                },
+                                "Component": {
+                                  "active": true
+                                }
+                              }
+                            }
+                          ],
+                          "ComponentMaterial": [
+                            {
+                              "ƒ.ComponentMaterial": {
+                                "sortForAlpha": false,
+                                "clrPrimary": "[1, 1, 1, 1]",
+                                "clrSecondary": "[1, 1, 1, 1]",
+                                "pivot": {
+                                  "translation": "[0, 0]",
+                                  "rotation": 0,
+                                  "scaling": "[1, 1]"
+                                },
+                                "Component": {
+                                  "active": true
+                                },
+                                "idMaterial": "Material|2021-10-19T12:56:59.672Z|19158"
+                              }
+                            }
+                          ],
+                          "ComponentTransform": [
+                            {
+                              "ƒ.ComponentTransform": {
+                                "local": {
+                                  "translation": "[-7, 0, 0]",
+                                  "rotation": "[0, 0, 0]",
+                                  "scaling": "[1, 1, 1]"
+                                },
+                                "Component": {
+                                  "active": true
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        "children": [
+                          {
+                            "ƒ.Node": {
+                              "name": "LaserBeam",
+                              "components": {
+                                "ComponentMesh": [
+                                  {
+                                    "ƒ.ComponentMesh": {
+                                      "idMesh": "MeshCube|2021-10-19T12:59:36.802Z|58320",
+                                      "pivot": {
+                                        "translation": "[0, 2, 1]",
+                                        "rotation": "[0, 0, 0]",
+                                        "scaling": "[0.30000001192092896, 4, 1]"
+                                      },
+                                      "Component": {
+                                        "active": true
+                                      }
+                                    }
+                                  }
+                                ],
+                                "ComponentMaterial": [
+                                  {
+                                    "ƒ.ComponentMaterial": {
+                                      "sortForAlpha": false,
+                                      "clrPrimary": "[1, 1, 1, 1]",
+                                      "clrSecondary": "[1, 1, 1, 1]",
+                                      "pivot": {
+                                        "translation": "[0, 0]",
+                                        "rotation": 0,
+                                        "scaling": "[1, 1]"
+                                      },
+                                      "Component": {
+                                        "active": true
+                                      },
+                                      "idMaterial": "Material|2021-10-19T12:59:47.985Z|01508"
+                                    }
+                                  }
+                                ],
+                                "ComponentTransform": [
+                                  {
+                                    "ƒ.ComponentTransform": {
+                                      "local": {
+                                        "translation": "[0, 0, 0]",
+                                        "rotation": "[0, 0, 0]",
+                                        "scaling": "[1, 1, 1]"
+                                      },
+                                      "Component": {
+                                        "active": true
+                                      }
+                                    }
+                                  }
+                                ]
+                              },
+                              "children": []
+                            }
+                          },
+                          {
+                            "ƒ.Node": {
+                              "name": "LaserBeam",
+                              "components": {
+                                "ComponentMesh": [
+                                  {
+                                    "ƒ.ComponentMesh": {
+                                      "idMesh": "MeshCube|2021-10-19T12:59:36.802Z|58320",
+                                      "pivot": {
+                                        "translation": "[0, 2, 0]",
+                                        "rotation": "[0, 0, 0]",
+                                        "scaling": "[0.30000001192092896, 4, 1]"
+                                      },
+                                      "Component": {
+                                        "active": true
+                                      }
+                                    }
+                                  }
+                                ],
+                                "ComponentMaterial": [
+                                  {
+                                    "ƒ.ComponentMaterial": {
+                                      "sortForAlpha": false,
+                                      "clrPrimary": "[1, 1, 1, 1]",
+                                      "clrSecondary": "[1, 1, 1, 1]",
+                                      "pivot": {
+                                        "translation": "[0, 0]",
+                                        "rotation": 0,
+                                        "scaling": "[1, 1]"
+                                      },
+                                      "Component": {
+                                        "active": true
+                                      },
+                                      "idMaterial": "Material|2021-10-19T12:59:47.985Z|01508"
+                                    }
+                                  }
+                                ],
+                                "ComponentTransform": [
+                                  {
+                                    "ƒ.ComponentTransform": {
+                                      "local": {
+                                        "translation": "[0, 0, 1]",
+                                        "rotation": "[0, 0, 120]",
+                                        "scaling": "[1, 1, 1]"
+                                      },
+                                      "Component": {
+                                        "active": true
+                                      }
+                                    }
+                                  }
+                                ]
+                              },
+                              "children": []
+                            }
+                          },
+                          {
+                            "ƒ.Node": {
+                              "name": "LaserBeam",
+                              "components": {
+                                "ComponentMesh": [
+                                  {
+                                    "ƒ.ComponentMesh": {
+                                      "idMesh": "MeshCube|2021-10-19T12:59:36.802Z|58320",
+                                      "pivot": {
+                                        "translation": "[0, 2, 1]",
+                                        "rotation": "[0, 0, 0]",
+                                        "scaling": "[0.30000001192092896, 4, 1]"
+                                      },
+                                      "Component": {
+                                        "active": true
+                                      }
+                                    }
+                                  }
+                                ],
+                                "ComponentMaterial": [
+                                  {
+                                    "ƒ.ComponentMaterial": {
+                                      "sortForAlpha": false,
+                                      "clrPrimary": "[1, 1, 1, 1]",
+                                      "clrSecondary": "[1, 1, 1, 1]",
+                                      "pivot": {
+                                        "translation": "[0, 0]",
+                                        "rotation": 0,
+                                        "scaling": "[1, 1]"
+                                      },
+                                      "Component": {
+                                        "active": true
+                                      },
+                                      "idMaterial": "Material|2021-10-19T12:59:47.985Z|01508"
+                                    }
+                                  }
+                                ],
+                                "ComponentTransform": [
+                                  {
+                                    "ƒ.ComponentTransform": {
+                                      "local": {
+                                        "translation": "[0, 0, 0]",
+                                        "rotation": "[0, 0, 240]",
+                                        "scaling": "[1, 1, 1]"
+                                      },
+                                      "Component": {
+                                        "active": true
+                                      }
+                                    }
+                                  }
+                                ]
+                              },
+                              "children": []
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "ƒ.Node": {
+            "name": "Item",
+            "components": {},
+            "children": []
+          }
+        }
+      ],
+      "idResource": "Graph|2021-10-18T20:39:26.793Z|97414",
+      "type": "Graph"
+    }
+  },
+  "Material|2021-10-19T12:30:51.599Z|46817": {
+    "ƒ.Material": {
+      "name": "NewMaterial",
+      "idResource": "Material|2021-10-19T12:30:51.599Z|46817",
+      "shader": "ShaderTexture",
+      "coat": {
+        "ƒ.CoatTextured": {
+          "color": "[1, 1, 1, 1]"
+        }
+      }
+    }
+  }
+}
