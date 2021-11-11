@@ -45,8 +45,8 @@ namespace LaserLeague {
     let graph: ƒ.Node = viewport.getBranch();
     agent = new Agent();
     graph.getChildrenByName("Agents")[0].addChild(agent);
-    //let domName: HTMLElement = document.querySelector("#Hud>h1");
-    //domName.textContent = agent.name;
+    let domName: HTMLElement = document.querySelector("#Hud>h1");
+    domName.textContent = agent.name;
 
     laserformation = root.getChildrenByName("LaserObject")[0].getChildrenByName("LaserSquad_1")[0];
 
