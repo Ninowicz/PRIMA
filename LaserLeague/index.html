@@ -13,6 +13,7 @@
 
 <!--Load FUDGE. You may want to download local copies to work offline and be independent from future changes! Developers working on FUDGE itself may want to create symlinks-->
 <script type="text/javascript" src="https://jirkadelloro.github.io/FUDGE/Core/Build/FudgeCore.js"></script>
+<script type="text/javascript" src="../FudgeUserInterface/FudgeUserInterface.js"></script>
 <script type="text/javascript" src="https://jirkadelloro.github.io/FUDGE/Aid/Build/FudgeAid.js"></script>
 
 <!--Link internal resources. The editor only loads the first, but at runtime, multiple files can contribute-->
@@ -77,6 +78,7 @@
             })(document.head.querySelector("meta[autoView]").getAttribute("autoView"));
 </script>
 </head>
+
 <body>
 <!--Dialog shown at startup only-->
 <dialog>
@@ -87,9 +89,11 @@
 <canvas class="fullscreen">
 </canvas>
 <div id="Hud">
-    <input type="text" key="name" value="Name" />
+    <input type="text" key="name" value="Name" disabled="" />
 <br />
     health<input type="range" min="0" max="1" value="1" step="0.01" />
 </div>
+
+
 </body>
 </html>

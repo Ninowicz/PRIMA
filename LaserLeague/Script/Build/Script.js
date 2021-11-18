@@ -11,15 +11,11 @@ var LaserLeague;
             this.addComponent(new ƒ.ComponentMesh(new ƒ.MeshSphere("MeshAgent")));
             this.addComponent(new ƒ.ComponentMaterial(new ƒ.Material("mtrAgent", ƒ.ShaderUniColor, new ƒ.CoatColored(new ƒ.Color(1, 0, 1, 1)))));
             this.mtxLocal.scale(ƒ.Vector3.ONE(1));
-            this.mtxLocal.translate(new ƒ.Vector3(0, 0, 1));
+            this.mtxLocal.translate(new ƒ.Vector3(10, 0, 1));
         }
     }
     LaserLeague.Agent = Agent;
 })(LaserLeague || (LaserLeague = {}));
-// need to chance something in the main :
-//  Agent is not "agent = root.getChildrenByName("Agents")[0].getChildrenByName("Agent_1R")[0];" but something else like : 
-//  agent = new Agent();
-// In the main : graph.<...>.addChild("agent");
 var Script;
 (function (Script) {
     var ƒ = FudgeCore;
@@ -89,33 +85,29 @@ var LaserLeague;
 var LaserLeague;
 (function (LaserLeague) {
     var ƒ = FudgeCore;
+    //export import ƒui = FudgeUserInterface;
     ƒ.Debug.info("Main Program Template running!");
     //----------------------------- Game Settings ----------------------------------------------
     let viewport;
     document.addEventListener("interactiveViewportStarted", start);
     let fps = 50;
     let root;
-    //------------------------------------------------------------------------------------------
     let Laser;
     let agent;
     let ctrForward = new ƒ.Control("Forward", 10, 0 /* PROPORTIONAL */);
     ctrForward.setDelay(200);
     //---- test for the laser speed ------------------------------------------------------------
-    let ctrForwardLaser = new ƒ.Control("Forward", 10, 0 /* PROPORTIONAL */);
-    ctrForwardLaser.setDelay(200);
     let laserformation;
-    //------------------------------------------------------------------------------------------
     async function start(_event) {
         viewport = _event.detail;
         root = viewport.getBranch();
         console.log(root);
         Laser = root.getChildrenByName("LaserObject")[0].getChildrenByName("LaserSquad_1")[0].getChildrenByName("LaserCore_1")[0];
-        //LaserSquad = root.getChildrenByName("LaserObject")[0].getChildrenByName("LaserSquad_1")[0]; // For the transition 
         let graph = viewport.getBranch();
         agent = new LaserLeague.Agent();
         graph.getChildrenByName("Agents")[0].addChild(agent);
-        let domName = document.querySelector("#Hud>h1");
-        domName.textContent = LaserLeague.Agent.name;
+        //let domName: HTMLElement = document.querySelector("#Hud>h1");
+        //domName.textContent = agent.name;
         laserformation = root.getChildrenByName("LaserObject")[0].getChildrenByName("LaserSquad_1")[0];
         ƒ.Loop.addEventListener("loopFrame" /* LOOP_FRAME */, update);
         ƒ.Loop.start(ƒ.LOOP_MODE.TIME_REAL, fps); // start the game loop to continously draw the viewport, update the audiosystem and drive the physics i/a
@@ -125,13 +117,8 @@ var LaserLeague;
     function update(_event) {
         let deltaTime = ƒ.Loop.timeFrameReal / 1000;
         //  ===== Laser movement =====
-        let laserRotationSpeed = 200;
-        //let laserTranslationSpeed: number = 1;
+        let laserRotationSpeed = 180;
         Laser.getComponent(ƒ.ComponentTransform).mtxLocal.rotateZ(laserRotationSpeed * deltaTime);
-        //LaserSquad.getComponent(ƒ.ComponentTransform).mtxLocal.translateX(laserTranslationSpeed * deltaTime);
-        //if (LaserSquad.getComponent(ƒ.ComponentTransform).mtxLocal.getX <= new ƒ.Vector3(-10, -5, 0))
-        //Laser.getComponent(ƒ.ComponentTransform).mtxLocal.rotateZ(-laserRotationSpeed * deltaTime);
-        //console.log(LaserSquad.getComponent(ƒ.ComponentTransform).mtxLocal.lookAt);
         //  ===== Agent movement =====
         let agentRotationSpeed = 250;
         let value = (ƒ.Keyboard.mapToValue(-1, 0, [ƒ.KEYBOARD_CODE.S, ƒ.KEYBOARD_CODE.ARROW_DOWN])
@@ -145,11 +132,12 @@ var LaserLeague;
             agent.mtxLocal.rotateZ(-agentRotationSpeed * deltaTime);
         // ƒ.Physics.world.simulate();  // if physics is included and used
         let lasersCheck = laserformation.getChildren(); // LaserCheck --> LaserCore_1
+        AgentPositionTest(agent);
         for (let laser of lasersCheck) {
             let beams = laser.getChildren();
             for (let beam of beams) {
                 if (collisionTest(agent, beam))
-                    console.log("hit");
+                    agent.mtxLocal.translation = new ƒ.Vector3(10, 0, 1); //console.log("hit");
             }
         }
         viewport.draw();
@@ -163,6 +151,17 @@ var LaserLeague;
             return false;
         else
             return true;
+    }
+    function AgentPositionTest(_agent) {
+        let PositionAgent = _agent.mtxLocal.translation;
+        if (PositionAgent.x > 20)
+            _agent.mtxLocal.translation = new ƒ.Vector3(-19, PositionAgent.y, 1);
+        if (PositionAgent.x < -20)
+            _agent.mtxLocal.translation = new ƒ.Vector3(19, PositionAgent.y, 1);
+        if (PositionAgent.y > 12)
+            _agent.mtxLocal.translation = new ƒ.Vector3(PositionAgent.x, -10, 1);
+        if (PositionAgent.y < -12)
+            _agent.mtxLocal.translation = new ƒ.Vector3(PositionAgent.x, 10, 1);
     }
 })(LaserLeague || (LaserLeague = {}));
 //# sourceMappingURL=Script.js.map

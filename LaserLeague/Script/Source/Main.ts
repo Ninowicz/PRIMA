@@ -1,5 +1,6 @@
 namespace LaserLeague {
-  import ƒ = FudgeCore; 
+  import ƒ = FudgeCore;
+  //export import ƒui = FudgeUserInterface;
   ƒ.Debug.info("Main Program Template running!")
 
 
@@ -12,17 +13,10 @@ namespace LaserLeague {
   let root: ƒ.Node;
 
   //------------------------------------------------------------------------------------------
-
-
   let Laser: ƒ.Node;
   let agent: Agent;
   let ctrForward: ƒ.Control = new ƒ.Control("Forward", 10, ƒ.CONTROL_TYPE.PROPORTIONAL);
   ctrForward.setDelay(200);
-
-  //---- test for the laser speed ------------------------------------------------------------
-
-  let ctrForwardLaser: ƒ.Control = new ƒ.Control("Forward", 10, ƒ.CONTROL_TYPE.PROPORTIONAL);
-  ctrForwardLaser.setDelay(200);
 
   let laserformation: ƒ.Node;
   //------------------------------------------------------------------------------------------
@@ -39,14 +33,14 @@ namespace LaserLeague {
 
 
     Laser = root.getChildrenByName("LaserObject")[0].getChildrenByName("LaserSquad_1")[0].getChildrenByName("LaserCore_1")[0];
-    //LaserSquad = root.getChildrenByName("LaserObject")[0].getChildrenByName("LaserSquad_1")[0]; // For the transition 
+    
     
 
     let graph: ƒ.Node = viewport.getBranch();
     agent = new Agent();
     graph.getChildrenByName("Agents")[0].addChild(agent);
-    let domName: HTMLElement = document.querySelector("#Hud>h1");
-    domName.textContent = agent.name;
+    //let domName: HTMLElement = document.querySelector("#Hud>h1");
+    //domName.textContent = agent.name;
 
     laserformation = root.getChildrenByName("LaserObject")[0].getChildrenByName("LaserSquad_1")[0];
 
@@ -71,19 +65,9 @@ namespace LaserLeague {
     //  ===== Laser movement =====
     
     let laserRotationSpeed: number = 200 ;
-    //let laserTranslationSpeed: number = 1;
+    
 
     Laser.getComponent(ƒ.ComponentTransform).mtxLocal.rotateZ(laserRotationSpeed * deltaTime);
-    
-
-    //LaserSquad.getComponent(ƒ.ComponentTransform).mtxLocal.translateX(laserTranslationSpeed * deltaTime);
-    
-    //if (LaserSquad.getComponent(ƒ.ComponentTransform).mtxLocal.getX <= new ƒ.Vector3(-10, -5, 0))
-      //Laser.getComponent(ƒ.ComponentTransform).mtxLocal.rotateZ(-laserRotationSpeed * deltaTime);
-    //console.log(LaserSquad.getComponent(ƒ.ComponentTransform).mtxLocal.lookAt);
-
-
-    
     //  ===== Agent movement =====
 
     let agentRotationSpeed: number = 250;
@@ -108,14 +92,21 @@ namespace LaserLeague {
 
     let lasersCheck: ƒ.Node[] = laserformation.getChildren(); // LaserCheck --> LaserCore_1
 
+    AgentPositionTest(agent);  
+
     for (let laser of lasersCheck) {
       let beams: ƒ.Node[] = laser.getChildren();
       for (let beam of beams) {
         if (collisionTest(agent, beam))
-        console.log("hit");
+          agent.mtxLocal.translation = new ƒ.Vector3(10, 0, 1);//console.log("hit");
       }
     }
 
+    // Line to get the camera on the agent.
+    // let PositionAgentForCamera: ƒ.Vector3 = agent.mtxLocal.translation;
+    // viewport.camera.mtxPivot.translation = new ƒ.Vector3( -PositionAgentForCamera.x, PositionAgentForCamera.y, -60);
+    
+    
     viewport.draw();
     ƒ.AudioManager.default.update();
   }
@@ -134,14 +125,20 @@ namespace LaserLeague {
   }
 
 
+  function AgentPositionTest(_agent : ƒ.Node): void {
+    let PositionAgent: ƒ.Vector3 = _agent.mtxLocal.translation;
+    
+    if (PositionAgent.x > 20)
+      _agent.mtxLocal.translation = new ƒ.Vector3(-19, PositionAgent.y, 1);
+    
+    if (PositionAgent.x < -20)
+      _agent.mtxLocal.translation = new ƒ.Vector3(19, PositionAgent.y, 1);
 
+    if (PositionAgent.y > 12)
+      _agent.mtxLocal.translation = new ƒ.Vector3(PositionAgent.x, -10, 1);
+    
+    if (PositionAgent.y < -12)
+      _agent.mtxLocal.translation = new ƒ.Vector3(PositionAgent.x, 10, 1);
 
-
-
-
-
-
+  }
 }
-
-
-

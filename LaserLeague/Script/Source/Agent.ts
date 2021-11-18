@@ -16,15 +16,7 @@ namespace LaserLeague {
             );
 
             this.mtxLocal.scale(ƒ.Vector3.ONE(1));
-            this.mtxLocal.translate(new ƒ.Vector3(0, 0, 1));
+            this.mtxLocal.translate(new ƒ.Vector3(10, 0, 1));
         }
     }
 }
-
-
-// need to chance something in the main :
-//  Agent is not "agent = root.getChildrenByName("Agents")[0].getChildrenByName("Agent_1R")[0];" but something else like : 
-//  agent = new Agent();
-
-
-// In the main : graph.<...>.addChild("agent");
