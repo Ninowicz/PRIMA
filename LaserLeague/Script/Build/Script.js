@@ -92,12 +92,13 @@ var LaserLeague;
     document.addEventListener("interactiveViewportStarted", start);
     let fps = 50;
     let root;
+    //------------------------------------------------------------------------------------------
     let Laser;
     let agent;
     let ctrForward = new ƒ.Control("Forward", 10, 0 /* PROPORTIONAL */);
     ctrForward.setDelay(200);
-    //---- test for the laser speed ------------------------------------------------------------
     let laserformation;
+    //------------------------------------------------------------------------------------------
     async function start(_event) {
         viewport = _event.detail;
         root = viewport.getBranch();
@@ -117,7 +118,7 @@ var LaserLeague;
     function update(_event) {
         let deltaTime = ƒ.Loop.timeFrameReal / 1000;
         //  ===== Laser movement =====
-        let laserRotationSpeed = 180;
+        let laserRotationSpeed = 200;
         Laser.getComponent(ƒ.ComponentTransform).mtxLocal.rotateZ(laserRotationSpeed * deltaTime);
         //  ===== Agent movement =====
         let agentRotationSpeed = 250;
@@ -140,6 +141,9 @@ var LaserLeague;
                     agent.mtxLocal.translation = new ƒ.Vector3(10, 0, 1); //console.log("hit");
             }
         }
+        // Line to get the camera on the agent.
+        // let PositionAgentForCamera: ƒ.Vector3 = agent.mtxLocal.translation;
+        // viewport.camera.mtxPivot.translation = new ƒ.Vector3( -PositionAgentForCamera.x, PositionAgentForCamera.y, -60);
         viewport.draw();
         ƒ.AudioManager.default.update();
     }
