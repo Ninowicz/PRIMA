@@ -102,6 +102,37 @@
       }
     }
   },
+  "MeshCube|2021-12-25T16:41:30.224Z|40256": {
+    "ƒ.MeshCube": {
+      "idResource": "MeshCube|2021-12-25T16:41:30.224Z|40256",
+      "name": "MeshCube",
+      "type": "MeshCube"
+    }
+  },
+  "Material|2021-12-25T16:43:05.614Z|00614": {
+    "ƒ.Material": {
+      "name": "NewMaterial",
+      "idResource": "Material|2021-12-25T16:43:05.614Z|00614",
+      "shader": "ShaderUniColor",
+      "coat": {
+        "ƒ.CoatColored": {
+          "color": "[1, 0, 0, 1]"
+        }
+      }
+    }
+  },
+  "Material|2021-12-25T18:16:13.679Z|41089": {
+    "ƒ.Material": {
+      "name": "RepereCyan",
+      "idResource": "Material|2021-12-25T18:16:13.679Z|41089",
+      "shader": "ShaderUniColor",
+      "coat": {
+        "ƒ.CoatColored": {
+          "color": "[0, 1, 1, 1]"
+        }
+      }
+    }
+  },
   "Graph|2021-11-18T14:33:55.349Z|10541": {
     "ƒ.Graph": {
       "name": "Graph",
@@ -175,7 +206,90 @@
                 }
               ]
             },
-            "children": []
+            "children": [
+              {
+                "ƒ.Node": {
+                  "name": "Repere_Z",
+                  "components": {
+                    "ComponentMesh": [
+                      {
+                        "ƒ.ComponentMesh": {
+                          "idMesh": "MeshCube|2021-12-25T16:41:30.224Z|40256",
+                          "pivot": {
+                            "translation": "[0, 0, 50]",
+                            "rotation": "[0, 0, 0]",
+                            "scaling": "[1, 1, 1]"
+                          },
+                          "Component": {
+                            "active": true
+                          }
+                        }
+                      }
+                    ],
+                    "ComponentMaterial": [
+                      {
+                        "ƒ.ComponentMaterial": {
+                          "sortForAlpha": false,
+                          "clrPrimary": "[1, 1, 1, 1]",
+                          "clrSecondary": "[1, 1, 1, 1]",
+                          "pivot": {
+                            "translation": "[0, 0]",
+                            "rotation": 0,
+                            "scaling": "[1, 1]"
+                          },
+                          "Component": {
+                            "active": true
+                          },
+                          "idMaterial": "Material|2021-12-25T18:16:13.679Z|41089"
+                        }
+                      }
+                    ]
+                  },
+                  "children": []
+                }
+              },
+              {
+                "ƒ.Node": {
+                  "name": "Repere_X",
+                  "components": {
+                    "ComponentMaterial": [
+                      {
+                        "ƒ.ComponentMaterial": {
+                          "sortForAlpha": false,
+                          "clrPrimary": "[1, 1, 1, 1]",
+                          "clrSecondary": "[1, 1, 1, 1]",
+                          "pivot": {
+                            "translation": "[0, 0]",
+                            "rotation": 0,
+                            "scaling": "[1, 1]"
+                          },
+                          "Component": {
+                            "active": true
+                          },
+                          "idMaterial": "Material|2021-12-25T18:16:13.679Z|41089"
+                        }
+                      }
+                    ],
+                    "ComponentMesh": [
+                      {
+                        "ƒ.ComponentMesh": {
+                          "idMesh": "MeshCube|2021-12-25T16:41:30.224Z|40256",
+                          "pivot": {
+                            "translation": "[50, 0, 0]",
+                            "rotation": "[0, 0, 0]",
+                            "scaling": "[1, 1, 1]"
+                          },
+                          "Component": {
+                            "active": true
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "children": []
+                }
+              }
+            ]
           }
         },
         {
@@ -483,6 +597,20 @@
                     "idMaterial": "Material|2021-12-25T16:43:05.614Z|00614"
                   }
                 }
+              ],
+              "ComponentTransform": [
+                {
+                  "ƒ.ComponentTransform": {
+                    "local": {
+                      "translation": "[0, 0.5, 0]",
+                      "rotation": "[0, 0, 0]",
+                      "scaling": "[1, 1, 1]"
+                    },
+                    "Component": {
+                      "active": true
+                    }
+                  }
+                }
               ]
             },
             "children": []
@@ -491,25 +619,6 @@
       ],
       "idResource": "Graph|2021-11-18T14:33:55.349Z|10541",
       "type": "Graph"
-    }
-  },
-  "MeshCube|2021-12-25T16:41:30.224Z|40256": {
-    "ƒ.MeshCube": {
-      "idResource": "MeshCube|2021-12-25T16:41:30.224Z|40256",
-      "name": "MeshCube",
-      "type": "MeshCube"
-    }
-  },
-  "Material|2021-12-25T16:43:05.614Z|00614": {
-    "ƒ.Material": {
-      "name": "NewMaterial",
-      "idResource": "Material|2021-12-25T16:43:05.614Z|00614",
-      "shader": "ShaderUniColor",
-      "coat": {
-        "ƒ.CoatColored": {
-          "color": "[1, 0, 0, 1]"
-        }
-      }
     }
   }
 }
