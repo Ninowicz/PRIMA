@@ -103,6 +103,7 @@ namespace LaserLeague {
     }
 
     // Line to get the camera on the agent.
+    
     // let PositionAgentForCamera: ƒ.Vector3 = agent.mtxLocal.translation;
     // viewport.camera.mtxPivot.translation = new ƒ.Vector3( -PositionAgentForCamera.x, PositionAgentForCamera.y, -60);
     
