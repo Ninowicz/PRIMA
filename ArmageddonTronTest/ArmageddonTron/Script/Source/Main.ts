@@ -28,7 +28,7 @@ namespace Script {
     ƒ.Loop.start(ƒ.LOOP_MODE.TIME_REAL, fps); 
   }
    function KeyStatusManagment(_NbFrameRequire : number): boolean {
-    if (_NbFrameRequire > 4){
+    if (_NbFrameRequire > 490){
       return true;
     }
     else{
@@ -38,7 +38,7 @@ namespace Script {
 
   function NbFrameRequireManagement(_NbFrameRequire: number):number{
     _NbFrameRequire = _NbFrameRequire + 1;
-      if( _NbFrameRequire > 5 ){
+      if( _NbFrameRequire > 500 ){
         _NbFrameRequire = 0;
       }
     return _NbFrameRequire;
