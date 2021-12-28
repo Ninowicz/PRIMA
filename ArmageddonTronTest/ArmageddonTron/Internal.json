@@ -41,13 +41,24 @@
       }
     }
   },
+  "TextureImage|2021-11-23T13:45:42.476Z|74218": {
+    "ƒ.TextureImage": {
+      "url": "Image\\mapheight.png",
+      "type": "TextureImage",
+      "Texture": {
+        "idResource": "TextureImage|2021-11-23T13:45:42.476Z|74218",
+        "name": "Image\\mapheight.png",
+        "mipmap": "CRISP"
+      }
+    }
+  },
   "TextureImage|2021-11-23T09:56:29.729Z|31083": {
     "ƒ.TextureImage": {
       "url": "Image\\maptex.png",
       "type": "TextureImage",
       "Texture": {
         "idResource": "TextureImage|2021-11-23T09:56:29.729Z|31083",
-        "name": "imgMoritz",
+        "name": "Grid",
         "mipmap": "CRISP"
       }
     }
@@ -58,17 +69,6 @@
       "name": "MeshRelief",
       "type": "MeshRelief",
       "idTexture": "TextureImage|2021-11-23T13:45:42.476Z|74218"
-    }
-  },
-  "TextureImage|2021-11-23T13:45:42.476Z|74218": {
-    "ƒ.TextureImage": {
-      "url": "Image\\mapheight.png",
-      "type": "TextureImage",
-      "Texture": {
-        "idResource": "TextureImage|2021-11-23T13:45:42.476Z|74218",
-        "name": "Image\\mapheight.png",
-        "mipmap": "CRISP"
-      }
     }
   },
   "MeshQuad|2021-11-25T10:11:51.585Z|48448": {

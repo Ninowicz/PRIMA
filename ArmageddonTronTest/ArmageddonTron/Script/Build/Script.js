@@ -47,15 +47,23 @@ var Script;
     let agent;
     let ctrForward = new ƒ.Control("Forward", 10, 0 /* PROPORTIONAL */);
     ctrForward.setDelay(200);
-    let referee;
-    referee = 0;
-    let referee2;
-    referee2 = -1;
-    let KeyStatus;
-    KeyStatus = true;
+    let Referee_Left;
+    let Referee2_Left;
+    let Referee_Right;
+    let Referee2_Right;
+    Referee_Left = 0;
+    Referee2_Left = -1;
+    Referee_Right = 0;
+    Referee2_Right = -1;
+    let KeyStatus_Left;
+    KeyStatus_Left = true;
+    let KeyStatus_Right;
+    KeyStatus_Right = true;
+    let StartKey;
+    StartKey = false;
     function start(_event) {
         viewport = _event.detail;
-        viewport.camera.mtxPivot.translateY(200);
+        viewport.camera.mtxPivot.translateY(150);
         viewport.camera.mtxPivot.rotateX(90);
         graph = viewport.getBranch();
         agent = graph.getChildrenByName("Bike")[0];
@@ -64,30 +72,44 @@ var Script;
     }
     function update(_event) {
         let deltaTime = ƒ.Loop.timeFrameReal / 1000;
-        let value = (ƒ.Keyboard.mapToValue(-1, 0, [ƒ.KEYBOARD_CODE.S, ƒ.KEYBOARD_CODE.ARROW_DOWN])
-            + ƒ.Keyboard.mapToValue(1, 0, [ƒ.KEYBOARD_CODE.W, ƒ.KEYBOARD_CODE.ARROW_UP]));
-        ctrForward.setInput(value * deltaTime);
-        agent.mtxLocal.translateZ(ctrForward.getOutput());
-        if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.A, ƒ.KEYBOARD_CODE.ARROW_LEFT]) && KeyStatus == true) {
+        if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.W, ƒ.KEYBOARD_CODE.ARROW_UP])) {
+            StartKey = true;
+        }
+        if (StartKey == true) {
+            ctrForward.setInput(2 * deltaTime);
+            agent.mtxLocal.translateZ(ctrForward.getOutput());
+        }
+        if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.A, ƒ.KEYBOARD_CODE.ARROW_LEFT]) && KeyStatus_Left == true) {
             agent.mtxLocal.rotateY(90);
-            KeyStatus = false;
+            KeyStatus_Left = false;
         }
-        if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.D, ƒ.KEYBOARD_CODE.ARROW_RIGHT]) && KeyStatus == true) {
+        if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.D, ƒ.KEYBOARD_CODE.ARROW_RIGHT]) && KeyStatus_Right == true) {
             agent.mtxLocal.rotateY(-90);
-            KeyStatus = false;
+            KeyStatus_Right = false;
         }
-        referee2 = referee;
-        if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.A, ƒ.KEYBOARD_CODE.ARROW_LEFT]) || ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.D, ƒ.KEYBOARD_CODE.ARROW_RIGHT])) {
-            referee = referee + 1;
+        Referee2_Left = Referee_Left;
+        if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.A, ƒ.KEYBOARD_CODE.ARROW_LEFT])) { // || ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.D, ƒ.KEYBOARD_CODE.ARROW_RIGHT])){
+            Referee_Left = Referee_Left + 1;
         }
-        if (referee2 == referee) {
-            KeyStatus = true;
+        if (Referee2_Left == Referee_Left) {
+            KeyStatus_Left = true;
         }
-        if (referee > 200) {
-            referee = 0;
-            referee2 = -1;
+        if (Referee_Left > 200) {
+            Referee_Left = 0;
+            Referee2_Left = -1;
         }
-        console.log(referee);
+        Referee2_Right = Referee_Right;
+        if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.D, ƒ.KEYBOARD_CODE.ARROW_RIGHT])) {
+            Referee_Right = Referee_Right + 1;
+        }
+        if (Referee2_Right == Referee_Right) {
+            KeyStatus_Right = true;
+        }
+        if (Referee_Right > 200) {
+            Referee_Right = 0;
+            Referee2_Right = -1;
+        }
+        //console.log(Referee_Left);
         // ƒ.Physics.world.simulate();  // if physics is included and used
         viewport.draw();
         ƒ.AudioManager.default.update();
