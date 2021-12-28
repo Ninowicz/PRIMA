@@ -10,11 +10,13 @@ namespace Script {
   let ctrForward: ƒ.Control = new ƒ.Control("Forward", 10, ƒ.CONTROL_TYPE.PROPORTIONAL);
   ctrForward.setDelay(200);
 
+  let referee:number;
+  referee = 0;
+  let referee2:number;
+  referee2 = -1;
+
   let KeyStatus: Boolean ;
   KeyStatus = true;
-
-  let NbFrameRequire : number;
-  NbFrameRequire = 0;
 
   function start(_event: CustomEvent): void {
     viewport = _event.detail;
@@ -27,22 +29,7 @@ namespace Script {
     ƒ.Loop.addEventListener(ƒ.EVENT.LOOP_FRAME, update);
     ƒ.Loop.start(ƒ.LOOP_MODE.TIME_REAL, fps); 
   }
-   function KeyStatusManagment(_NbFrameRequire : number): boolean {
-    if (_NbFrameRequire > 490){
-      return true;
-    }
-    else{
-      return false;
-    }
-  }
 
-  function NbFrameRequireManagement(_NbFrameRequire: number):number{
-    _NbFrameRequire = _NbFrameRequire + 1;
-      if( _NbFrameRequire > 500 ){
-        _NbFrameRequire = 0;
-      }
-    return _NbFrameRequire;
-  }
 
   function update(_event: Event): void {
   
@@ -55,24 +42,33 @@ namespace Script {
       );
       ctrForward.setInput(value * deltaTime);
       agent.mtxLocal.translateZ(ctrForward.getOutput());
-      
-      if (KeyStatus == false){
-        NbFrameRequire = NbFrameRequireManagement(NbFrameRequire);
-        KeyStatus = KeyStatusManagment(NbFrameRequire);
-      }
-      
+
+       
       
       if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.A, ƒ.KEYBOARD_CODE.ARROW_LEFT]) && KeyStatus == true ){
-        agent.mtxLocal.rotateY(90);   
-        KeyStatus = false;
-      }
+       agent.mtxLocal.rotateY(90);   
+       KeyStatus = false;
+     }
         
       if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.D, ƒ.KEYBOARD_CODE.ARROW_RIGHT]) && KeyStatus == true){
-        agent.mtxLocal.rotateY(-90);
-        KeyStatus = false;
-      }
+       agent.mtxLocal.rotateY(-90);
+       KeyStatus = false;
+     }
+    
+    referee2 = referee;
+    if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.A, ƒ.KEYBOARD_CODE.ARROW_LEFT]) || ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.D, ƒ.KEYBOARD_CODE.ARROW_RIGHT])){
+      referee = referee + 1;
+    }
+    if(referee2 == referee){
+      KeyStatus = true;
+    }
+    
+    if (referee > 200 ){
+      referee = 0;
+      referee2 = -1;
+    }
 
-      console.log(KeyStatus);
+      console.log(referee);
     // ƒ.Physics.world.simulate();  // if physics is included and used
     viewport.draw();
     ƒ.AudioManager.default.update();
