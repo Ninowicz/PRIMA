@@ -14,12 +14,36 @@ var Script;
             super("Bike");
             this.addComponent(new ƒ.ComponentTransform);
             this.addComponent(new ƒ.ComponentMesh(new ƒ.MeshCube("MeshAgent")));
-            this.addComponent(new ƒ.ComponentMaterial(new ƒ.Material("mtrAgent", ƒ.ShaderUniColor, new ƒ.CoatColored(new ƒ.Color(1, 0, 1, 1)))));
+            // this.addComponent(new ƒ.ComponentMaterial(
+            //     new ƒ.Material("mtrAgent", ƒ.ShaderUniColor, new ƒ.CoatColored(new ƒ.Color(1, 0, 1, 1))))
+            // );
             this.mtxLocal.scale(ƒ.Vector3.ONE(1));
             this.mtxLocal.translate(new ƒ.Vector3(0, 0.5, 0));
         }
     }
     Script.Bike = Bike;
+})(Script || (Script = {}));
+var Script;
+(function (Script) {
+    var ƒ = FudgeCore;
+    let state;
+    (function (state) {
+        state[state["Alive"] = 0] = "Alive";
+        state[state["Dead"] = 1] = "Dead";
+    })(state || (state = {}));
+    class BikeWall extends ƒ.Node {
+        name = "Bojack";
+        State;
+        constructor() {
+            super("BikeWall");
+            this.addComponent(new ƒ.ComponentTransform);
+            this.addComponent(new ƒ.ComponentMesh(new ƒ.MeshCube("MeshBikeWall")));
+            this.addComponent(new ƒ.ComponentMaterial(new ƒ.Material("mtrBikeWall", ƒ.ShaderUniColor, new ƒ.CoatColored(new ƒ.Color(1, 0, 1, 1)))));
+            this.mtxLocal.scale(new ƒ.Vector3(1, 0.75, 0.2));
+            this.mtxLocal.translate(new ƒ.Vector3(0, 0.5, 0));
+        }
+    }
+    Script.BikeWall = BikeWall;
 })(Script || (Script = {}));
 var Script;
 (function (Script) {
@@ -32,10 +56,15 @@ var Script;
     let cmpCamera = new ƒ.ComponentCamera;
     let fps = 60;
     let graph;
+    //let AllBikeWall :ƒ.Node;
     let agent;
-    let Outlook;
+    let agentWall;
     let ctrForward = new ƒ.Control("Forward", 10, 0 /* PROPORTIONAL */);
     ctrForward.setDelay(200);
+    let Outlook;
+    // let PowerPoint: Bike;
+    // let Word: Bike;
+    // let Excel: Bike;
     let RotationCameraTest_Left = 0;
     let TheChosenOne_Left = 1;
     let RotationCameraTest_Right = 0;
@@ -47,16 +76,24 @@ var Script;
     let KeyStatus_Left = true;
     let KeyStatus_Right = true;
     let StartKey = false;
+    let SetWall = true;
+    let WallVectorZ = new ƒ.Vector3(0.2, 0.75, 1);
+    let CountdownWall = 1;
     function start(_event) {
         viewport = _event.detail;
         viewport.calculateTransforms();
         graph = viewport.getBranch();
-        //agent = graph.getChildrenByName("Bike")[0];
         agent = new Script.Bike();
-        Outlook = new Script.Bike();
         graph.getChildrenByName("Bike")[0].addChild(agent);
+        agent.addComponent(new ƒ.ComponentMaterial(new ƒ.Material("mtrAgent", ƒ.ShaderUniColor, new ƒ.CoatColored(new ƒ.Color(1, 0, 1, 1)))));
+        //graph.addChild(AllBikeWall);
+        agentWall = new Script.BikeWall();
+        graph.getChildrenByName("AllBikeWall")[0].addChild(agentWall);
+        agentWall.mtxLocal.translate(new ƒ.Vector3(agent.mtxLocal.translation.x, 0.5, agent.mtxLocal.translation.z - 1));
+        Outlook = new Script.Bike();
         graph.getChildrenByName("Bike")[0].addChild(Outlook);
-        Outlook.mtxLocal.translate(new ƒ.Vector3(-25, 0.5, 75));
+        Outlook.mtxLocal.translate(new ƒ.Vector3(0, 0.5, 0));
+        Outlook.addComponent(new ƒ.ComponentMaterial(new ƒ.Material("mtrAgent", ƒ.ShaderUniColor, new ƒ.CoatColored(new ƒ.Color(0, 1, 1, 1)))));
         cmpCamera.mtxPivot.translation = new ƒ.Vector3(0, 10, -25); // 0 8 -12
         cmpCamera.mtxPivot.rotation = new ƒ.Vector3(12.5, 0, 0);
         camera.addComponent(cmpCamera);
@@ -69,6 +106,12 @@ var Script;
         ƒ.Loop.start(ƒ.LOOP_MODE.TIME_REAL, fps);
     }
     function update(_event) {
+        if (SetWall == true && StartKey == true) {
+            WallVectorZ = new ƒ.Vector3(1, 1, (agent.mtxLocal.translation.z / 2));
+            //agentWall.getComponent(ƒ.ComponentMesh).mtxWorld.scaleZ(1);
+            agentWall.mtxLocal.translateZ(ctrForward.getOutput());
+            CountdownWall = CountdownWall + 1;
+        }
         // Camera left turn
         if (RotationCameraTest_Left > 0) {
             camera.mtxLocal.rotateY(3);
@@ -94,7 +137,6 @@ var Script;
                 // truc a faire pour que ce soit plus doux 
             }
         }
-        console.log(camera.mtxLocal.rotation.y % 90);
         camera.mtxLocal.translation = agent.mtxWorld.translation;
         let deltaTime = ƒ.Loop.timeFrameReal / 1000;
         //---------- Movement Managment ----------
@@ -108,11 +150,13 @@ var Script;
                 agent.mtxLocal.rotateY(90);
                 KeyStatus_Left = false;
                 RotationCameraTest_Left = RotationCameraTest_Left + 1;
+                SetWall = false; // la
             }
             if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.D, ƒ.KEYBOARD_CODE.ARROW_RIGHT]) && KeyStatus_Right == true) {
                 agent.mtxLocal.rotateY(-90);
                 KeyStatus_Right = false;
                 RotationCameraTest_Right = RotationCameraTest_Right + 1;
+                SetWall = false; // la
             }
             //---------- Referee is there to control the keyup and keydown ----------
             Referee2_Left = Referee_Left;
@@ -140,9 +184,11 @@ var Script;
         }
         //---------- End of Movement Managment ----------
         if (Math.abs(agent.mtxWorld.translation.x) >= 124.5 || Math.abs(agent.mtxWorld.translation.z) >= 124.5) {
-            agent.mtxLocal.translation = new ƒ.Vector3(0, 0.5, 0);
+            agent.mtxLocal.translation = new ƒ.Vector3(1, 0.5, 1);
             StartKey = false;
         }
+        //
+        console.log(WallVectorZ.z);
         // ƒ.Physics.world.simulate();  // if physics is included and used
         viewport.draw();
         ƒ.AudioManager.default.update();

@@ -18,9 +18,9 @@ namespace Script {
           this.addComponent(new ƒ.ComponentTransform);
 
           this.addComponent(new ƒ.ComponentMesh(new ƒ.MeshCube("MeshAgent")));
-          this.addComponent(new ƒ.ComponentMaterial(
-              new ƒ.Material("mtrAgent", ƒ.ShaderUniColor, new ƒ.CoatColored(new ƒ.Color(1, 0, 1, 1))))
-          );
+          // this.addComponent(new ƒ.ComponentMaterial(
+          //     new ƒ.Material("mtrAgent", ƒ.ShaderUniColor, new ƒ.CoatColored(new ƒ.Color(1, 0, 1, 1))))
+          // );
 
           this.mtxLocal.scale(ƒ.Vector3.ONE(1));
           this.mtxLocal.translate(new ƒ.Vector3(0, 0.5, 0));

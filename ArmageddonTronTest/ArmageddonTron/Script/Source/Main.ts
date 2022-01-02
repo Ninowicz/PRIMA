@@ -11,10 +11,16 @@ namespace Script {
 
   let fps: number = 60;
   let graph: ƒ.Node;
+  //let AllBikeWall :ƒ.Node;
   let agent: Bike;
-  let Outlook: Bike;
+  let agentWall: BikeWall;
   let ctrForward: ƒ.Control = new ƒ.Control("Forward", 10, ƒ.CONTROL_TYPE.PROPORTIONAL);
   ctrForward.setDelay(200);
+
+  let Outlook: Bike;
+  // let PowerPoint: Bike;
+  // let Word: Bike;
+  // let Excel: Bike;
 
   let RotationCameraTest_Left : number = 0;
   let TheChosenOne_Left : number = 1;
@@ -30,19 +36,35 @@ namespace Script {
   let KeyStatus_Right: Boolean = true;
   let StartKey: Boolean = false;
 
+  let SetWall: boolean = true;
+  let WallVectorZ = new ƒ.Vector3(0.2,0.75,1);
+  let CountdownWall:number = 1;
+
   function start(_event: CustomEvent): void {
     viewport = _event.detail;
     viewport.calculateTransforms();
     graph = viewport.getBranch();
     
-    //agent = graph.getChildrenByName("Bike")[0];
     agent = new Bike();
-    Outlook = new Bike();
+    
 
     graph.getChildrenByName("Bike")[0].addChild(agent);
-    graph.getChildrenByName("Bike")[0].addChild(Outlook);
+    agent.addComponent(new ƒ.ComponentMaterial(
+      new ƒ.Material("mtrAgent", ƒ.ShaderUniColor, new ƒ.CoatColored(new ƒ.Color(1, 0, 1, 1))))
+    );
 
-    Outlook.mtxLocal.translate(new ƒ.Vector3(-25, 0.5, 75));    
+
+    //graph.addChild(AllBikeWall);
+    agentWall = new BikeWall();
+    graph.getChildrenByName("AllBikeWall")[0].addChild(agentWall);
+    agentWall.mtxLocal.translate(new ƒ.Vector3(agent.mtxLocal.translation.x , 0.5, agent.mtxLocal.translation.z - 1));
+
+    Outlook = new Bike();
+    graph.getChildrenByName("Bike")[0].addChild(Outlook);
+    Outlook.mtxLocal.translate(new ƒ.Vector3(0, 0.5, 0));    
+    Outlook.addComponent(new ƒ.ComponentMaterial(
+      new ƒ.Material("mtrAgent", ƒ.ShaderUniColor, new ƒ.CoatColored(new ƒ.Color(0, 1, 1, 1))))
+    );
 
     cmpCamera.mtxPivot.translation = new ƒ.Vector3(0,10,-25); // 0 8 -12
     cmpCamera.mtxPivot.rotation = new ƒ.Vector3(12.5,0,0);
@@ -61,6 +83,13 @@ namespace Script {
 
 
   function update(_event: Event): void {
+    if(SetWall == true && StartKey == true){
+      WallVectorZ = new ƒ.Vector3(1, 1,(agent.mtxLocal.translation.z/2));
+      //agentWall.getComponent(ƒ.ComponentMesh).mtxWorld.scaleZ(1);
+      agentWall.mtxLocal.translateZ(ctrForward.getOutput());
+      CountdownWall = CountdownWall +1; 
+    }
+    
     // Camera left turn
     if(RotationCameraTest_Left > 0 ){
       camera.mtxLocal.rotateY(3);
@@ -90,7 +119,6 @@ namespace Script {
       }  
     }
     
-    console.log(camera.mtxLocal.rotation.y % 90);
     camera.mtxLocal.translation = agent.mtxWorld.translation;
    
     let deltaTime: number = ƒ.Loop.timeFrameReal / 1000;
@@ -108,12 +136,14 @@ namespace Script {
         agent.mtxLocal.rotateY(90); 
         KeyStatus_Left = false;
         RotationCameraTest_Left = RotationCameraTest_Left + 1;
+        SetWall = false; // la
       }
           
       if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.D, ƒ.KEYBOARD_CODE.ARROW_RIGHT]) && KeyStatus_Right == true){
         agent.mtxLocal.rotateY(-90);
         KeyStatus_Right = false;
         RotationCameraTest_Right = RotationCameraTest_Right + 1;
+        SetWall = false; // la
       }
   
   
@@ -148,9 +178,15 @@ namespace Script {
     //---------- End of Movement Managment ----------
 
     if(Math.abs(agent.mtxWorld.translation.x) >= 124.5 || Math.abs(agent.mtxWorld.translation.z) >= 124.5  ){
-      agent.mtxLocal.translation = new ƒ.Vector3(0, 0.5, 0);
+      agent.mtxLocal.translation = new ƒ.Vector3(1, 0.5, 1);
       StartKey = false;
     }
+    
+     //
+    
+    
+    
+    console.log(WallVectorZ.z);
 
     // ƒ.Physics.world.simulate();  // if physics is included and used
     viewport.draw();
