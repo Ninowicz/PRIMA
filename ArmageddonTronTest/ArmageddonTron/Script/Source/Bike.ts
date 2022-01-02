@@ -23,7 +23,7 @@ namespace Script {
           // );
 
           this.mtxLocal.scale(ƒ.Vector3.ONE(1));
-          this.mtxLocal.translate(new ƒ.Vector3(0, 0.5, 0));
+          this.mtxLocal.translate(new ƒ.Vector3(0, 0.5, 1));
       }
   }
 }

@@ -5,19 +5,30 @@ namespace Script {
   let viewport: ƒ.Viewport;
   document.addEventListener("interactiveViewportStarted", <EventListener>start);
 
+
+
+  let vitesse :number = 1;
+
+
+
+
+
   //test for camera 
   let camera: ƒ.Node = new ƒ.Node("cameraNode");
   let cmpCamera = new ƒ.ComponentCamera;
 
   let fps: number = 60;
   let graph: ƒ.Node;
-  //let AllBikeWall :ƒ.Node;
   let agent: Bike;
   let agentWall: BikeWall;
   let ctrForward: ƒ.Control = new ƒ.Control("Forward", 10, ƒ.CONTROL_TYPE.PROPORTIONAL);
   ctrForward.setDelay(200);
 
+  //let ctrForwardWall: ƒ.Control = new ƒ.Control("Forward", 10, ƒ.CONTROL_TYPE.PROPORTIONAL);
+  //ctrForward.setDelay(200);
+
   let Outlook: Bike;
+  //let OutlookStart : boolean = false;
   // let PowerPoint: Bike;
   // let Word: Bike;
   // let Excel: Bike;
@@ -36,10 +47,20 @@ namespace Script {
   let KeyStatus_Right: Boolean = true;
   let StartKey: Boolean = false;
 
+  let Referee_Wall: number = 0;
+  let Referee2_Wall: number = -1;
+  let KeyStatus_Wall: Boolean = true;
+
   let SetWall: boolean = true;
-  let WallVectorZ = new ƒ.Vector3(0.2,0.75,1);
+  //let WallVectorZ = new ƒ.Vector3(0.2,0.75,1);
   let CountdownWall:number = 1;
-  let NombredOr:number=0.5;
+
+  let Matrix4x4 = new ƒ.Matrix4x4();
+
+
+
+
+
 
   function start(_event: CustomEvent): void {
     viewport = _event.detail;
@@ -48,6 +69,17 @@ namespace Script {
     
     agent = new Bike();
     
+
+
+
+    
+
+
+
+
+
+
+
 
     graph.getChildrenByName("Bike")[0].addChild(agent);
     agent.addComponent(new ƒ.ComponentMaterial(
@@ -85,7 +117,7 @@ namespace Script {
 
   function update(_event: Event): void {
     if(SetWall == true && StartKey == true){
-      WallVectorZ = new ƒ.Vector3(1, 1,(agent.mtxLocal.translation.z/2));
+      
       //agentWall.getComponent(ƒ.ComponentMesh).mtxWorld.scaleZ(1);
       agentWall.mtxLocal.translateZ(ctrForward.getOutput());
       CountdownWall = CountdownWall +1; 
@@ -173,15 +205,43 @@ namespace Script {
         Referee2_Right = -1;
       }
     }  
+
+      
+      Matrix4x4.scaling.set(0.5, 0.75, agent.getComponent(ƒ.ComponentTransform).mtxLocal.translation.z);
+      agentWall.getComponent(ƒ.ComponentTransform).mtxLocal.scaling = Matrix4x4.scaling;
+      console.log(agentWall.getComponent(ƒ.ComponentTransform).mtxLocal.scaling);
+      agentWall.getComponent(ƒ.ComponentTransform).mtxLocal.translation = new ƒ.Vector3(1, 0.5, agent.getComponent(ƒ.ComponentTransform).mtxLocal.translation.z/2);
     
-    if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.Y])){
-      WallVectorZ = Outlook.getComponent(ƒ.ComponentTransform).mtxLocal.scaling;
-      let NombredOr:number = 1/WallVectorZ.x;
-      Outlook.getComponent(ƒ.ComponentTransform).mtxLocal.scale(new ƒ.Vector3(1+ (NombredOr), 1, 1));
-      //NombredOr = NombredOr /2;
-      console.log(NombredOr);
+  
+
+    if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.Y]) && KeyStatus_Wall == true){
+      KeyStatus_Wall = false;
+      
+      // Version qi marche : 
+      // vitesse = vitesse +1;
+      // Matrix4x4.scaling.set(vitesse, 1, 1);
+      // Outlook.getComponent(ƒ.ComponentTransform).mtxLocal.scaling = Matrix4x4.scaling;
+      // console.log(Outlook.getComponent(ƒ.ComponentTransform).mtxLocal.scaling);
+      // Outlook.getComponent(ƒ.ComponentTransform).mtxLocal.translation = new ƒ.Vector3(Outlook.getComponent(ƒ.ComponentTransform).mtxLocal.translation.x+1/2, 0.5, 30);
+      vitesse = vitesse +1;
+      Matrix4x4.scaling.set(vitesse, 1, 1);
+      agentWall.getComponent(ƒ.ComponentTransform).mtxLocal.scaling = Matrix4x4.scaling;
+      console.log(agentWall.getComponent(ƒ.ComponentTransform).mtxLocal.scaling);
+      agentWall.getComponent(ƒ.ComponentTransform).mtxLocal.translation = new ƒ.Vector3(agent.getComponent(ƒ.ComponentTransform).mtxLocal.translation.x, 0.5, 0);
+      
     }
-    
+
+    Referee2_Wall = Referee_Wall;
+      if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.Y])){ 
+        Referee_Wall = Referee_Wall + 1;
+      }
+      if(Referee2_Wall == Referee_Wall){
+        KeyStatus_Wall = true;
+      }
+      if (Referee_Wall > 200 ){
+        Referee_Wall = 0;
+        Referee2_Wall = -1;
+      }
 
     //---------- End of Movement Managment ----------
 
