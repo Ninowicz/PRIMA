@@ -39,6 +39,7 @@ namespace Script {
   let SetWall: boolean = true;
   let WallVectorZ = new ƒ.Vector3(0.2,0.75,1);
   let CountdownWall:number = 1;
+  let NombredOr:number=0.5;
 
   function start(_event: CustomEvent): void {
     viewport = _event.detail;
@@ -61,7 +62,7 @@ namespace Script {
 
     Outlook = new Bike();
     graph.getChildrenByName("Bike")[0].addChild(Outlook);
-    Outlook.mtxLocal.translate(new ƒ.Vector3(0, 0.5, 0));    
+    Outlook.mtxLocal.translate(new ƒ.Vector3(0, 0.5, 30));    
     Outlook.addComponent(new ƒ.ComponentMaterial(
       new ƒ.Material("mtrAgent", ƒ.ShaderUniColor, new ƒ.CoatColored(new ƒ.Color(0, 1, 1, 1))))
     );
@@ -172,7 +173,14 @@ namespace Script {
         Referee2_Right = -1;
       }
     }  
-      
+    
+    if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.Y])){
+      WallVectorZ = Outlook.getComponent(ƒ.ComponentTransform).mtxLocal.scaling;
+      let NombredOr:number = 1/WallVectorZ.x;
+      Outlook.getComponent(ƒ.ComponentTransform).mtxLocal.scale(new ƒ.Vector3(1+ (NombredOr), 1, 1));
+      //NombredOr = NombredOr /2;
+      console.log(NombredOr);
+    }
     
 
     //---------- End of Movement Managment ----------
@@ -182,12 +190,11 @@ namespace Script {
       StartKey = false;
     }
     
-     //
-    
-    
-    
-    console.log(WallVectorZ.z);
 
+    
+    
+    
+    
     // ƒ.Physics.world.simulate();  // if physics is included and used
     viewport.draw();
     ƒ.AudioManager.default.update();

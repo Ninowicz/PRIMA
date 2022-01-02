@@ -79,6 +79,7 @@ var Script;
     let SetWall = true;
     let WallVectorZ = new ƒ.Vector3(0.2, 0.75, 1);
     let CountdownWall = 1;
+    let NombredOr = 0.5;
     function start(_event) {
         viewport = _event.detail;
         viewport.calculateTransforms();
@@ -92,7 +93,7 @@ var Script;
         agentWall.mtxLocal.translate(new ƒ.Vector3(agent.mtxLocal.translation.x, 0.5, agent.mtxLocal.translation.z - 1));
         Outlook = new Script.Bike();
         graph.getChildrenByName("Bike")[0].addChild(Outlook);
-        Outlook.mtxLocal.translate(new ƒ.Vector3(0, 0.5, 0));
+        Outlook.mtxLocal.translate(new ƒ.Vector3(0, 0.5, 30));
         Outlook.addComponent(new ƒ.ComponentMaterial(new ƒ.Material("mtrAgent", ƒ.ShaderUniColor, new ƒ.CoatColored(new ƒ.Color(0, 1, 1, 1)))));
         cmpCamera.mtxPivot.translation = new ƒ.Vector3(0, 10, -25); // 0 8 -12
         cmpCamera.mtxPivot.rotation = new ƒ.Vector3(12.5, 0, 0);
@@ -182,13 +183,18 @@ var Script;
                 Referee2_Right = -1;
             }
         }
+        if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.Y])) {
+            WallVectorZ = Outlook.getComponent(ƒ.ComponentTransform).mtxLocal.scaling;
+            let NombredOr = 1 / WallVectorZ.x;
+            Outlook.getComponent(ƒ.ComponentTransform).mtxLocal.scale(new ƒ.Vector3(1 + (NombredOr), 1, 1));
+            //NombredOr = NombredOr /2;
+            console.log(NombredOr);
+        }
         //---------- End of Movement Managment ----------
         if (Math.abs(agent.mtxWorld.translation.x) >= 124.5 || Math.abs(agent.mtxWorld.translation.z) >= 124.5) {
             agent.mtxLocal.translation = new ƒ.Vector3(1, 0.5, 1);
             StartKey = false;
         }
-        //
-        console.log(WallVectorZ.z);
         // ƒ.Physics.world.simulate();  // if physics is included and used
         viewport.draw();
         ƒ.AudioManager.default.update();
