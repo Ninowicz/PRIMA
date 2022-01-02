@@ -11,7 +11,8 @@ namespace Script {
 
   let fps: number = 60;
   let graph: ƒ.Node;
-  let agent: ƒ.Node;
+  let agent: Bike;
+  let Outlook: Bike;
   let ctrForward: ƒ.Control = new ƒ.Control("Forward", 10, ƒ.CONTROL_TYPE.PROPORTIONAL);
   ctrForward.setDelay(200);
 
@@ -20,34 +21,31 @@ namespace Script {
   let RotationCameraTest_Right : number = 0;
   let TheChosenOne_Right : number = -1;
 
-  let Referee_Left:number;
-  let Referee2_Left:number;
-  let Referee_Right:number;
-  let Referee2_Right:number;
+  let Referee_Left: number = 0;
+  let Referee2_Left: number = -1;
+  let Referee_Right: number = 0;
+  let Referee2_Right: number = -1;
 
-  Referee_Left = 0;
-  Referee2_Left = -1;
-  Referee_Right = 0;
-  Referee2_Right = -1;
-
-  let KeyStatus_Left: Boolean ;
-  KeyStatus_Left = true;
-
-  let KeyStatus_Right: Boolean ;
-  KeyStatus_Right = true;
-
-  let StartKey: Boolean;
-  StartKey = false;
+  let KeyStatus_Left: Boolean = true;
+  let KeyStatus_Right: Boolean = true;
+  let StartKey: Boolean = false;
 
   function start(_event: CustomEvent): void {
     viewport = _event.detail;
     viewport.calculateTransforms();
     graph = viewport.getBranch();
     
-    agent = graph.getChildrenByName("Bike")[0];
+    //agent = graph.getChildrenByName("Bike")[0];
+    agent = new Bike();
+    Outlook = new Bike();
 
-    cmpCamera.mtxPivot.translation = new ƒ.Vector3(0,10,-20); // 0 8 -12
-    cmpCamera.mtxPivot.rotation = new ƒ.Vector3(18,0,0);
+    graph.getChildrenByName("Bike")[0].addChild(agent);
+    graph.getChildrenByName("Bike")[0].addChild(Outlook);
+
+    Outlook.mtxLocal.translate(new ƒ.Vector3(-25, 0.5, 75));    
+
+    cmpCamera.mtxPivot.translation = new ƒ.Vector3(0,10,-25); // 0 8 -12
+    cmpCamera.mtxPivot.rotation = new ƒ.Vector3(12.5,0,0);
     
     camera.addComponent(cmpCamera);
     camera.addComponent(new ƒ.ComponentTransform());
@@ -74,7 +72,7 @@ namespace Script {
     }
 
     
-    // Camera right turn
+    //---------- Camera right turn ----------
     if(RotationCameraTest_Right > 0 ){
       camera.mtxLocal.rotateY(-3);
       TheChosenOne_Right = TheChosenOne_Right + 3;
@@ -84,10 +82,11 @@ namespace Script {
       } 
     }
 
-    // Camera Adjustment
+    //---------- Camera Adjustment ----------
     if(RotationCameraTest_Left == 0 && RotationCameraTest_Right == 0 ){
       if(Math.abs(camera.mtxLocal.rotation.y % 90) < 5 ){
         camera.mtxLocal.rotateY(-(camera.mtxLocal.rotation.y % 90));
+        // truc a faire pour que ce soit plus doux 
       }  
     }
     
@@ -102,53 +101,56 @@ namespace Script {
       StartKey = true;
     }
     if(StartKey == true){
-      ctrForward.setInput(2 * deltaTime);
+      ctrForward.setInput(3 * deltaTime);
       agent.mtxLocal.translateZ(ctrForward.getOutput());
+
+      if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.A, ƒ.KEYBOARD_CODE.ARROW_LEFT]) && KeyStatus_Left == true ){
+        agent.mtxLocal.rotateY(90); 
+        KeyStatus_Left = false;
+        RotationCameraTest_Left = RotationCameraTest_Left + 1;
+      }
+          
+      if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.D, ƒ.KEYBOARD_CODE.ARROW_RIGHT]) && KeyStatus_Right == true){
+        agent.mtxLocal.rotateY(-90);
+        KeyStatus_Right = false;
+        RotationCameraTest_Right = RotationCameraTest_Right + 1;
+      }
+  
+  
+      //---------- Referee is there to control the keyup and keydown ----------
+      Referee2_Left = Referee_Left;
+      if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.A, ƒ.KEYBOARD_CODE.ARROW_LEFT])){ 
+        Referee_Left = Referee_Left + 1;
+      }
+      if(Referee2_Left == Referee_Left){
+        KeyStatus_Left = true;
+      }
+      if (Referee_Left > 200 ){
+        Referee_Left = 0;
+        Referee2_Left = -1;
+      }
+  
+      Referee2_Right = Referee_Right;
+      if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.D, ƒ.KEYBOARD_CODE.ARROW_RIGHT])){ 
+        Referee_Right = Referee_Right + 1;
+      }
+      if(Referee2_Right == Referee_Right){
+        KeyStatus_Right = true;
+      }
+      if (Referee_Right > 200 ){
+        Referee_Right = 0;
+        Referee2_Right = -1;
+      }
     }  
       
-    if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.A, ƒ.KEYBOARD_CODE.ARROW_LEFT]) && KeyStatus_Left == true ){
-      agent.mtxLocal.rotateY(90); 
-      KeyStatus_Left = false;
-      RotationCameraTest_Left = RotationCameraTest_Left + 1;
-      
-    }
-        
-    if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.D, ƒ.KEYBOARD_CODE.ARROW_RIGHT]) && KeyStatus_Right == true){
-      agent.mtxLocal.rotateY(-90);
-      KeyStatus_Right = false;
-      RotationCameraTest_Right = RotationCameraTest_Right + 1;
-  
-    }
-
-
     
-    Referee2_Left = Referee_Left;
-    if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.A, ƒ.KEYBOARD_CODE.ARROW_LEFT])){ 
-      Referee_Left = Referee_Left + 1;
-    }
-    if(Referee2_Left == Referee_Left){
-      KeyStatus_Left = true;
-    }
-    if (Referee_Left > 200 ){
-      Referee_Left = 0;
-      Referee2_Left = -1;
-    }
 
-    Referee2_Right = Referee_Right;
-    if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.D, ƒ.KEYBOARD_CODE.ARROW_RIGHT])){ 
-      Referee_Right = Referee_Right + 1;
-    }
-    if(Referee2_Right == Referee_Right){
-      KeyStatus_Right = true;
-    }
-    if (Referee_Right > 200 ){
-      Referee_Right = 0;
-      Referee2_Right = -1;
-    }
+    //---------- End of Movement Managment ----------
 
-    //---------- End of Movement Managment
-
-
+    if(Math.abs(agent.mtxWorld.translation.x) >= 124.5 || Math.abs(agent.mtxWorld.translation.z) >= 124.5  ){
+      agent.mtxLocal.translation = new ƒ.Vector3(0, 0.5, 0);
+      StartKey = false;
+    }
 
     // ƒ.Physics.world.simulate();  // if physics is included and used
     viewport.draw();

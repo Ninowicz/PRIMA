@@ -1,11 +1,15 @@
 declare namespace Script {
     import ƒ = FudgeCore;
-    class CustomComponentScript extends ƒ.ComponentScript {
-        static readonly iSubclass: number;
-        message: string;
-        constructor();
-        hndEvent: (_event: Event) => void;
+    enum state {
+        Alive = 0,
+        Dead = 1
     }
+    export class Bike extends ƒ.Node {
+        name: string;
+        State: state.Alive;
+        constructor();
+    }
+    export {};
 }
 declare namespace Script {
 }
