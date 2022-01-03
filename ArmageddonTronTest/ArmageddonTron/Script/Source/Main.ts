@@ -5,14 +5,6 @@ namespace Script {
   let viewport: ƒ.Viewport;
   document.addEventListener("interactiveViewportStarted", <EventListener>start);
 
-
-
-  let vitesse :number = 1;
-
-
-
-
-
   //test for camera 
   let camera: ƒ.Node = new ƒ.Node("cameraNode");
   let cmpCamera = new ƒ.ComponentCamera;
@@ -21,11 +13,9 @@ namespace Script {
   let graph: ƒ.Node;
   let agent: Bike;
   let agentWall: BikeWall;
+  let agentWall2: BikeWall;
   let ctrForward: ƒ.Control = new ƒ.Control("Forward", 10, ƒ.CONTROL_TYPE.PROPORTIONAL);
   ctrForward.setDelay(200);
-
-  //let ctrForwardWall: ƒ.Control = new ƒ.Control("Forward", 10, ƒ.CONTROL_TYPE.PROPORTIONAL);
-  //ctrForward.setDelay(200);
 
   let Outlook: Bike;
   //let OutlookStart : boolean = false;
@@ -46,16 +36,14 @@ namespace Script {
   let KeyStatus_Left: Boolean = true;
   let KeyStatus_Right: Boolean = true;
   let StartKey: Boolean = false;
-
-  let Referee_Wall: number = 0;
-  let Referee2_Wall: number = -1;
-  let KeyStatus_Wall: Boolean = true;
-
+  
+  let NewWall: Boolean = true;
   let SetWall: boolean = true;
   //let WallVectorZ = new ƒ.Vector3(0.2,0.75,1);
-  let CountdownWall:number = 1;
+  let CountWall:number = 0;
 
   let Matrix4x4 = new ƒ.Matrix4x4();
+  let Matrix4x4_2 = new ƒ.Matrix4x4();
 
 
 
@@ -91,6 +79,9 @@ namespace Script {
     agentWall = new BikeWall();
     graph.getChildrenByName("AllBikeWall")[0].addChild(agentWall);
     agentWall.mtxLocal.translate(new ƒ.Vector3(agent.mtxLocal.translation.x , 0.5, agent.mtxLocal.translation.z - 1));
+    agentWall2 = new BikeWall();
+    graph.getChildrenByName("AllBikeWall")[0].addChild(agentWall2);
+    
 
     Outlook = new Bike();
     graph.getChildrenByName("Bike")[0].addChild(Outlook);
@@ -116,11 +107,57 @@ namespace Script {
 
 
   function update(_event: Event): void {
-    if(SetWall == true && StartKey == true){
+
+    let PositionAgentTempX_memorie :number;
+    let PositionAgentTempZ_memorie :number;
+
+    if(SetWall == true && StartKey == true && CountWall  == 0){ // % 2 == 0
+      // if( NewWall == true){
+
+        
+        
+      //   graph.getChildrenByName("AllBikeWall")[CountWall].addChild(agentWall);
+      //   graph.getChildrenByName("AllBikeWall")[0].addChild(agentWall);
+      //   agentWall.mtxLocal.translate(new ƒ.Vector3(agent.mtxLocal.translation.x , 0.5, agent.mtxLocal.translation.z - 1));
+      //   NewWall = false;
+        
+      // }
+
+      let PositionAgentTempX : number = agent.getComponent(ƒ.ComponentTransform).mtxLocal.translation.x;
+      let PositionAgentTempZ : number = agent.getComponent(ƒ.ComponentTransform).mtxLocal.translation.z/2;
+
+      Matrix4x4.scaling.set(0.2, 0.5, agent.getComponent(ƒ.ComponentTransform).mtxLocal.translation.z+0.5);
+      agentWall.getComponent(ƒ.ComponentTransform).mtxLocal.scaling = Matrix4x4.scaling;
+      agentWall.getComponent(ƒ.ComponentTransform).mtxLocal.translation = new ƒ.Vector3(PositionAgentTempX, 0.5, PositionAgentTempZ+0.25);
+      PositionAgentTempZ_memorie = PositionAgentTempZ;
       
-      //agentWall.getComponent(ƒ.ComponentMesh).mtxWorld.scaleZ(1);
-      agentWall.mtxLocal.translateZ(ctrForward.getOutput());
-      CountdownWall = CountdownWall +1; 
+    }
+    console.log(PositionAgentTempZ_memorie);
+    if(SetWall == true && StartKey == true && CountWall  == 1){ // % 2
+
+      // if( NewWall == true){
+
+      //   let CountWall : ƒ.Node ;
+      //   agentWall = new BikeWall();
+      //   graph.getChildrenByName("AllBikeWall")[0].addChild(CountWall);
+      //   graph.getChildrenByName("AllBikeWall")[0].addChild(agentWall);
+      //   agentWall.mtxLocal.translate(new ƒ.Vector3(agent.mtxLocal.translation.x , 0.5, agent.mtxLocal.translation.z - 1));
+      //   NewWall = false;
+      // }
+
+      let PositionAgentTempX : number = agent.getComponent(ƒ.ComponentTransform).mtxLocal.translation.x/2;
+      let PositionAgentTempZ : number = agent.getComponent(ƒ.ComponentTransform).mtxLocal.translation.z;
+
+      Matrix4x4_2.scaling.set(0.2, 0.5, agent.getComponent(ƒ.ComponentTransform).mtxLocal.translation.x+0.5);
+      agentWall2.getComponent(ƒ.ComponentTransform).mtxLocal.scaling = Matrix4x4_2.scaling;
+      agentWall2.getComponent(ƒ.ComponentTransform).mtxLocal.rotation.y = 90;
+      agentWall2.getComponent(ƒ.ComponentTransform).mtxLocal.translation = new ƒ.Vector3(PositionAgentTempX+0.25, 0.5, PositionAgentTempZ);
+      //agentWall2.mtxLocal.translate(new ƒ.Vector3(agent.mtxLocal.translation.x , 0.5, agent.mtxLocal.translation.z - 1));
+    }
+    if(SetWall == false){
+      CountWall = CountWall + 1;
+      SetWall = true;
+      NewWall = true;
     }
     
     // Camera left turn
@@ -132,8 +169,6 @@ namespace Script {
         RotationCameraTest_Left = RotationCameraTest_Left - 1;
       } 
     }
-
-    
     //---------- Camera right turn ----------
     if(RotationCameraTest_Right > 0 ){
       camera.mtxLocal.rotateY(-3);
@@ -143,7 +178,6 @@ namespace Script {
         RotationCameraTest_Right = RotationCameraTest_Right - 1;
       } 
     }
-
     //---------- Camera Adjustment ----------
     if(RotationCameraTest_Left == 0 && RotationCameraTest_Right == 0 ){
       if(Math.abs(camera.mtxLocal.rotation.y % 90) < 5 ){
@@ -151,9 +185,11 @@ namespace Script {
         // truc a faire pour que ce soit plus doux 
       }  
     }
-    
     camera.mtxLocal.translation = agent.mtxWorld.translation;
    
+
+
+
     let deltaTime: number = ƒ.Loop.timeFrameReal / 1000;
     
     //---------- Movement Managment ----------
@@ -161,7 +197,7 @@ namespace Script {
     if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.W, ƒ.KEYBOARD_CODE.ARROW_UP])){   
       StartKey = true;
     }
-    if(StartKey == true){
+    if(StartKey == true ){
       ctrForward.setInput(3 * deltaTime);
       agent.mtxLocal.translateZ(ctrForward.getOutput());
 
@@ -206,42 +242,6 @@ namespace Script {
       }
     }  
 
-      
-      Matrix4x4.scaling.set(0.5, 0.75, agent.getComponent(ƒ.ComponentTransform).mtxLocal.translation.z);
-      agentWall.getComponent(ƒ.ComponentTransform).mtxLocal.scaling = Matrix4x4.scaling;
-      console.log(agentWall.getComponent(ƒ.ComponentTransform).mtxLocal.scaling);
-      agentWall.getComponent(ƒ.ComponentTransform).mtxLocal.translation = new ƒ.Vector3(1, 0.5, agent.getComponent(ƒ.ComponentTransform).mtxLocal.translation.z/2);
-    
-  
-
-    if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.Y]) && KeyStatus_Wall == true){
-      KeyStatus_Wall = false;
-      
-      // Version qi marche : 
-      // vitesse = vitesse +1;
-      // Matrix4x4.scaling.set(vitesse, 1, 1);
-      // Outlook.getComponent(ƒ.ComponentTransform).mtxLocal.scaling = Matrix4x4.scaling;
-      // console.log(Outlook.getComponent(ƒ.ComponentTransform).mtxLocal.scaling);
-      // Outlook.getComponent(ƒ.ComponentTransform).mtxLocal.translation = new ƒ.Vector3(Outlook.getComponent(ƒ.ComponentTransform).mtxLocal.translation.x+1/2, 0.5, 30);
-      vitesse = vitesse +1;
-      Matrix4x4.scaling.set(vitesse, 1, 1);
-      agentWall.getComponent(ƒ.ComponentTransform).mtxLocal.scaling = Matrix4x4.scaling;
-      console.log(agentWall.getComponent(ƒ.ComponentTransform).mtxLocal.scaling);
-      agentWall.getComponent(ƒ.ComponentTransform).mtxLocal.translation = new ƒ.Vector3(agent.getComponent(ƒ.ComponentTransform).mtxLocal.translation.x, 0.5, 0);
-      
-    }
-
-    Referee2_Wall = Referee_Wall;
-      if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.Y])){ 
-        Referee_Wall = Referee_Wall + 1;
-      }
-      if(Referee2_Wall == Referee_Wall){
-        KeyStatus_Wall = true;
-      }
-      if (Referee_Wall > 200 ){
-        Referee_Wall = 0;
-        Referee2_Wall = -1;
-      }
 
     //---------- End of Movement Managment ----------
 
