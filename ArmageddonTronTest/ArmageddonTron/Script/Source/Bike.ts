@@ -56,4 +56,5 @@ namespace Script {
           //this.mtxLocal.translate(new ƒ.Vector3(0, 0.5, 1));
       }
   }
+
 }

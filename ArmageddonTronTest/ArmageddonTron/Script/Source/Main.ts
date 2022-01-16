@@ -10,14 +10,12 @@ namespace Script {
   let cmpCamera = new ƒ.ComponentCamera;
   let agent: Bike;
   let fps: number = 60;
-  let graph: ƒ.Node;
-  
+  export let graph: ƒ.Node;
   
   let ctrForward: ƒ.Control = new ƒ.Control("Forward", 10, ƒ.CONTROL_TYPE.PROPORTIONAL);
   ctrForward.setDelay(200);
 
-  let Outlook: Bike;
-  //let OutlookStart : boolean = false;
+  //let Outlook: Bike;
   // let PowerPoint: Bike;
   // let Word: Bike;
   // let Excel: Bike;
@@ -48,14 +46,6 @@ namespace Script {
     viewport.calculateTransforms();
     graph = viewport.getBranch();
     
-    // let number:number = 1;
-    // let name:string ="Wall"+number;
-
-    // let AgentWall: ƒ.Node = new ƒ.Node(name);
-    
-
-
-    
     agent = new Bike();
   
     graph.getChildrenByName("Bike")[0].addChild(agent);
@@ -64,23 +54,11 @@ namespace Script {
     );
 
     SetSpawnPoint(agent,Lille);
-    // let agentWall: BikeWall;
-    
-    //graph.addChild(AllBikeWall);
-    // agentWall = new BikeWall();
-    // graph.getChildrenByName("AllBikeWall")[0].addChild(agentWall);
-    // agentWall.mtxLocal.translate(new ƒ.Vector3(agent.mtxLocal.translation.x , 0.5, agent.mtxLocal.translation.z - 1));
     let agentWall2: BikeWall;
     agentWall2 = new BikeWall();
     graph.getChildrenByName("AllBikeWall")[0].addChild(agentWall2);
     
-
-    Outlook = new Bike();
-    graph.getChildrenByName("Bike")[0].addChild(Outlook);
-    Outlook.mtxLocal.translate(new ƒ.Vector3(0, 0.5, 30));    
-    Outlook.addComponent(new ƒ.ComponentMaterial(
-      new ƒ.Material("mtrAgent", ƒ.ShaderUniColor, new ƒ.CoatColored(new ƒ.Color(0, 1, 1, 1))))
-    );
+    //SetBikeBot(OutlookBot, Lyon);
 
     cmpCamera.mtxPivot.translation = new ƒ.Vector3(0,10,-25); // 0 8 -12
     cmpCamera.mtxPivot.rotation = new ƒ.Vector3(12.5,0,0);

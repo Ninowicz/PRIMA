@@ -38,7 +38,7 @@ var Script;
             //     new ƒ.Material("mtrAgent", ƒ.ShaderUniColor, new ƒ.CoatColored(new ƒ.Color(1, 0, 1, 1))))
             // );
             this.mtxLocal.scale(ƒ.Vector3.ONE(1));
-            //this.mtxLocal.translate(new ƒ.Vector3(0, 0.5, 1));
+            this.mtxLocal.translate(new ƒ.Vector3(0, 0.5, 1));
         }
     }
     Script.Bike = Bike;
@@ -68,6 +68,24 @@ var Script;
 var Script;
 (function (Script) {
     var ƒ = FudgeCore;
+    class Bot extends ƒ.Node {
+        bike;
+        color;
+    }
+    Script.Bot = Bot;
+    //OutlookBot = new Bot();
+    Script.OutlookBot.color = new ƒ.Color(0, 1, 1, 1);
+    function SetBikeBot(_bot, _spawnpoint) {
+        _bot.bike = new Script.Bike();
+        Script.graph.getChildrenByName("Bike")[0].addChild(_bot.bike);
+        Script.SetSpawnPoint(_bot.bike, _spawnpoint);
+        _bot.bike.addComponent(new ƒ.ComponentMaterial(new ƒ.Material("mtrAgent", ƒ.ShaderUniColor, new ƒ.CoatColored(_bot.color))));
+    }
+    Script.SetBikeBot = SetBikeBot;
+})(Script || (Script = {}));
+var Script;
+(function (Script) {
+    var ƒ = FudgeCore;
     ƒ.Debug.info("Main Program Template running!");
     let viewport;
     document.addEventListener("interactiveViewportStarted", start);
@@ -76,11 +94,9 @@ var Script;
     let cmpCamera = new ƒ.ComponentCamera;
     let agent;
     let fps = 60;
-    let graph;
     let ctrForward = new ƒ.Control("Forward", 10, 0 /* PROPORTIONAL */);
     ctrForward.setDelay(200);
-    let Outlook;
-    //let OutlookStart : boolean = false;
+    //let Outlook: Bike;
     // let PowerPoint: Bike;
     // let Word: Bike;
     // let Excel: Bike;
@@ -99,34 +115,23 @@ var Script;
     function start(_event) {
         viewport = _event.detail;
         viewport.calculateTransforms();
-        graph = viewport.getBranch();
-        // let number:number = 1;
-        // let name:string ="Wall"+number;
-        // let AgentWall: ƒ.Node = new ƒ.Node(name);
+        Script.graph = viewport.getBranch();
         agent = new Script.Bike();
-        graph.getChildrenByName("Bike")[0].addChild(agent);
+        Script.graph.getChildrenByName("Bike")[0].addChild(agent);
         agent.addComponent(new ƒ.ComponentMaterial(new ƒ.Material("mtrAgent", ƒ.ShaderUniColor, new ƒ.CoatColored(new ƒ.Color(1, 0, 1, 1)))));
         Script.SetSpawnPoint(agent, Script.Lille);
-        // let agentWall: BikeWall;
-        //graph.addChild(AllBikeWall);
-        // agentWall = new BikeWall();
-        // graph.getChildrenByName("AllBikeWall")[0].addChild(agentWall);
-        // agentWall.mtxLocal.translate(new ƒ.Vector3(agent.mtxLocal.translation.x , 0.5, agent.mtxLocal.translation.z - 1));
         let agentWall2;
         agentWall2 = new Script.BikeWall();
-        graph.getChildrenByName("AllBikeWall")[0].addChild(agentWall2);
-        Outlook = new Script.Bike();
-        graph.getChildrenByName("Bike")[0].addChild(Outlook);
-        Outlook.mtxLocal.translate(new ƒ.Vector3(0, 0.5, 30));
-        Outlook.addComponent(new ƒ.ComponentMaterial(new ƒ.Material("mtrAgent", ƒ.ShaderUniColor, new ƒ.CoatColored(new ƒ.Color(0, 1, 1, 1)))));
+        Script.graph.getChildrenByName("AllBikeWall")[0].addChild(agentWall2);
+        //SetBikeBot(OutlookBot, Lyon);
         cmpCamera.mtxPivot.translation = new ƒ.Vector3(0, 10, -25); // 0 8 -12
         cmpCamera.mtxPivot.rotation = new ƒ.Vector3(12.5, 0, 0);
         camera.addComponent(cmpCamera);
         camera.addComponent(new ƒ.ComponentTransform());
-        graph.addChild(camera);
+        Script.graph.addChild(camera);
         let canvas = document.querySelector("canvas");
         viewport = new ƒ.Viewport();
-        viewport.initialize("Viewport", graph, cmpCamera, canvas);
+        viewport.initialize("Viewport", Script.graph, cmpCamera, canvas);
         ƒ.Loop.addEventListener("loopFrame" /* LOOP_FRAME */, update);
         ƒ.Loop.start(ƒ.LOOP_MODE.TIME_REAL, fps);
     }
@@ -137,7 +142,7 @@ var Script;
     async function SetNewBikeWall() {
         let agentWall;
         agentWall = new Script.BikeWall();
-        graph.getChildrenByName("AllBikeWall")[0].addChild(agentWall);
+        Script.graph.getChildrenByName("AllBikeWall")[0].addChild(agentWall);
     }
     function update(_event) {
         //let PositionAgentTempX_memorie :number; // c etait pour sortir de la boucle la coordonnée, mais maybe y en a plus besoin 
@@ -151,7 +156,7 @@ var Script;
             }
             let agentWall;
             agentWall = new Script.BikeWall();
-            graph.getChildrenByName("AllBikeWall")[0].addChild(agentWall);
+            Script.graph.getChildrenByName("AllBikeWall")[0].addChild(agentWall);
             agentWall.mtxLocal.translate(new ƒ.Vector3(agent.mtxLocal.translation.x, 0.5, agent.mtxLocal.translation.z - 1));
             agent.PositionAgentTempX = agent.getComponent(ƒ.ComponentTransform).mtxLocal.translation.x;
             agent.PositionAgentTempZ = agent.getComponent(ƒ.ComponentTransform).mtxLocal.translation.z;
@@ -170,7 +175,7 @@ var Script;
             }
             let agentWall;
             agentWall = new Script.BikeWall();
-            graph.getChildrenByName("AllBikeWall")[0].addChild(agentWall);
+            Script.graph.getChildrenByName("AllBikeWall")[0].addChild(agentWall);
             agentWall.mtxLocal.translate(new ƒ.Vector3(agent.mtxLocal.translation.x, 0.5, agent.mtxLocal.translation.z - 1));
             agent.PositionAgentTempX = agent.getComponent(ƒ.ComponentTransform).mtxLocal.translation.x;
             agent.PositionAgentTempZ = agent.getComponent(ƒ.ComponentTransform).mtxLocal.translation.z;
@@ -280,13 +285,6 @@ var Script;
         direction;
         constructor() {
             super("SpawnPoint");
-            // this.addComponent(new ƒ.ComponentTransform);
-            // this.addComponent(new ƒ.ComponentMesh(new ƒ.MeshCube("MeshBikeWall")));
-            // this.addComponent(new ƒ.ComponentMaterial(
-            //    new ƒ.Material("mtrBikeWall", ƒ.ShaderUniColor, new ƒ.CoatColored(new ƒ.Color(1, 0, 1, 1))))
-            // );
-            // this.mtxLocal.scale(new ƒ.Vector3(1, 0.75 ,0.2));
-            // this.mtxLocal.translate(new ƒ.Vector3(0, 0.5, 0));
         }
     }
     Script.SpawnPoint = SpawnPoint;

@@ -41,6 +41,17 @@ declare namespace Script {
     export {};
 }
 declare namespace Script {
+    import ƒ = FudgeCore;
+    class Bot extends ƒ.Node {
+        bike: Bike;
+        color: ƒ.Color;
+    }
+    let OutlookBot: Bot;
+    function SetBikeBot(_bot: Bot, _spawnpoint: SpawnPoint): void;
+}
+declare namespace Script {
+    import ƒ = FudgeCore;
+    let graph: ƒ.Node;
 }
 declare namespace Script {
     import ƒ = FudgeCore;
