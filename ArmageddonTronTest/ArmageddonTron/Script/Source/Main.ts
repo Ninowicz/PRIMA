@@ -8,12 +8,11 @@ namespace Script {
   //test for camera 
   let camera: ƒ.Node = new ƒ.Node("cameraNode");
   let cmpCamera = new ƒ.ComponentCamera;
-
+  let agent: Bike;
   let fps: number = 60;
   let graph: ƒ.Node;
-  let agent: Bike;
-  let agentWall: BikeWall;
-  let agentWall2: BikeWall;
+  
+  
   let ctrForward: ƒ.Control = new ƒ.Control("Forward", 10, ƒ.CONTROL_TYPE.PROPORTIONAL);
   ctrForward.setDelay(200);
 
@@ -35,12 +34,6 @@ namespace Script {
 
   let KeyStatus_Left: Boolean = true;
   let KeyStatus_Right: Boolean = true;
-  let StartKey: Boolean = false;
-  
-  let NewWall: Boolean = true;
-  let SetWall: boolean = true;
-  //let WallVectorZ = new ƒ.Vector3(0.2,0.75,1);
-  let CountWall:number = 0;
 
   let Matrix4x4 = new ƒ.Matrix4x4();
   let Matrix4x4_2 = new ƒ.Matrix4x4();
@@ -55,30 +48,29 @@ namespace Script {
     viewport.calculateTransforms();
     graph = viewport.getBranch();
     
+    // let number:number = 1;
+    // let name:string ="Wall"+number;
+
+    // let AgentWall: ƒ.Node = new ƒ.Node(name);
+    
+
+
+    
     agent = new Bike();
-    
-
-
-
-    
-
-
-
-
-
-
-
-
+  
     graph.getChildrenByName("Bike")[0].addChild(agent);
     agent.addComponent(new ƒ.ComponentMaterial(
       new ƒ.Material("mtrAgent", ƒ.ShaderUniColor, new ƒ.CoatColored(new ƒ.Color(1, 0, 1, 1))))
     );
 
-
+    SetSpawnPoint(agent,Lille);
+    // let agentWall: BikeWall;
+    
     //graph.addChild(AllBikeWall);
-    agentWall = new BikeWall();
-    graph.getChildrenByName("AllBikeWall")[0].addChild(agentWall);
-    agentWall.mtxLocal.translate(new ƒ.Vector3(agent.mtxLocal.translation.x , 0.5, agent.mtxLocal.translation.z - 1));
+    // agentWall = new BikeWall();
+    // graph.getChildrenByName("AllBikeWall")[0].addChild(agentWall);
+    // agentWall.mtxLocal.translate(new ƒ.Vector3(agent.mtxLocal.translation.x , 0.5, agent.mtxLocal.translation.z - 1));
+    let agentWall2: BikeWall;
     agentWall2 = new BikeWall();
     graph.getChildrenByName("AllBikeWall")[0].addChild(agentWall2);
     
@@ -105,61 +97,99 @@ namespace Script {
     ƒ.Loop.start(ƒ.LOOP_MODE.TIME_REAL, fps); 
   }
 
+  // Other Functions 
+
+
+
+
+
+
+
+
+
+
+
+
+  // function SetNewPlayer(_bike: ƒ.Node,):void{
+    
+  //   graph.addChild("")
+  // }
+
+   async function SetNewBikeWall():Promise<void> {  //_WallOfBike:ƒ.Node, _bike: Bike
+     let agentWall: BikeWall;
+     agentWall = new BikeWall();
+     graph.getChildrenByName("AllBikeWall")[0].addChild(agentWall);
+   }
+
 
   function update(_event: Event): void {
 
-    let PositionAgentTempX_memorie :number;
-    let PositionAgentTempZ_memorie :number;
+    //let PositionAgentTempX_memorie :number; // c etait pour sortir de la boucle la coordonnée, mais maybe y en a plus besoin 
+    //let PositionAgentTempZ_memorie :number;
 
-    if(SetWall == true && StartKey == true && CountWall  == 0){ // % 2 == 0
-      // if( NewWall == true){
+    
+    
 
+    if(agent.ReadyToSetWall == true && agent.StartKey == true && agent.NumberOfWall % 2 == 0){ // % 2 == 0
+ 
+      if(agent.StartNewWallOnZ == true){
         
-        
-      //   graph.getChildrenByName("AllBikeWall")[CountWall].addChild(agentWall);
-      //   graph.getChildrenByName("AllBikeWall")[0].addChild(agentWall);
-      //   agentWall.mtxLocal.translate(new ƒ.Vector3(agent.mtxLocal.translation.x , 0.5, agent.mtxLocal.translation.z - 1));
-      //   NewWall = false;
-        
-      // }
+        Matrix4x4.scaling.set(0.2, 0.5, 0.5);
+        agent.PostionForNextWall_Z  = agent.getComponent(ƒ.ComponentTransform).mtxLocal.translation.z ;
+        agent.StartNewWallOnZ = false;
 
-      let PositionAgentTempX : number = agent.getComponent(ƒ.ComponentTransform).mtxLocal.translation.x;
-      let PositionAgentTempZ : number = agent.getComponent(ƒ.ComponentTransform).mtxLocal.translation.z/2;
-
-      Matrix4x4.scaling.set(0.2, 0.5, agent.getComponent(ƒ.ComponentTransform).mtxLocal.translation.z+0.5);
-      agentWall.getComponent(ƒ.ComponentTransform).mtxLocal.scaling = Matrix4x4.scaling;
-      agentWall.getComponent(ƒ.ComponentTransform).mtxLocal.translation = new ƒ.Vector3(PositionAgentTempX, 0.5, PositionAgentTempZ+0.25);
-      PositionAgentTempZ_memorie = PositionAgentTempZ;
+        SetNewBikeWall();        
+      }
       
-    }
-    console.log(PositionAgentTempZ_memorie);
-    if(SetWall == true && StartKey == true && CountWall  == 1){ // % 2
+      let agentWall: BikeWall;
+      agentWall = new BikeWall();
+      graph.getChildrenByName("AllBikeWall")[0].addChild(agentWall);
+      
+      agentWall.mtxLocal.translate(new ƒ.Vector3(agent.mtxLocal.translation.x , 0.5, agent.mtxLocal.translation.z -1));
 
-      // if( NewWall == true){
+      agent.PositionAgentTempX = agent.getComponent(ƒ.ComponentTransform).mtxLocal.translation.x;
+      agent.PositionAgentTempZ = agent.getComponent(ƒ.ComponentTransform).mtxLocal.translation.z;
 
-      //   let CountWall : ƒ.Node ;
-      //   agentWall = new BikeWall();
-      //   graph.getChildrenByName("AllBikeWall")[0].addChild(CountWall);
-      //   graph.getChildrenByName("AllBikeWall")[0].addChild(agentWall);
-      //   agentWall.mtxLocal.translate(new ƒ.Vector3(agent.mtxLocal.translation.x , 0.5, agent.mtxLocal.translation.z - 1));
-      //   NewWall = false;
-      // }
+      Matrix4x4.scaling.set(0.2, 0.5, Math.abs(Math.abs(agent.getComponent(ƒ.ComponentTransform).mtxLocal.translation.z) - Math.abs(agent.PostionForNextWall_Z))+0.5);
+      agentWall.getComponent(ƒ.ComponentTransform).mtxLocal.scaling = Matrix4x4.scaling;
+      agentWall.getComponent(ƒ.ComponentTransform).mtxLocal.translation = new ƒ.Vector3(agent.PositionAgentTempX, 0.5, (agent.PostionForNextWall_Z + agent.PositionAgentTempZ)/2 + 0.25);
 
-      let PositionAgentTempX : number = agent.getComponent(ƒ.ComponentTransform).mtxLocal.translation.x/2;
-      let PositionAgentTempZ : number = agent.getComponent(ƒ.ComponentTransform).mtxLocal.translation.z;
+      //PositionAgentTempZ_memorie = agent.PositionAgentTempZ;
 
-      Matrix4x4_2.scaling.set(0.2, 0.5, agent.getComponent(ƒ.ComponentTransform).mtxLocal.translation.x+0.5);
-      agentWall2.getComponent(ƒ.ComponentTransform).mtxLocal.scaling = Matrix4x4_2.scaling;
-      agentWall2.getComponent(ƒ.ComponentTransform).mtxLocal.rotation.y = 90;
-      agentWall2.getComponent(ƒ.ComponentTransform).mtxLocal.translation = new ƒ.Vector3(PositionAgentTempX+0.25, 0.5, PositionAgentTempZ);
-      //agentWall2.mtxLocal.translate(new ƒ.Vector3(agent.mtxLocal.translation.x , 0.5, agent.mtxLocal.translation.z - 1));
-    }
-    if(SetWall == false){
-      CountWall = CountWall + 1;
-      SetWall = true;
-      NewWall = true;
+      agent.StartNewWallOnX = true;
+
+      //console.log(Math.abs(Math.abs(agent.getComponent(ƒ.ComponentTransform).mtxLocal.translation.z) - Math.abs(PostionForNextWall_Z)));
     }
     
+    if(agent.ReadyToSetWall == true && agent.StartKey == true && agent.NumberOfWall % 2 == 1){ // % 2
+
+      if(agent.StartNewWallOnX == true){
+        
+        Matrix4x4.scaling.set(0.2, 0.5, 0.5);
+        agent.PostionForNextWall_X  = agent.getComponent(ƒ.ComponentTransform).mtxLocal.translation.x ;
+        agent.StartNewWallOnX = false;
+      }
+
+      let agentWall: BikeWall;
+      agentWall = new BikeWall();
+      graph.getChildrenByName("AllBikeWall")[0].addChild(agentWall);
+      agentWall.mtxLocal.translate(new ƒ.Vector3(agent.mtxLocal.translation.x , 0.5, agent.mtxLocal.translation.z -1));
+
+      agent.PositionAgentTempX = agent.getComponent(ƒ.ComponentTransform).mtxLocal.translation.x;
+      agent.PositionAgentTempZ = agent.getComponent(ƒ.ComponentTransform).mtxLocal.translation.z;
+
+      Matrix4x4.scaling.set(Math.abs(Math.abs(agent.getComponent(ƒ.ComponentTransform).mtxLocal.translation.x) - Math.abs(agent.PostionForNextWall_X))+0.5, 0.5, 0.2);
+      agentWall.getComponent(ƒ.ComponentTransform).mtxLocal.scaling = Matrix4x4.scaling;
+      agentWall.getComponent(ƒ.ComponentTransform).mtxLocal.translation = new ƒ.Vector3((agent.PostionForNextWall_X + agent.PositionAgentTempX)/2 + 0.25, 0.5, agent.PositionAgentTempZ);
+
+
+      agent.StartNewWallOnZ = true ;
+    }
+
+    if(agent.ReadyToSetWall == false){
+      agent.NumberOfWall = agent.NumberOfWall + 1;
+      agent.ReadyToSetWall = true;
+    }
     // Camera left turn
     if(RotationCameraTest_Left > 0 ){
       camera.mtxLocal.rotateY(3);
@@ -195,9 +225,9 @@ namespace Script {
     //---------- Movement Managment ----------
 
     if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.W, ƒ.KEYBOARD_CODE.ARROW_UP])){   
-      StartKey = true;
+      agent.StartKey = true;
     }
-    if(StartKey == true ){
+    if(agent.StartKey == true ){
       ctrForward.setInput(3 * deltaTime);
       agent.mtxLocal.translateZ(ctrForward.getOutput());
 
@@ -205,14 +235,14 @@ namespace Script {
         agent.mtxLocal.rotateY(90); 
         KeyStatus_Left = false;
         RotationCameraTest_Left = RotationCameraTest_Left + 1;
-        SetWall = false; // la
+        agent.ReadyToSetWall = false; // la
       }
           
       if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.D, ƒ.KEYBOARD_CODE.ARROW_RIGHT]) && KeyStatus_Right == true){
         agent.mtxLocal.rotateY(-90);
         KeyStatus_Right = false;
         RotationCameraTest_Right = RotationCameraTest_Right + 1;
-        SetWall = false; // la
+        agent.ReadyToSetWall = false; // la
       }
   
   
@@ -247,14 +277,9 @@ namespace Script {
 
     if(Math.abs(agent.mtxWorld.translation.x) >= 124.5 || Math.abs(agent.mtxWorld.translation.z) >= 124.5  ){
       agent.mtxLocal.translation = new ƒ.Vector3(1, 0.5, 1);
-      StartKey = false;
+      agent.StartKey = false;
     }
-    
 
-    
-    
-    
-    
     // ƒ.Physics.world.simulate();  // if physics is included and used
     viewport.draw();
     ƒ.AudioManager.default.update();

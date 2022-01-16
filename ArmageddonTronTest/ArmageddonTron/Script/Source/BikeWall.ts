@@ -9,7 +9,7 @@ namespace Script {
   export class BikeWall extends ƒ.Node {
 
     public name: string = "Bojack";
-    public State: state.Alive;
+    public State: state;
       
 
       constructor() {
