@@ -5,7 +5,6 @@ declare namespace Script {
         Dead = 1
     }
     export class Bike extends ƒ.Node {
-        name: string;
         State: state;
         ReadyToSetWall: boolean;
         NumberOfWall: number;
@@ -34,7 +33,6 @@ declare namespace Script {
         Dead = 1
     }
     export class BikeWall extends ƒ.Node {
-        name: string;
         State: state;
         constructor();
     }
@@ -45,6 +43,7 @@ declare namespace Script {
     class Bot extends ƒ.Node {
         bike: Bike;
         color: ƒ.Color;
+        constructor();
     }
     let OutlookBot: Bot;
     function SetBikeBot(_bot: Bot, _spawnpoint: SpawnPoint): void;

@@ -5,10 +5,15 @@ namespace Script {
 
     public bike : Bike;
     public color : ƒ.Color;
+
+    constructor() {
+      super("Bot");
+    }
+
   }
 
   export let OutlookBot: Bot;
-  //OutlookBot = new Bot();
+  OutlookBot = new Bot();
   OutlookBot.color = new ƒ.Color(0,1,1,1);
   
   export function SetBikeBot(_bot : Bot, _spawnpoint : SpawnPoint){

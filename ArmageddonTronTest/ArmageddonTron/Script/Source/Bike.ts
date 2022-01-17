@@ -1,16 +1,12 @@
 namespace Script {
   import ƒ = FudgeCore;
 
-  enum state {
-    Alive,
-    Dead
-  }
+ 
 
 
   export class Bike extends ƒ.Node {
 
-    public name: string = "Bojack";
-    public State: state;
+    public State: Bike.state;
     
     // Walls from the bike
     public ReadyToSetWall : boolean = true; // Will allow walls to be build 
@@ -56,5 +52,12 @@ namespace Script {
           //this.mtxLocal.translate(new ƒ.Vector3(0, 0.5, 1));
       }
   }
-
+  export namespace Bike
+  {
+      export enum state
+      {
+          Dead,
+          Alive
+      }
+  }
 }

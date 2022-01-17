@@ -15,7 +15,7 @@ namespace Script {
   let ctrForward: ƒ.Control = new ƒ.Control("Forward", 10, ƒ.CONTROL_TYPE.PROPORTIONAL);
   ctrForward.setDelay(200);
 
-  //let Outlook: Bike;
+  // let Outlook: Bike;
   // let PowerPoint: Bike;
   // let Word: Bike;
   // let Excel: Bike;
@@ -54,19 +54,19 @@ namespace Script {
     );
 
     SetSpawnPoint(agent,Lille);
-    let agentWall2: BikeWall;
-    agentWall2 = new BikeWall();
-    graph.getChildrenByName("AllBikeWall")[0].addChild(agentWall2);
+
+    // let agentWall2: BikeWall;
+    // agentWall2 = new BikeWall();
+    // graph.getChildrenByName("AllBikeWall")[0].addChild(agentWall2);
     
-    //SetBikeBot(OutlookBot, Lyon);
+  
+    SetBikeBot(OutlookBot, Lyon);
 
     cmpCamera.mtxPivot.translation = new ƒ.Vector3(0,10,-25); // 0 8 -12
     cmpCamera.mtxPivot.rotation = new ƒ.Vector3(12.5,0,0);
-    
     camera.addComponent(cmpCamera);
     camera.addComponent(new ƒ.ComponentTransform());
     graph.addChild(camera);
-
     let canvas: HTMLCanvasElement = document.querySelector("canvas");
     viewport = new ƒ.Viewport();
     viewport.initialize("Viewport", graph, cmpCamera, canvas);
@@ -102,21 +102,15 @@ namespace Script {
 
   function update(_event: Event): void {
 
-    //let PositionAgentTempX_memorie :number; // c etait pour sortir de la boucle la coordonnée, mais maybe y en a plus besoin 
-    //let PositionAgentTempZ_memorie :number;
-
-    
+    console.log(agent.mtxLocal.translation.z);
     
 
-    if(agent.ReadyToSetWall == true && agent.StartKey == true && agent.NumberOfWall % 2 == 0){ // % 2 == 0
+    if(agent.ReadyToSetWall == true && agent.StartKey == true && agent.NumberOfWall % 2 == 0){ 
  
       if(agent.StartNewWallOnZ == true){
-        
-        Matrix4x4.scaling.set(0.2, 0.5, 0.5);
         agent.PostionForNextWall_Z  = agent.getComponent(ƒ.ComponentTransform).mtxLocal.translation.z ;
         agent.StartNewWallOnZ = false;
-
-        SetNewBikeWall();        
+        //SetNewBikeWall();        
       }
       
       let agentWall: BikeWall;
@@ -132,11 +126,8 @@ namespace Script {
       agentWall.getComponent(ƒ.ComponentTransform).mtxLocal.scaling = Matrix4x4.scaling;
       agentWall.getComponent(ƒ.ComponentTransform).mtxLocal.translation = new ƒ.Vector3(agent.PositionAgentTempX, 0.5, (agent.PostionForNextWall_Z + agent.PositionAgentTempZ)/2 + 0.25);
 
-      //PositionAgentTempZ_memorie = agent.PositionAgentTempZ;
-
       agent.StartNewWallOnX = true;
 
-      //console.log(Math.abs(Math.abs(agent.getComponent(ƒ.ComponentTransform).mtxLocal.translation.z) - Math.abs(PostionForNextWall_Z)));
     }
     
     if(agent.ReadyToSetWall == true && agent.StartKey == true && agent.NumberOfWall % 2 == 1){ // % 2
@@ -168,6 +159,7 @@ namespace Script {
       agent.NumberOfWall = agent.NumberOfWall + 1;
       agent.ReadyToSetWall = true;
     }
+    
     // Camera left turn
     if(RotationCameraTest_Left > 0 ){
       camera.mtxLocal.rotateY(3);

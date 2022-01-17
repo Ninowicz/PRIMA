@@ -8,7 +8,6 @@ namespace Script {
 
   export class BikeWall extends ƒ.Node {
 
-    public name: string = "Bojack";
     public State: state;
       
 
@@ -22,8 +21,6 @@ namespace Script {
           );
           
           
-          this.mtxLocal.scale(new ƒ.Vector3(1, 0.75 ,0.2));
-          this.mtxLocal.translate(new ƒ.Vector3(0, 0.5, 0));
       }
   }
 }

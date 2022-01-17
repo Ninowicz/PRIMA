@@ -22,7 +22,7 @@ namespace Script {
           super("SpawnPoint");
       }
   }
-  
+
   export namespace SpawnPoint
   {
       export enum Directions
@@ -52,13 +52,13 @@ namespace Script {
 
   export let Lyon : SpawnPoint;
   Lyon = new SpawnPoint();
-  Lyon.coordonates = new ƒ.Vector3(100, 0.5, 100);
+  Lyon.coordonates = new ƒ.Vector3(100, 0.5, 0);
   Lyon.orientation = new ƒ.Vector3(0, 90, 0);
   Lyon.direction = SpawnPoint.Directions.East;
 
   export let Bordeaux : SpawnPoint;
   Bordeaux = new SpawnPoint();
-  Bordeaux.coordonates = new ƒ.Vector3(-100, 0.5, -100);
+  Bordeaux.coordonates = new ƒ.Vector3(-100, 0.5, 0);
   Bordeaux.orientation = new ƒ.Vector3(0, -90, 0);
   Bordeaux.direction = SpawnPoint.Directions.West;
 

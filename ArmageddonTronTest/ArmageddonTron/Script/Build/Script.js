@@ -8,7 +8,6 @@ var Script;
         state[state["Dead"] = 1] = "Dead";
     })(state || (state = {}));
     class Bike extends ƒ.Node {
-        name = "Bojack";
         State;
         // Walls from the bike
         ReadyToSetWall = true; // Will allow walls to be build 
@@ -38,7 +37,7 @@ var Script;
             //     new ƒ.Material("mtrAgent", ƒ.ShaderUniColor, new ƒ.CoatColored(new ƒ.Color(1, 0, 1, 1))))
             // );
             this.mtxLocal.scale(ƒ.Vector3.ONE(1));
-            this.mtxLocal.translate(new ƒ.Vector3(0, 0.5, 1));
+            //this.mtxLocal.translate(new ƒ.Vector3(0, 0.5, 1));
         }
     }
     Script.Bike = Bike;
@@ -52,15 +51,12 @@ var Script;
         state[state["Dead"] = 1] = "Dead";
     })(state || (state = {}));
     class BikeWall extends ƒ.Node {
-        name = "Bojack";
         State;
         constructor() {
             super("BikeWall");
             this.addComponent(new ƒ.ComponentTransform);
             this.addComponent(new ƒ.ComponentMesh(new ƒ.MeshCube("MeshBikeWall")));
             this.addComponent(new ƒ.ComponentMaterial(new ƒ.Material("mtrBikeWall", ƒ.ShaderUniColor, new ƒ.CoatColored(new ƒ.Color(1, 0, 1, 1)))));
-            this.mtxLocal.scale(new ƒ.Vector3(1, 0.75, 0.2));
-            this.mtxLocal.translate(new ƒ.Vector3(0, 0.5, 0));
         }
     }
     Script.BikeWall = BikeWall;
@@ -71,9 +67,12 @@ var Script;
     class Bot extends ƒ.Node {
         bike;
         color;
+        constructor() {
+            super("Bot");
+        }
     }
     Script.Bot = Bot;
-    //OutlookBot = new Bot();
+    Script.OutlookBot = new Bot();
     Script.OutlookBot.color = new ƒ.Color(0, 1, 1, 1);
     function SetBikeBot(_bot, _spawnpoint) {
         _bot.bike = new Script.Bike();
@@ -96,7 +95,7 @@ var Script;
     let fps = 60;
     let ctrForward = new ƒ.Control("Forward", 10, 0 /* PROPORTIONAL */);
     ctrForward.setDelay(200);
-    //let Outlook: Bike;
+    // let Outlook: Bike;
     // let PowerPoint: Bike;
     // let Word: Bike;
     // let Excel: Bike;
@@ -120,10 +119,10 @@ var Script;
         Script.graph.getChildrenByName("Bike")[0].addChild(agent);
         agent.addComponent(new ƒ.ComponentMaterial(new ƒ.Material("mtrAgent", ƒ.ShaderUniColor, new ƒ.CoatColored(new ƒ.Color(1, 0, 1, 1)))));
         Script.SetSpawnPoint(agent, Script.Lille);
-        let agentWall2;
-        agentWall2 = new Script.BikeWall();
-        Script.graph.getChildrenByName("AllBikeWall")[0].addChild(agentWall2);
-        //SetBikeBot(OutlookBot, Lyon);
+        // let agentWall2: BikeWall;
+        // agentWall2 = new BikeWall();
+        // graph.getChildrenByName("AllBikeWall")[0].addChild(agentWall2);
+        Script.SetBikeBot(Script.OutlookBot, Script.Lyon);
         cmpCamera.mtxPivot.translation = new ƒ.Vector3(0, 10, -25); // 0 8 -12
         cmpCamera.mtxPivot.rotation = new ƒ.Vector3(12.5, 0, 0);
         camera.addComponent(cmpCamera);
@@ -145,14 +144,12 @@ var Script;
         Script.graph.getChildrenByName("AllBikeWall")[0].addChild(agentWall);
     }
     function update(_event) {
-        //let PositionAgentTempX_memorie :number; // c etait pour sortir de la boucle la coordonnée, mais maybe y en a plus besoin 
-        //let PositionAgentTempZ_memorie :number;
+        console.log(agent.mtxLocal.translation.z);
         if (agent.ReadyToSetWall == true && agent.StartKey == true && agent.NumberOfWall % 2 == 0) { // % 2 == 0
             if (agent.StartNewWallOnZ == true) {
-                Matrix4x4.scaling.set(0.2, 0.5, 0.5);
                 agent.PostionForNextWall_Z = agent.getComponent(ƒ.ComponentTransform).mtxLocal.translation.z;
                 agent.StartNewWallOnZ = false;
-                SetNewBikeWall();
+                //SetNewBikeWall();        
             }
             let agentWall;
             agentWall = new Script.BikeWall();
@@ -306,11 +303,11 @@ var Script;
     Script.Toulouse.orientation = new ƒ.Vector3(0, 180, 0);
     Script.Toulouse.direction = SpawnPoint.Directions.South;
     Script.Lyon = new SpawnPoint();
-    Script.Lyon.coordonates = new ƒ.Vector3(100, 0.5, 100);
+    Script.Lyon.coordonates = new ƒ.Vector3(100, 0.5, 0);
     Script.Lyon.orientation = new ƒ.Vector3(0, 90, 0);
     Script.Lyon.direction = SpawnPoint.Directions.East;
     Script.Bordeaux = new SpawnPoint();
-    Script.Bordeaux.coordonates = new ƒ.Vector3(-100, 0.5, -100);
+    Script.Bordeaux.coordonates = new ƒ.Vector3(-100, 0.5, 0);
     Script.Bordeaux.orientation = new ƒ.Vector3(0, -90, 0);
     Script.Bordeaux.direction = SpawnPoint.Directions.West;
     function SetSpawnPoint(_bike, _spawnpoint) {
