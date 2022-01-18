@@ -37,28 +37,25 @@ namespace Script {
 
   export let Lille : SpawnPoint;
   Lille = new SpawnPoint();
-  Lille.coordonates = new ƒ.Vector3(0, 0.5, -100);
+  Lille.coordonates = new ƒ.Vector3(125, 0.5, 25);
   Lille.orientation = new ƒ.Vector3(0, 0, 0);
   Lille.direction = SpawnPoint.Directions.North;
 
-  
-  
-
   export let Toulouse : SpawnPoint;
   Toulouse = new SpawnPoint();
-  Toulouse.coordonates = new ƒ.Vector3(0, 0.5, 100);
+  Toulouse.coordonates = new ƒ.Vector3(125, 0.5, 225);
   Toulouse.orientation = new ƒ.Vector3(0, 180, 0);
   Toulouse.direction = SpawnPoint.Directions.South;
 
   export let Lyon : SpawnPoint;
   Lyon = new SpawnPoint();
-  Lyon.coordonates = new ƒ.Vector3(100, 0.5, 0);
+  Lyon.coordonates = new ƒ.Vector3(225, 0.5, 125);
   Lyon.orientation = new ƒ.Vector3(0, 90, 0);
   Lyon.direction = SpawnPoint.Directions.East;
 
   export let Bordeaux : SpawnPoint;
   Bordeaux = new SpawnPoint();
-  Bordeaux.coordonates = new ƒ.Vector3(-100, 0.5, 0);
+  Bordeaux.coordonates = new ƒ.Vector3(25, 0.5, 125);
   Bordeaux.orientation = new ƒ.Vector3(0, -90, 0);
   Bordeaux.direction = SpawnPoint.Directions.West;
 

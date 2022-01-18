@@ -2,11 +2,6 @@
 var Script;
 (function (Script) {
     var ƒ = FudgeCore;
-    let state;
-    (function (state) {
-        state[state["Alive"] = 0] = "Alive";
-        state[state["Dead"] = 1] = "Dead";
-    })(state || (state = {}));
     class Bike extends ƒ.Node {
         State;
         // Walls from the bike
@@ -41,6 +36,13 @@ var Script;
         }
     }
     Script.Bike = Bike;
+    (function (Bike) {
+        let state;
+        (function (state) {
+            state[state["Dead"] = 0] = "Dead";
+            state[state["Alive"] = 1] = "Alive";
+        })(state = Bike.state || (Bike.state = {}));
+    })(Bike = Script.Bike || (Script.Bike = {}));
 })(Script || (Script = {}));
 var Script;
 (function (Script) {
@@ -123,7 +125,7 @@ var Script;
         // agentWall2 = new BikeWall();
         // graph.getChildrenByName("AllBikeWall")[0].addChild(agentWall2);
         Script.SetBikeBot(Script.OutlookBot, Script.Lyon);
-        cmpCamera.mtxPivot.translation = new ƒ.Vector3(0, 10, -25); // 0 8 -12
+        cmpCamera.mtxPivot.translation = new ƒ.Vector3(-0, 10, -25); // 0 10 -25
         cmpCamera.mtxPivot.rotation = new ƒ.Vector3(12.5, 0, 0);
         camera.addComponent(cmpCamera);
         camera.addComponent(new ƒ.ComponentTransform());
@@ -144,12 +146,11 @@ var Script;
         Script.graph.getChildrenByName("AllBikeWall")[0].addChild(agentWall);
     }
     function update(_event) {
-        console.log(agent.mtxLocal.translation.z);
-        if (agent.ReadyToSetWall == true && agent.StartKey == true && agent.NumberOfWall % 2 == 0) { // % 2 == 0
+        if (agent.ReadyToSetWall == true && agent.StartKey == true && agent.NumberOfWall % 2 == 0) {
             if (agent.StartNewWallOnZ == true) {
                 agent.PostionForNextWall_Z = agent.getComponent(ƒ.ComponentTransform).mtxLocal.translation.z;
                 agent.StartNewWallOnZ = false;
-                //SetNewBikeWall();        
+                //SetNewBikeWall();      
             }
             let agentWall;
             agentWall = new Script.BikeWall();
@@ -160,9 +161,7 @@ var Script;
             Matrix4x4.scaling.set(0.2, 0.5, Math.abs(Math.abs(agent.getComponent(ƒ.ComponentTransform).mtxLocal.translation.z) - Math.abs(agent.PostionForNextWall_Z)) + 0.5);
             agentWall.getComponent(ƒ.ComponentTransform).mtxLocal.scaling = Matrix4x4.scaling;
             agentWall.getComponent(ƒ.ComponentTransform).mtxLocal.translation = new ƒ.Vector3(agent.PositionAgentTempX, 0.5, (agent.PostionForNextWall_Z + agent.PositionAgentTempZ) / 2 + 0.25);
-            //PositionAgentTempZ_memorie = agent.PositionAgentTempZ;
             agent.StartNewWallOnX = true;
-            //console.log(Math.abs(Math.abs(agent.getComponent(ƒ.ComponentTransform).mtxLocal.translation.z) - Math.abs(PostionForNextWall_Z)));
         }
         if (agent.ReadyToSetWall == true && agent.StartKey == true && agent.NumberOfWall % 2 == 1) { // % 2
             if (agent.StartNewWallOnX == true) {
@@ -256,8 +255,8 @@ var Script;
             }
         }
         //---------- End of Movement Managment ----------
-        if (Math.abs(agent.mtxWorld.translation.x) >= 124.5 || Math.abs(agent.mtxWorld.translation.z) >= 124.5) {
-            agent.mtxLocal.translation = new ƒ.Vector3(1, 0.5, 1);
+        if (agent.mtxWorld.translation.x >= 249.5 || agent.mtxWorld.translation.z >= 249.5 || agent.mtxWorld.translation.x < 0 || agent.mtxWorld.translation.z < 0) {
+            agent.mtxLocal.translation = new ƒ.Vector3(125, 0.5, 125);
             agent.StartKey = false;
         }
         // ƒ.Physics.world.simulate();  // if physics is included and used
@@ -295,19 +294,19 @@ var Script;
         })(Directions = SpawnPoint.Directions || (SpawnPoint.Directions = {}));
     })(SpawnPoint = Script.SpawnPoint || (Script.SpawnPoint = {}));
     Script.Lille = new SpawnPoint();
-    Script.Lille.coordonates = new ƒ.Vector3(0, 0.5, -100);
+    Script.Lille.coordonates = new ƒ.Vector3(125, 0.5, 25);
     Script.Lille.orientation = new ƒ.Vector3(0, 0, 0);
     Script.Lille.direction = SpawnPoint.Directions.North;
     Script.Toulouse = new SpawnPoint();
-    Script.Toulouse.coordonates = new ƒ.Vector3(0, 0.5, 100);
+    Script.Toulouse.coordonates = new ƒ.Vector3(125, 0.5, 225);
     Script.Toulouse.orientation = new ƒ.Vector3(0, 180, 0);
     Script.Toulouse.direction = SpawnPoint.Directions.South;
     Script.Lyon = new SpawnPoint();
-    Script.Lyon.coordonates = new ƒ.Vector3(100, 0.5, 0);
+    Script.Lyon.coordonates = new ƒ.Vector3(225, 0.5, 125);
     Script.Lyon.orientation = new ƒ.Vector3(0, 90, 0);
     Script.Lyon.direction = SpawnPoint.Directions.East;
     Script.Bordeaux = new SpawnPoint();
-    Script.Bordeaux.coordonates = new ƒ.Vector3(-100, 0.5, 0);
+    Script.Bordeaux.coordonates = new ƒ.Vector3(25, 0.5, 125);
     Script.Bordeaux.orientation = new ƒ.Vector3(0, -90, 0);
     Script.Bordeaux.direction = SpawnPoint.Directions.West;
     function SetSpawnPoint(_bike, _spawnpoint) {

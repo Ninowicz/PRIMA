@@ -21,11 +21,6 @@ namespace Script {
     public StartNewWallOnZ : boolean = true; // Replace truc pair. Permet de fermer la boucle qui met a jour la coordeonnée de debut de virage
     public StartNewWallOnX : boolean = false;
 
-    public JustChangeSign :boolean = false;
-    public JustChangeSignXpos :boolean = false;
-    public JustChangeSignXneg :boolean = false;
-    public JustChangeSignZpos :boolean = false;
-    public JustChangeSignZneg :boolean = false;
 
     // Controls of the Bike
 
@@ -65,31 +60,4 @@ namespace Script {
           Alive
       }
   }
-
-  export function BikeAgentChangedQuadrant(_bike : Bike){
-    let tempXneg : Boolean =_bike.JustChangeSignXneg ;
-    let tempXpos : Boolean =_bike.JustChangeSignXpos;
-    let tempZpos : Boolean =_bike.JustChangeSignZpos;
-    let tempZneg : Boolean =_bike.JustChangeSignZneg;
-
-    if(_bike.getComponent(ƒ.ComponentTransform).mtxLocal.translation.z > 0){
-      _bike.JustChangeSignZpos = true;
-      _bike.JustChangeSignZneg = false;
-    }
-    if(_bike.getComponent(ƒ.ComponentTransform).mtxLocal.translation.z < 0){
-      _bike.JustChangeSignZpos = false;
-      _bike.JustChangeSignZneg = true;
-    }
-    if(_bike.getComponent(ƒ.ComponentTransform).mtxLocal.translation.x < 0){
-      _bike.JustChangeSignXpos = false;
-      _bike.JustChangeSignXneg = true;
-    }
-    if(_bike.getComponent(ƒ.ComponentTransform).mtxLocal.translation.x > 0){
-      _bike.JustChangeSignXpos = true;
-      _bike.JustChangeSignXneg = false;
-    }
-    if(tempXneg != _bike.JustChangeSignXneg || tempXpos != _bike.JustChangeSignXpos || tempZneg != _bike.JustChangeSignZneg || tempZpos != _bike.JustChangeSignZpos){
-      _bike.JustChangeSign = true;
-    }
-   }
 }

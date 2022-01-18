@@ -42,6 +42,7 @@ namespace Script {
 
 
   function start(_event: CustomEvent): void {
+    
     viewport = _event.detail;
     viewport.calculateTransforms();
     graph = viewport.getBranch();
@@ -54,15 +55,10 @@ namespace Script {
     );
 
     SetSpawnPoint(agent,Lille);
-
-    // let agentWall2: BikeWall;
-    // agentWall2 = new BikeWall();
-    // graph.getChildrenByName("AllBikeWall")[0].addChild(agentWall2);
     
-  
     SetBikeBot(OutlookBot, Lyon);
 
-    cmpCamera.mtxPivot.translation = new ƒ.Vector3(0,10,-25); // 0 8 -12
+    cmpCamera.mtxPivot.translation = new ƒ.Vector3(-0,10,-25); // 0 10 -25
     cmpCamera.mtxPivot.rotation = new ƒ.Vector3(12.5,0,0);
     camera.addComponent(cmpCamera);
     camera.addComponent(new ƒ.ComponentTransform());
@@ -104,14 +100,14 @@ namespace Script {
 
   function update(_event: Event): void {
 
-    
+   
 
     if(agent.ReadyToSetWall == true && agent.StartKey == true && agent.NumberOfWall % 2 == 0){ 
  
       if(agent.StartNewWallOnZ == true){
         agent.PostionForNextWall_Z  = agent.getComponent(ƒ.ComponentTransform).mtxLocal.translation.z ;
         agent.StartNewWallOnZ = false;
-        //SetNewBikeWall();        
+        //SetNewBikeWall();      
       }
       
       let agentWall: BikeWall;
@@ -122,20 +118,20 @@ namespace Script {
 
       agent.PositionAgentTempX = agent.getComponent(ƒ.ComponentTransform).mtxLocal.translation.x;
       agent.PositionAgentTempZ = agent.getComponent(ƒ.ComponentTransform).mtxLocal.translation.z;
-      BikeAgentChangedQuadrant(agent);
+      
 
       Matrix4x4.scaling.set(0.2, 0.5, Math.abs(Math.abs(agent.getComponent(ƒ.ComponentTransform).mtxLocal.translation.z) - Math.abs(agent.PostionForNextWall_Z))+0.5);
-      if(agent.JustChangeSign == true){
-        agent.ReadyToSetWall = true;
-        agent.JustChangeSign = false;
-      }
+     
+
+
       agentWall.getComponent(ƒ.ComponentTransform).mtxLocal.scaling = Matrix4x4.scaling;
       agentWall.getComponent(ƒ.ComponentTransform).mtxLocal.translation = new ƒ.Vector3(agent.PositionAgentTempX, 0.5, (agent.PostionForNextWall_Z + agent.PositionAgentTempZ)/2 + 0.25);
 
       agent.StartNewWallOnX = true;
 
     }
-    console.log(agent.JustChangeSign);
+    
+
     if(agent.ReadyToSetWall == true && agent.StartKey == true && agent.NumberOfWall % 2 == 1){ // % 2
 
       if(agent.StartNewWallOnX == true){
@@ -246,15 +242,22 @@ namespace Script {
         Referee_Right = 0;
         Referee2_Right = -1;
       }
-    }  
+    } 
+
+
+
+
+
+
+
 
 
     //---------- End of Movement Managment ----------
 
-    // if(Math.abs(agent.mtxWorld.translation.x) >= 124.5 || Math.abs(agent.mtxWorld.translation.z) >= 124.5  ){
-    //   agent.mtxLocal.translation = new ƒ.Vector3(1, 0.5, 1);
-    //   agent.StartKey = false;
-    // }
+    if(agent.mtxWorld.translation.x >= 249.5 || agent.mtxWorld.translation.z >= 249.5 || agent.mtxWorld.translation.x < 0 || agent.mtxWorld.translation.z < 0){
+      agent.mtxLocal.translation = new ƒ.Vector3(125, 0.5, 125);
+      agent.StartKey = false;
+    }
 
     // ƒ.Physics.world.simulate();  // if physics is included and used
     viewport.draw();

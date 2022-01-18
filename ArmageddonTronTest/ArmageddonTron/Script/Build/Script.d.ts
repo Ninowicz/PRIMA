@@ -1,11 +1,7 @@
 declare namespace Script {
     import ƒ = FudgeCore;
-    enum state {
-        Alive = 0,
-        Dead = 1
-    }
-    export class Bike extends ƒ.Node {
-        State: state;
+    class Bike extends ƒ.Node {
+        State: Bike.state;
         ReadyToSetWall: boolean;
         NumberOfWall: number;
         PositionAgentTempX: number;
@@ -24,7 +20,12 @@ declare namespace Script {
         TheChosenOne_Right: number;
         constructor();
     }
-    export {};
+    namespace Bike {
+        enum state {
+            Dead = 0,
+            Alive = 1
+        }
+    }
 }
 declare namespace Script {
     import ƒ = FudgeCore;

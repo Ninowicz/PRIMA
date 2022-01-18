@@ -270,6 +270,20 @@
                     }
                   }
                 }
+              ],
+              "ComponentTransform": [
+                {
+                  "ƒ.ComponentTransform": {
+                    "local": {
+                      "translation": "[125, 0, 125]",
+                      "rotation": "[0, 0, 0]",
+                      "scaling": "[1, 1, 1]"
+                    },
+                    "Component": {
+                      "active": true
+                    }
+                  }
+                }
               ]
             },
             "children": [
@@ -456,7 +470,7 @@
                 {
                   "ƒ.ComponentTransform": {
                     "local": {
-                      "translation": "[0, 10, 0]",
+                      "translation": "[125, 10, 125]",
                       "rotation": "[0, 0, 0]",
                       "scaling": "[4, 4, 4]"
                     },
