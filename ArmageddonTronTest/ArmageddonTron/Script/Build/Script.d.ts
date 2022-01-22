@@ -2,6 +2,7 @@ declare namespace Script {
     import ƒ = FudgeCore;
     class Bike extends ƒ.Node {
         State: Bike.state;
+        BikeAppearance: ƒ.Node;
         ReadyToSetWall: boolean;
         NumberOfWall: number;
         PositionAgentTempX: number;
@@ -10,7 +11,9 @@ declare namespace Script {
         PostionForNextWall_Z: number;
         StartNewWallOnZ: boolean;
         StartNewWallOnX: boolean;
+        OffsetForWalls: number;
         Direction: SpawnPoint.Directions;
+        DirectionNumber: number;
         StartKey: boolean;
         KeyStatus_LeftTurn: boolean;
         KeyStatus_RightTurn: boolean;
@@ -26,6 +29,7 @@ declare namespace Script {
             Alive = 1
         }
     }
+    let CartGraph: ƒ.Graph;
 }
 declare namespace Script {
     import ƒ = FudgeCore;
@@ -44,9 +48,13 @@ declare namespace Script {
     class Bot extends ƒ.Node {
         bike: Bike;
         color: ƒ.Color;
+        BotNode: ƒ.Node;
+        bikeWall: BikeWall;
+        name: string;
         constructor();
     }
     let OutlookBot: Bot;
+    let AgentBot: Bot;
     function SetBikeBot(_bot: Bot, _spawnpoint: SpawnPoint): void;
 }
 declare namespace Script {

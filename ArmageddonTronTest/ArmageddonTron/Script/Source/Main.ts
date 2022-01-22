@@ -8,17 +8,14 @@ namespace Script {
   //test for camera 
   let camera: ƒ.Node = new ƒ.Node("cameraNode");
   let cmpCamera = new ƒ.ComponentCamera;
-  let agent: Bike;
+  
   let fps: number = 60;
   export let graph: ƒ.Node;
   
-  let ctrForward: ƒ.Control = new ƒ.Control("Forward", 10, ƒ.CONTROL_TYPE.PROPORTIONAL);
+  let ctrForward: ƒ.Control = new ƒ.Control("Forward", 15, ƒ.CONTROL_TYPE.PROPORTIONAL);
   ctrForward.setDelay(200);
 
-  // let Outlook: Bike;
-  // let PowerPoint: Bike;
-  // let Word: Bike;
-  // let Excel: Bike;
+
 
   let RotationCameraTest_Left : number = 0;
   let TheChosenOne_Left : number = 1;
@@ -34,11 +31,6 @@ namespace Script {
   let KeyStatus_Right: Boolean = true;
 
   let Matrix4x4 = new ƒ.Matrix4x4();
-  let Matrix4x4_2 = new ƒ.Matrix4x4();
-
-
-
-
 
 
   function start(_event: CustomEvent): void {
@@ -46,19 +38,20 @@ namespace Script {
     viewport = _event.detail;
     viewport.calculateTransforms();
     graph = viewport.getBranch();
-    
-    agent = new Bike();
-  
-    graph.getChildrenByName("Bike")[0].addChild(agent);
-    agent.addComponent(new ƒ.ComponentMaterial(
-      new ƒ.Material("mtrAgent", ƒ.ShaderUniColor, new ƒ.CoatColored(new ƒ.Color(1, 0, 1, 1))))
-    );
+ 
+    SetBikeBot(AgentBot,Lille);
+    graph.getChildrenByName("PlayerList")[0].addChild(AgentBot);
+    AgentBot.bike = new Bike();
+    AgentBot.addChild(AgentBot.bike);
+    setUpBikeAppearance();
+    SetSpawnPoint(AgentBot.bike, Lille);
 
-    SetSpawnPoint(agent,Lille);
     
-    SetBikeBot(OutlookBot, Lyon);
+   
+    //SetBikeBot(OutlookBot, Lyon);
 
-    cmpCamera.mtxPivot.translation = new ƒ.Vector3(-0,10,-25); // 0 10 -25
+
+    cmpCamera.mtxPivot.translation = new ƒ.Vector3(-0,10,-30); // 0 10 -25
     cmpCamera.mtxPivot.rotation = new ƒ.Vector3(12.5,0,0);
     camera.addComponent(cmpCamera);
     camera.addComponent(new ƒ.ComponentTransform());
@@ -73,111 +66,100 @@ namespace Script {
 
   // Other Functions 
 
-
-
-
-
-
-
-
-
-
-
-
-  // function SetNewPlayer(_bike: ƒ.Node,):void{
-    
-  //   graph.addChild("")
-  // }
-
-   async function SetNewBikeWall():Promise<void> {  //_WallOfBike:ƒ.Node, _bike: Bike
-     let agentWall: BikeWall;
-     agentWall = new BikeWall();
-     graph.getChildrenByName("AllBikeWall")[0].addChild(agentWall);
-   }
-
-   
+  async function setUpBikeAppearance(): Promise<void> {
+    let graphBike: ƒ.Graph = <ƒ.Graph>FudgeCore.Project.resources["Graph|2021-12-26T12:21:36.268Z|87935"];
+    AgentBot.bike.appendChild(await ƒ.Project.createGraphInstance(graphBike));
+  }
 
 
   function update(_event: Event): void {
 
-   
-
-    if(agent.ReadyToSetWall == true && agent.StartKey == true && agent.NumberOfWall % 2 == 0){ 
+    if(AgentBot.bike.ReadyToSetWall == true && AgentBot.bike.StartKey == true && AgentBot.bike.NumberOfWall % 2 == 0){ 
  
-      if(agent.StartNewWallOnZ == true){
-        agent.PostionForNextWall_Z  = agent.getComponent(ƒ.ComponentTransform).mtxLocal.translation.z ;
-        agent.StartNewWallOnZ = false;
-        //SetNewBikeWall();      
+      if(AgentBot.bike.StartNewWallOnZ == true){
+        AgentBot.bike.PostionForNextWall_Z  = AgentBot.bike.getComponent(ƒ.ComponentTransform).mtxLocal.translation.z ;
+        AgentBot.bike.StartNewWallOnZ = false;    
       }
-      
-      let agentWall: BikeWall;
-      agentWall = new BikeWall();
-      graph.getChildrenByName("AllBikeWall")[0].addChild(agentWall);
-      
-      agentWall.mtxLocal.translate(new ƒ.Vector3(agent.mtxLocal.translation.x , 0.5, agent.mtxLocal.translation.z -1));
 
-      agent.PositionAgentTempX = agent.getComponent(ƒ.ComponentTransform).mtxLocal.translation.x;
-      agent.PositionAgentTempZ = agent.getComponent(ƒ.ComponentTransform).mtxLocal.translation.z;
-      
+      if(AgentBot.bike.DirectionNumber == 2){
+        AgentBot.bike.OffsetForWalls = -0.5;
+      }
 
-      Matrix4x4.scaling.set(0.2, 0.5, Math.abs(Math.abs(agent.getComponent(ƒ.ComponentTransform).mtxLocal.translation.z) - Math.abs(agent.PostionForNextWall_Z))+0.5);
-     
+      if(AgentBot.bike.DirectionNumber == 0){
+        AgentBot.bike.OffsetForWalls = 0.5;
+      }
 
-
-      agentWall.getComponent(ƒ.ComponentTransform).mtxLocal.scaling = Matrix4x4.scaling;
-      agentWall.getComponent(ƒ.ComponentTransform).mtxLocal.translation = new ƒ.Vector3(agent.PositionAgentTempX, 0.5, (agent.PostionForNextWall_Z + agent.PositionAgentTempZ)/2 + 0.25);
-
-      agent.StartNewWallOnX = true;
+      AgentBot.bikeWall = new BikeWall();
+      graph.getChildrenByName("AllBikeWall")[0].addChild(AgentBot.bikeWall); 
+      AgentBot.bikeWall.mtxLocal.translate(new ƒ.Vector3(AgentBot.bike.mtxLocal.translation.x , 0.5, AgentBot.bike.mtxLocal.translation.z -1));
+      AgentBot.bike.PositionAgentTempX = AgentBot.bike.getComponent(ƒ.ComponentTransform).mtxLocal.translation.x;
+      AgentBot.bike.PositionAgentTempZ = AgentBot.bike.getComponent(ƒ.ComponentTransform).mtxLocal.translation.z;
+      Matrix4x4.scaling.set(0.4, 0.5, Math.abs(Math.abs(AgentBot.bike.getComponent(ƒ.ComponentTransform).mtxLocal.translation.z) - Math.abs(AgentBot.bike.PostionForNextWall_Z))+2);
+      AgentBot.bikeWall.getComponent(ƒ.ComponentTransform).mtxLocal.scaling = Matrix4x4.scaling;
+      AgentBot.bikeWall.getComponent(ƒ.ComponentTransform).mtxLocal.translation = new ƒ.Vector3(AgentBot.bike.PositionAgentTempX, 0.5, (AgentBot.bike.PostionForNextWall_Z + AgentBot.bike.PositionAgentTempZ)/2 - AgentBot.bike.OffsetForWalls ); // +0.25
+      AgentBot.bike.StartNewWallOnX = true;
 
     }
-    
 
-    if(agent.ReadyToSetWall == true && agent.StartKey == true && agent.NumberOfWall % 2 == 1){ // % 2
+    if(AgentBot.bike.ReadyToSetWall == true && AgentBot.bike.StartKey == true && AgentBot.bike.NumberOfWall % 2 == 1){ // % 2
 
-      if(agent.StartNewWallOnX == true){
+      if(AgentBot.bike.StartNewWallOnX == true){
         
         Matrix4x4.scaling.set(0.2, 0.5, 0.5);
-        agent.PostionForNextWall_X  = agent.getComponent(ƒ.ComponentTransform).mtxLocal.translation.x ;
-        agent.StartNewWallOnX = false;
+        AgentBot.bike.PostionForNextWall_X  = AgentBot.bike.getComponent(ƒ.ComponentTransform).mtxLocal.translation.x ;
+        AgentBot.bike.StartNewWallOnX = false;
       }
 
-      let agentWall: BikeWall;
-      agentWall = new BikeWall();
-      graph.getChildrenByName("AllBikeWall")[0].addChild(agentWall);
-      agentWall.mtxLocal.translate(new ƒ.Vector3(agent.mtxLocal.translation.x , 0.5, agent.mtxLocal.translation.z -1));
+      if(AgentBot.bike.DirectionNumber == 1){
+        AgentBot.bike.OffsetForWalls = -0.5;
+      }
 
-      agent.PositionAgentTempX = agent.getComponent(ƒ.ComponentTransform).mtxLocal.translation.x;
-      agent.PositionAgentTempZ = agent.getComponent(ƒ.ComponentTransform).mtxLocal.translation.z;
+      if(AgentBot.bike.DirectionNumber == 3){
+        AgentBot.bike.OffsetForWalls = 0.5;
+      }
 
-      Matrix4x4.scaling.set(Math.abs(Math.abs(agent.getComponent(ƒ.ComponentTransform).mtxLocal.translation.x) - Math.abs(agent.PostionForNextWall_X))+0.5, 0.5, 0.2);
-      agentWall.getComponent(ƒ.ComponentTransform).mtxLocal.scaling = Matrix4x4.scaling;
-      agentWall.getComponent(ƒ.ComponentTransform).mtxLocal.translation = new ƒ.Vector3((agent.PostionForNextWall_X + agent.PositionAgentTempX)/2 + 0.25, 0.5, agent.PositionAgentTempZ);
+      AgentBot.bikeWall = new BikeWall();
+      graph.getChildrenByName("AllBikeWall")[0].addChild(AgentBot.bikeWall);
+      AgentBot.bikeWall.mtxLocal.translate(new ƒ.Vector3(AgentBot.bike.mtxLocal.translation.x , 0.5, AgentBot.bike.mtxLocal.translation.z -1));
 
+      AgentBot.bike.PositionAgentTempX = AgentBot.bike.getComponent(ƒ.ComponentTransform).mtxLocal.translation.x;
+      AgentBot.bike.PositionAgentTempZ = AgentBot.bike.getComponent(ƒ.ComponentTransform).mtxLocal.translation.z;
 
-      agent.StartNewWallOnZ = true ;
+      Matrix4x4.scaling.set(Math.abs(Math.abs(AgentBot.bike.getComponent(ƒ.ComponentTransform).mtxLocal.translation.x) - Math.abs(AgentBot.bike.PostionForNextWall_X))+2, 0.5, 0.4);
+      AgentBot.bikeWall.getComponent(ƒ.ComponentTransform).mtxLocal.scaling = Matrix4x4.scaling;
+      AgentBot.bikeWall.getComponent(ƒ.ComponentTransform).mtxLocal.translation = new ƒ.Vector3((AgentBot.bike.PostionForNextWall_X + AgentBot.bike.PositionAgentTempX)/2 -AgentBot.bike.OffsetForWalls , 0.5, AgentBot.bike.PositionAgentTempZ); // X + 0.25
+
+      AgentBot.bike.StartNewWallOnZ = true ;
     }
 
-    if(agent.ReadyToSetWall == false){
-      agent.NumberOfWall = agent.NumberOfWall + 1;
-      agent.ReadyToSetWall = true;
+    if(AgentBot.bike.ReadyToSetWall == false){
+      AgentBot.bike.NumberOfWall = AgentBot.bike.NumberOfWall + 1;
+      AgentBot.bike.ReadyToSetWall = true;
     }
     
+    let VitesseCam : number = 5;
     // Camera left turn
     if(RotationCameraTest_Left > 0 ){
-      camera.mtxLocal.rotateY(3);
-      TheChosenOne_Left = TheChosenOne_Left + 3;
+      camera.mtxLocal.rotateY(VitesseCam );
+      TheChosenOne_Left = TheChosenOne_Left + VitesseCam;
       if (TheChosenOne_Left >= 90){
         TheChosenOne_Left = 0;
         RotationCameraTest_Left = RotationCameraTest_Left - 1;
+        if(RotationCameraTest_Left > 5){
+          RotationCameraTest_Left = RotationCameraTest_Left - 4;
+        }
       } 
     }
     //---------- Camera right turn ----------
     if(RotationCameraTest_Right > 0 ){
-      camera.mtxLocal.rotateY(-3);
-      TheChosenOne_Right = TheChosenOne_Right + 3;
+      camera.mtxLocal.rotateY(-VitesseCam);
+      TheChosenOne_Right = TheChosenOne_Right + VitesseCam;
       if (TheChosenOne_Right >= 90){
         TheChosenOne_Right = 0;
         RotationCameraTest_Right = RotationCameraTest_Right - 1;
+        if(RotationCameraTest_Right > 5){
+          RotationCameraTest_Right = RotationCameraTest_Right - 4;
+        }
       } 
     }
     //---------- Camera Adjustment ----------
@@ -187,36 +169,42 @@ namespace Script {
         // truc a faire pour que ce soit plus doux 
       }  
     }
-    camera.mtxLocal.translation = agent.mtxWorld.translation;
-   
-
-
-
+    camera.mtxLocal.translation = AgentBot.bike.mtxLocal.translation; // mtxWorld
+  
     let deltaTime: number = ƒ.Loop.timeFrameReal / 1000;
     
     //---------- Movement Managment ----------
 
     if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.W, ƒ.KEYBOARD_CODE.ARROW_UP])){   
-      agent.StartKey = true;
+      AgentBot.bike.StartKey = true;
     }
-    if(agent.StartKey == true ){
+    if(AgentBot.bike.StartKey == true ){
       ctrForward.setInput(3 * deltaTime);
-      agent.mtxLocal.translateZ(ctrForward.getOutput());
+      AgentBot.bike.mtxLocal.translateZ(ctrForward.getOutput()); 
 
       if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.A, ƒ.KEYBOARD_CODE.ARROW_LEFT]) && KeyStatus_Left == true ){
-        agent.mtxLocal.rotateY(90); 
+        AgentBot.bike.mtxLocal.rotateY(90); 
         KeyStatus_Left = false;
         RotationCameraTest_Left = RotationCameraTest_Left + 1;
-        agent.ReadyToSetWall = false; // la
+        AgentBot.bike.ReadyToSetWall = false; // la
+        AgentBot.bike.DirectionNumber = AgentBot.bike.DirectionNumber + 1;
       }
           
       if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.D, ƒ.KEYBOARD_CODE.ARROW_RIGHT]) && KeyStatus_Right == true){
-        agent.mtxLocal.rotateY(-90);
+        AgentBot.bike.mtxLocal.rotateY(-90);
         KeyStatus_Right = false;
         RotationCameraTest_Right = RotationCameraTest_Right + 1;
-        agent.ReadyToSetWall = false; // la
+        AgentBot.bike.ReadyToSetWall = false; // la
+        AgentBot.bike.DirectionNumber = AgentBot.bike.DirectionNumber - 1;
       }
-  
+
+      if(AgentBot.bike.DirectionNumber<0){
+        AgentBot.bike.DirectionNumber = 3
+      }
+      if(AgentBot.bike.DirectionNumber >= 4){
+        AgentBot.bike.DirectionNumber = 0
+      }
+      console.log(AgentBot.bike.DirectionNumber);
   
       //---------- Referee is there to control the keyup and keydown ----------
       Referee2_Left = Referee_Left;
@@ -244,19 +232,11 @@ namespace Script {
       }
     } 
 
-
-
-
-
-
-
-
-
     //---------- End of Movement Managment ----------
 
-    if(agent.mtxWorld.translation.x >= 249.5 || agent.mtxWorld.translation.z >= 249.5 || agent.mtxWorld.translation.x < 0 || agent.mtxWorld.translation.z < 0){
-      agent.mtxLocal.translation = new ƒ.Vector3(125, 0.5, 125);
-      agent.StartKey = false;
+    if(AgentBot.bike.mtxWorld.translation.x >= 249.5 || AgentBot.bike.mtxWorld.translation.z >= 249.5 || AgentBot.bike.mtxWorld.translation.x < 0 || AgentBot.bike.mtxWorld.translation.z < 0){
+      AgentBot.bike.mtxLocal.translation = new ƒ.Vector3(125, 0.5, 125);
+      AgentBot.bike.StartKey = false;
     }
 
     // ƒ.Physics.world.simulate();  // if physics is included and used
