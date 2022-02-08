@@ -46,6 +46,14 @@ namespace Script {
     setUpBikeAppearance();
     SetSpawnPoint(AgentBot.bike, Lille);
 
+    SetBikeBot(OutlookBot,Lyon);
+    graph.getChildrenByName("PlayerList")[0].addChild(OutlookBot);
+    OutlookBot.bike = new Bike();
+    OutlookBot.addChild(OutlookBot.bike);
+    setUpBikeAppearanceOutlook();
+
+    SetSpawnPoint(OutlookBot.bike, Lyon);
+
     
    
     //SetBikeBot(OutlookBot, Lyon);
@@ -69,6 +77,11 @@ namespace Script {
   async function setUpBikeAppearance(): Promise<void> {
     let graphBike: ƒ.Graph = <ƒ.Graph>FudgeCore.Project.resources["Graph|2021-12-26T12:21:36.268Z|87935"];
     AgentBot.bike.appendChild(await ƒ.Project.createGraphInstance(graphBike));
+  }
+
+  async function setUpBikeAppearanceOutlook(): Promise<void> {
+    let graphBike: ƒ.Graph = <ƒ.Graph>FudgeCore.Project.resources["Graph|2022-12-26T12:21:00.268Z|87935"];
+    OutlookBot.bike.appendChild(await ƒ.Project.createGraphInstance(graphBike));
   }
 
 
@@ -180,7 +193,8 @@ namespace Script {
     }
     if(AgentBot.bike.StartKey == true ){
       ctrForward.setInput(3 * deltaTime);
-      AgentBot.bike.mtxLocal.translateZ(ctrForward.getOutput()); 
+      AgentBot.bike.mtxLocal.translateZ(ctrForward.getOutput());
+      //OutlookBot.bike.mtxLocal.translateZ(ctrForward.getOutput()); 
 
       if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.A, ƒ.KEYBOARD_CODE.ARROW_LEFT]) && KeyStatus_Left == true ){
         AgentBot.bike.mtxLocal.rotateY(90); 

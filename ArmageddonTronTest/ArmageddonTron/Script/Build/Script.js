@@ -133,6 +133,12 @@ var Script;
         Script.AgentBot.addChild(Script.AgentBot.bike);
         setUpBikeAppearance();
         Script.SetSpawnPoint(Script.AgentBot.bike, Script.Lille);
+        Script.SetBikeBot(Script.OutlookBot, Script.Lyon);
+        Script.graph.getChildrenByName("PlayerList")[0].addChild(Script.OutlookBot);
+        Script.OutlookBot.bike = new Script.Bike();
+        Script.OutlookBot.addChild(Script.OutlookBot.bike);
+        setUpBikeAppearanceOutlook();
+        Script.SetSpawnPoint(Script.OutlookBot.bike, Script.Lyon);
         //SetBikeBot(OutlookBot, Lyon);
         cmpCamera.mtxPivot.translation = new ƒ.Vector3(-0, 10, -30); // 0 10 -25
         cmpCamera.mtxPivot.rotation = new ƒ.Vector3(12.5, 0, 0);
@@ -149,6 +155,10 @@ var Script;
     async function setUpBikeAppearance() {
         let graphBike = FudgeCore.Project.resources["Graph|2021-12-26T12:21:36.268Z|87935"];
         Script.AgentBot.bike.appendChild(await ƒ.Project.createGraphInstance(graphBike));
+    }
+    async function setUpBikeAppearanceOutlook() {
+        let graphBike = FudgeCore.Project.resources["Graph|2022-12-26T12:21:00.268Z|87935"];
+        Script.OutlookBot.bike.appendChild(await ƒ.Project.createGraphInstance(graphBike));
     }
     function update(_event) {
         if (Script.AgentBot.bike.ReadyToSetWall == true && Script.AgentBot.bike.StartKey == true && Script.AgentBot.bike.NumberOfWall % 2 == 0) {
@@ -239,6 +249,7 @@ var Script;
         if (Script.AgentBot.bike.StartKey == true) {
             ctrForward.setInput(3 * deltaTime);
             Script.AgentBot.bike.mtxLocal.translateZ(ctrForward.getOutput());
+            //OutlookBot.bike.mtxLocal.translateZ(ctrForward.getOutput()); 
             if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.A, ƒ.KEYBOARD_CODE.ARROW_LEFT]) && KeyStatus_Left == true) {
                 Script.AgentBot.bike.mtxLocal.rotateY(90);
                 KeyStatus_Left = false;
@@ -333,7 +344,7 @@ var Script;
     Script.Toulouse.direction = SpawnPoint.Directions.North;
     Script.Lyon = new SpawnPoint();
     Script.Lyon.coordonates = new ƒ.Vector3(225, 0.5, 125);
-    Script.Lyon.orientation = new ƒ.Vector3(0, 90, 0);
+    Script.Lyon.orientation = new ƒ.Vector3(0, -90, 0);
     Script.Lyon.direction = SpawnPoint.Directions.West;
     Script.Bordeaux = new SpawnPoint();
     Script.Bordeaux.coordonates = new ƒ.Vector3(25, 0.5, 125);

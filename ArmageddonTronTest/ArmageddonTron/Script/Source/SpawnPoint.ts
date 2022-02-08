@@ -50,7 +50,7 @@ namespace Script {
   export let Lyon : SpawnPoint;
   Lyon = new SpawnPoint();
   Lyon.coordonates = new ƒ.Vector3(225, 0.5, 125);
-  Lyon.orientation = new ƒ.Vector3(0, 90, 0);
+  Lyon.orientation = new ƒ.Vector3(0, -90, 0);
   Lyon.direction = SpawnPoint.Directions.West;
 
   export let Bordeaux : SpawnPoint;

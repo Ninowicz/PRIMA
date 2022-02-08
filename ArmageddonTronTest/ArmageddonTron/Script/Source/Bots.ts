@@ -16,7 +16,6 @@ namespace Script {
   }
 
   export let OutlookBot: Bot;
- 
   OutlookBot = new Bot();
   OutlookBot.color = new ƒ.Color(0,1,1,1);
   OutlookBot.name = "Outlook";
