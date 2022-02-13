@@ -84,6 +84,12 @@ var Script;
     Script.OutlookBot = new Bot();
     Script.OutlookBot.color = new ƒ.Color(0, 1, 1, 1);
     Script.OutlookBot.name = "Outlook";
+    Script.Excel = new Bot();
+    Script.Excel.color = new ƒ.Color(0, 1, 1, 1);
+    Script.Excel.name = "Excel";
+    Script.Word = new Bot();
+    Script.Word.color = new ƒ.Color(0, 1, 1, 1);
+    Script.Word.name = "Word";
     Script.AgentBot = new Bot();
     Script.AgentBot.color = new ƒ.Color(1, 0, 1, 1);
     function SetBikeBot(_bot, _spawnpoint) {
@@ -139,7 +145,18 @@ var Script;
         Script.OutlookBot.addChild(Script.OutlookBot.bike);
         setUpBikeAppearanceOutlook();
         Script.SetSpawnPoint(Script.OutlookBot.bike, Script.Lyon);
-        //SetBikeBot(OutlookBot, Lyon);
+        Script.SetBikeBot(Script.Excel, Script.Toulouse);
+        Script.graph.getChildrenByName("PlayerList")[0].addChild(Script.Excel);
+        Script.Excel.bike = new Script.Bike();
+        Script.Excel.addChild(Script.Excel.bike);
+        setUpBikeAppearanceExcel();
+        Script.SetSpawnPoint(Script.Excel.bike, Script.Toulouse);
+        Script.SetBikeBot(Script.Word, Script.Bordeaux);
+        Script.graph.getChildrenByName("PlayerList")[0].addChild(Script.Word);
+        Script.Word.bike = new Script.Bike();
+        Script.Word.addChild(Script.Word.bike);
+        setUpBikeAppearanceWord();
+        Script.SetSpawnPoint(Script.Word.bike, Script.Bordeaux);
         cmpCamera.mtxPivot.translation = new ƒ.Vector3(-0, 10, -30); // 0 10 -25
         cmpCamera.mtxPivot.rotation = new ƒ.Vector3(12.5, 0, 0);
         camera.addComponent(cmpCamera);
@@ -157,27 +174,43 @@ var Script;
         Script.AgentBot.bike.appendChild(await ƒ.Project.createGraphInstance(graphBike));
     }
     async function setUpBikeAppearanceOutlook() {
-        let graphBike = FudgeCore.Project.resources["Graph|2022-12-26T12:21:00.268Z|87935"];
-        Script.OutlookBot.bike.appendChild(await ƒ.Project.createGraphInstance(graphBike));
+        let graphBike2 = FudgeCore.Project.resources["Graph|2022-02-26T12:21:00.268Z|87935"];
+        Script.OutlookBot.bike.appendChild(await ƒ.Project.createGraphInstance(graphBike2));
+    }
+    async function setUpBikeAppearanceExcel() {
+        let graphBike3 = FudgeCore.Project.resources["Graph|2022-12-26T12:21:00.268Z|87935"];
+        Script.Excel.bike.appendChild(await ƒ.Project.createGraphInstance(graphBike3));
+    }
+    async function setUpBikeAppearanceWord() {
+        let graphBike4 = FudgeCore.Project.resources["Graph|2022-02-33T22:21:00.268Z|87935"];
+        Script.Word.bike.appendChild(await ƒ.Project.createGraphInstance(graphBike4));
     }
     function update(_event) {
         if (Script.AgentBot.bike.ReadyToSetWall == true && Script.AgentBot.bike.StartKey == true && Script.AgentBot.bike.NumberOfWall % 2 == 0) {
             if (Script.AgentBot.bike.StartNewWallOnZ == true) {
                 Script.AgentBot.bike.PostionForNextWall_Z = Script.AgentBot.bike.getComponent(ƒ.ComponentTransform).mtxLocal.translation.z;
                 Script.AgentBot.bike.StartNewWallOnZ = false;
+                Script.AgentBot.bikeWall = new Script.BikeWall();
+                Script.graph.getChildrenByName("AllBikeWall")[0].addChild(Script.AgentBot.bikeWall);
+                Script.AgentBot.bikeWall.mtxLocal.translate(new ƒ.Vector3(Script.AgentBot.bike.mtxLocal.translation.x, 0.5, Script.AgentBot.bike.mtxLocal.translation.z - 1));
+                Script.AgentBot.bike.PositionAgentTempX = Script.AgentBot.bike.getComponent(ƒ.ComponentTransform).mtxLocal.translation.x;
+                Script.AgentBot.bike.PositionAgentTempZ = Script.AgentBot.bike.getComponent(ƒ.ComponentTransform).mtxLocal.translation.z;
+                Matrix4x4.scaling.set(0.4, 0.5, Math.abs(Math.abs(Script.AgentBot.bike.getComponent(ƒ.ComponentTransform).mtxLocal.translation.z) - Math.abs(Script.AgentBot.bike.PostionForNextWall_Z) - Script.AgentBot.bike.OffsetForWalls)); //+2
+                Script.AgentBot.bikeWall.getComponent(ƒ.ComponentTransform).mtxLocal.scaling = Matrix4x4.scaling;
+                Script.AgentBot.bikeWall.getComponent(ƒ.ComponentTransform).mtxLocal.translation = new ƒ.Vector3(Script.AgentBot.bike.PositionAgentTempX, 0.5, (Script.AgentBot.bike.PostionForNextWall_Z + Script.AgentBot.bike.PositionAgentTempZ) / 2 - Script.AgentBot.bike.OffsetForWalls); // +0.25
+                Script.AgentBot.bike.StartNewWallOnX = true;
             }
             if (Script.AgentBot.bike.DirectionNumber == 2) {
-                Script.AgentBot.bike.OffsetForWalls = -0.5;
+                Script.AgentBot.bike.OffsetForWalls = 0.25;
             }
             if (Script.AgentBot.bike.DirectionNumber == 0) {
-                Script.AgentBot.bike.OffsetForWalls = 0.5;
+                Script.AgentBot.bike.OffsetForWalls = -0.25;
             }
-            Script.AgentBot.bikeWall = new Script.BikeWall();
             Script.graph.getChildrenByName("AllBikeWall")[0].addChild(Script.AgentBot.bikeWall);
             Script.AgentBot.bikeWall.mtxLocal.translate(new ƒ.Vector3(Script.AgentBot.bike.mtxLocal.translation.x, 0.5, Script.AgentBot.bike.mtxLocal.translation.z - 1));
             Script.AgentBot.bike.PositionAgentTempX = Script.AgentBot.bike.getComponent(ƒ.ComponentTransform).mtxLocal.translation.x;
             Script.AgentBot.bike.PositionAgentTempZ = Script.AgentBot.bike.getComponent(ƒ.ComponentTransform).mtxLocal.translation.z;
-            Matrix4x4.scaling.set(0.4, 0.5, Math.abs(Math.abs(Script.AgentBot.bike.getComponent(ƒ.ComponentTransform).mtxLocal.translation.z) - Math.abs(Script.AgentBot.bike.PostionForNextWall_Z)) + 2);
+            Matrix4x4.scaling.set(0.4, 0.5, Math.abs(Math.abs(Script.AgentBot.bike.getComponent(ƒ.ComponentTransform).mtxLocal.translation.z) - Math.abs(Script.AgentBot.bike.PostionForNextWall_Z) - Script.AgentBot.bike.OffsetForWalls)); // +2
             Script.AgentBot.bikeWall.getComponent(ƒ.ComponentTransform).mtxLocal.scaling = Matrix4x4.scaling;
             Script.AgentBot.bikeWall.getComponent(ƒ.ComponentTransform).mtxLocal.translation = new ƒ.Vector3(Script.AgentBot.bike.PositionAgentTempX, 0.5, (Script.AgentBot.bike.PostionForNextWall_Z + Script.AgentBot.bike.PositionAgentTempZ) / 2 - Script.AgentBot.bike.OffsetForWalls); // +0.25
             Script.AgentBot.bike.StartNewWallOnX = true;
@@ -187,14 +220,22 @@ var Script;
                 Matrix4x4.scaling.set(0.2, 0.5, 0.5);
                 Script.AgentBot.bike.PostionForNextWall_X = Script.AgentBot.bike.getComponent(ƒ.ComponentTransform).mtxLocal.translation.x;
                 Script.AgentBot.bike.StartNewWallOnX = false;
+                Script.AgentBot.bikeWall = new Script.BikeWall();
+                Script.graph.getChildrenByName("AllBikeWall")[0].addChild(Script.AgentBot.bikeWall);
+                Script.AgentBot.bikeWall.mtxLocal.translate(new ƒ.Vector3(Script.AgentBot.bike.mtxLocal.translation.x, 0.5, Script.AgentBot.bike.mtxLocal.translation.z - 1));
+                Script.AgentBot.bike.PositionAgentTempX = Script.AgentBot.bike.getComponent(ƒ.ComponentTransform).mtxLocal.translation.x;
+                Script.AgentBot.bike.PositionAgentTempZ = Script.AgentBot.bike.getComponent(ƒ.ComponentTransform).mtxLocal.translation.z;
+                Matrix4x4.scaling.set(Math.abs(Math.abs(Script.AgentBot.bike.getComponent(ƒ.ComponentTransform).mtxLocal.translation.x) - Math.abs(Script.AgentBot.bike.PostionForNextWall_X)) + 2, 0.5, 0.4);
+                Script.AgentBot.bikeWall.getComponent(ƒ.ComponentTransform).mtxLocal.scaling = Matrix4x4.scaling;
+                Script.AgentBot.bikeWall.getComponent(ƒ.ComponentTransform).mtxLocal.translation = new ƒ.Vector3((Script.AgentBot.bike.PostionForNextWall_X + Script.AgentBot.bike.PositionAgentTempX) / 2 - Script.AgentBot.bike.OffsetForWalls, 0.5, Script.AgentBot.bike.PositionAgentTempZ); // X + 0.25
+                Script.AgentBot.bike.StartNewWallOnZ = true;
             }
             if (Script.AgentBot.bike.DirectionNumber == 1) {
-                Script.AgentBot.bike.OffsetForWalls = -0.5;
+                Script.AgentBot.bike.OffsetForWalls = -0.25; //bon 
             }
             if (Script.AgentBot.bike.DirectionNumber == 3) {
-                Script.AgentBot.bike.OffsetForWalls = 0.5;
+                Script.AgentBot.bike.OffsetForWalls = -0.5;
             }
-            Script.AgentBot.bikeWall = new Script.BikeWall();
             Script.graph.getChildrenByName("AllBikeWall")[0].addChild(Script.AgentBot.bikeWall);
             Script.AgentBot.bikeWall.mtxLocal.translate(new ƒ.Vector3(Script.AgentBot.bike.mtxLocal.translation.x, 0.5, Script.AgentBot.bike.mtxLocal.translation.z - 1));
             Script.AgentBot.bike.PositionAgentTempX = Script.AgentBot.bike.getComponent(ƒ.ComponentTransform).mtxLocal.translation.x;
@@ -305,6 +346,27 @@ var Script;
         ƒ.AudioManager.default.update();
     }
 })(Script || (Script = {}));
+// if(AgentBot.bike.ReadyToSetWall == true && AgentBot.bike.StartKey == true && AgentBot.bike.NumberOfWall % 2 == 0){ 
+//   if(AgentBot.bike.StartNewWallOnZ == true){
+//     AgentBot.bike.PostionForNextWall_Z  = AgentBot.bike.getComponent(ƒ.ComponentTransform).mtxLocal.translation.z ;
+//     AgentBot.bike.StartNewWallOnZ = false;    
+//   }
+//   if(AgentBot.bike.DirectionNumber == 2){
+//     AgentBot.bike.OffsetForWalls = -0.5;
+//   }
+//   if(AgentBot.bike.DirectionNumber == 0){
+//     AgentBot.bike.OffsetForWalls = 0.5;
+//   }
+//   AgentBot.bikeWall = new BikeWall();
+//   graph.getChildrenByName("AllBikeWall")[0].addChild(AgentBot.bikeWall); 
+//   AgentBot.bikeWall.mtxLocal.translate(new ƒ.Vector3(AgentBot.bike.mtxLocal.translation.x , 0.5, AgentBot.bike.mtxLocal.translation.z -1));
+//   AgentBot.bike.PositionAgentTempX = AgentBot.bike.getComponent(ƒ.ComponentTransform).mtxLocal.translation.x;
+//   AgentBot.bike.PositionAgentTempZ = AgentBot.bike.getComponent(ƒ.ComponentTransform).mtxLocal.translation.z;
+//   Matrix4x4.scaling.set(0.4, 0.5, Math.abs(Math.abs(AgentBot.bike.getComponent(ƒ.ComponentTransform).mtxLocal.translation.z) - Math.abs(AgentBot.bike.PostionForNextWall_Z))+2);
+//   AgentBot.bikeWall.getComponent(ƒ.ComponentTransform).mtxLocal.scaling = Matrix4x4.scaling;
+//   AgentBot.bikeWall.getComponent(ƒ.ComponentTransform).mtxLocal.translation = new ƒ.Vector3(AgentBot.bike.PositionAgentTempX, 0.5, (AgentBot.bike.PostionForNextWall_Z + AgentBot.bike.PositionAgentTempZ)/2 - AgentBot.bike.OffsetForWalls ); // +0.25
+//   AgentBot.bike.StartNewWallOnX = true;
+// }
 var Script;
 (function (Script) {
     var ƒ = FudgeCore;
@@ -339,7 +401,7 @@ var Script;
     Script.Lille.orientation = new ƒ.Vector3(0, 0, 0);
     Script.Lille.direction = SpawnPoint.Directions.South;
     Script.Toulouse = new SpawnPoint();
-    Script.Toulouse.coordonates = new ƒ.Vector3(125, 0.5, 225);
+    Script.Toulouse.coordonates = new ƒ.Vector3(125, 0.5, 225); //225
     Script.Toulouse.orientation = new ƒ.Vector3(0, 180, 0);
     Script.Toulouse.direction = SpawnPoint.Directions.North;
     Script.Lyon = new SpawnPoint();

@@ -51,12 +51,21 @@ namespace Script {
     OutlookBot.bike = new Bike();
     OutlookBot.addChild(OutlookBot.bike);
     setUpBikeAppearanceOutlook();
-
     SetSpawnPoint(OutlookBot.bike, Lyon);
 
-    
-   
-    //SetBikeBot(OutlookBot, Lyon);
+    SetBikeBot(Excel,Toulouse);
+    graph.getChildrenByName("PlayerList")[0].addChild(Excel);
+    Excel.bike = new Bike();
+    Excel.addChild(Excel.bike);
+    setUpBikeAppearanceExcel();
+    SetSpawnPoint(Excel.bike, Toulouse);
+
+    SetBikeBot(Word,Bordeaux);
+    graph.getChildrenByName("PlayerList")[0].addChild(Word);
+    Word.bike = new Bike();
+    Word.addChild(Word.bike);
+    setUpBikeAppearanceWord();
+    SetSpawnPoint(Word.bike, Bordeaux);
 
 
     cmpCamera.mtxPivot.translation = new ƒ.Vector3(-0,10,-30); // 0 10 -25
@@ -80,10 +89,21 @@ namespace Script {
   }
 
   async function setUpBikeAppearanceOutlook(): Promise<void> {
-    let graphBike: ƒ.Graph = <ƒ.Graph>FudgeCore.Project.resources["Graph|2022-12-26T12:21:00.268Z|87935"];
-    OutlookBot.bike.appendChild(await ƒ.Project.createGraphInstance(graphBike));
+    let graphBike2: ƒ.Graph = <ƒ.Graph>FudgeCore.Project.resources["Graph|2022-02-26T12:21:00.268Z|87935"];
+    OutlookBot.bike.appendChild(await ƒ.Project.createGraphInstance(graphBike2));
   }
 
+  async function setUpBikeAppearanceExcel(): Promise<void> {
+    let graphBike3: ƒ.Graph = <ƒ.Graph>FudgeCore.Project.resources["Graph|2022-12-26T12:21:00.268Z|87935"];
+    Excel.bike.appendChild(await ƒ.Project.createGraphInstance(graphBike3));
+  }
+
+  async function setUpBikeAppearanceWord(): Promise<void> {
+    let graphBike4: ƒ.Graph = <ƒ.Graph>FudgeCore.Project.resources["Graph|2022-02-33T22:21:00.268Z|87935"];
+    Word.bike.appendChild(await ƒ.Project.createGraphInstance(graphBike4));
+  }
+  
+  
 
   function update(_event: Event): void {
 
@@ -91,28 +111,39 @@ namespace Script {
  
       if(AgentBot.bike.StartNewWallOnZ == true){
         AgentBot.bike.PostionForNextWall_Z  = AgentBot.bike.getComponent(ƒ.ComponentTransform).mtxLocal.translation.z ;
-        AgentBot.bike.StartNewWallOnZ = false;    
+        AgentBot.bike.StartNewWallOnZ = false; 
+
+        AgentBot.bikeWall = new BikeWall();
+        graph.getChildrenByName("AllBikeWall")[0].addChild(AgentBot.bikeWall); 
+        AgentBot.bikeWall.mtxLocal.translate(new ƒ.Vector3(AgentBot.bike.mtxLocal.translation.x , 0.5, AgentBot.bike.mtxLocal.translation.z -1));
+        AgentBot.bike.PositionAgentTempX = AgentBot.bike.getComponent(ƒ.ComponentTransform).mtxLocal.translation.x;
+        AgentBot.bike.PositionAgentTempZ = AgentBot.bike.getComponent(ƒ.ComponentTransform).mtxLocal.translation.z;
+        Matrix4x4.scaling.set(0.4, 0.5, Math.abs(Math.abs(AgentBot.bike.getComponent(ƒ.ComponentTransform).mtxLocal.translation.z) - Math.abs(AgentBot.bike.PostionForNextWall_Z)-AgentBot.bike.OffsetForWalls));//+2
+        AgentBot.bikeWall.getComponent(ƒ.ComponentTransform).mtxLocal.scaling = Matrix4x4.scaling;
+        AgentBot.bikeWall.getComponent(ƒ.ComponentTransform).mtxLocal.translation = new ƒ.Vector3(AgentBot.bike.PositionAgentTempX, 0.5, (AgentBot.bike.PostionForNextWall_Z + AgentBot.bike.PositionAgentTempZ)/2 - AgentBot.bike.OffsetForWalls ); // +0.25
+        AgentBot.bike.StartNewWallOnX = true;   
       }
 
       if(AgentBot.bike.DirectionNumber == 2){
-        AgentBot.bike.OffsetForWalls = -0.5;
+        AgentBot.bike.OffsetForWalls = 0.25;
       }
 
       if(AgentBot.bike.DirectionNumber == 0){
-        AgentBot.bike.OffsetForWalls = 0.5;
+        AgentBot.bike.OffsetForWalls = -0.25;
       }
 
-      AgentBot.bikeWall = new BikeWall();
       graph.getChildrenByName("AllBikeWall")[0].addChild(AgentBot.bikeWall); 
       AgentBot.bikeWall.mtxLocal.translate(new ƒ.Vector3(AgentBot.bike.mtxLocal.translation.x , 0.5, AgentBot.bike.mtxLocal.translation.z -1));
       AgentBot.bike.PositionAgentTempX = AgentBot.bike.getComponent(ƒ.ComponentTransform).mtxLocal.translation.x;
       AgentBot.bike.PositionAgentTempZ = AgentBot.bike.getComponent(ƒ.ComponentTransform).mtxLocal.translation.z;
-      Matrix4x4.scaling.set(0.4, 0.5, Math.abs(Math.abs(AgentBot.bike.getComponent(ƒ.ComponentTransform).mtxLocal.translation.z) - Math.abs(AgentBot.bike.PostionForNextWall_Z))+2);
+      Matrix4x4.scaling.set(0.4, 0.5, Math.abs(Math.abs(AgentBot.bike.getComponent(ƒ.ComponentTransform).mtxLocal.translation.z) - Math.abs(AgentBot.bike.PostionForNextWall_Z)-AgentBot.bike.OffsetForWalls)); // +2
       AgentBot.bikeWall.getComponent(ƒ.ComponentTransform).mtxLocal.scaling = Matrix4x4.scaling;
       AgentBot.bikeWall.getComponent(ƒ.ComponentTransform).mtxLocal.translation = new ƒ.Vector3(AgentBot.bike.PositionAgentTempX, 0.5, (AgentBot.bike.PostionForNextWall_Z + AgentBot.bike.PositionAgentTempZ)/2 - AgentBot.bike.OffsetForWalls ); // +0.25
       AgentBot.bike.StartNewWallOnX = true;
 
     }
+
+    
 
     if(AgentBot.bike.ReadyToSetWall == true && AgentBot.bike.StartKey == true && AgentBot.bike.NumberOfWall % 2 == 1){ // % 2
 
@@ -121,17 +152,30 @@ namespace Script {
         Matrix4x4.scaling.set(0.2, 0.5, 0.5);
         AgentBot.bike.PostionForNextWall_X  = AgentBot.bike.getComponent(ƒ.ComponentTransform).mtxLocal.translation.x ;
         AgentBot.bike.StartNewWallOnX = false;
+
+        AgentBot.bikeWall = new BikeWall();
+        graph.getChildrenByName("AllBikeWall")[0].addChild(AgentBot.bikeWall);
+        AgentBot.bikeWall.mtxLocal.translate(new ƒ.Vector3(AgentBot.bike.mtxLocal.translation.x , 0.5, AgentBot.bike.mtxLocal.translation.z -1));
+
+        AgentBot.bike.PositionAgentTempX = AgentBot.bike.getComponent(ƒ.ComponentTransform).mtxLocal.translation.x;
+        AgentBot.bike.PositionAgentTempZ = AgentBot.bike.getComponent(ƒ.ComponentTransform).mtxLocal.translation.z;
+
+        Matrix4x4.scaling.set(Math.abs(Math.abs(AgentBot.bike.getComponent(ƒ.ComponentTransform).mtxLocal.translation.x) - Math.abs(AgentBot.bike.PostionForNextWall_X))+2, 0.5, 0.4);
+        AgentBot.bikeWall.getComponent(ƒ.ComponentTransform).mtxLocal.scaling = Matrix4x4.scaling;
+        AgentBot.bikeWall.getComponent(ƒ.ComponentTransform).mtxLocal.translation = new ƒ.Vector3((AgentBot.bike.PostionForNextWall_X + AgentBot.bike.PositionAgentTempX)/2 - AgentBot.bike.OffsetForWalls , 0.5, AgentBot.bike.PositionAgentTempZ); // X + 0.25
+
+        AgentBot.bike.StartNewWallOnZ = true ;
       }
 
       if(AgentBot.bike.DirectionNumber == 1){
-        AgentBot.bike.OffsetForWalls = -0.5;
+        AgentBot.bike.OffsetForWalls = -0.25; //bon 
       }
 
       if(AgentBot.bike.DirectionNumber == 3){
-        AgentBot.bike.OffsetForWalls = 0.5;
+        AgentBot.bike.OffsetForWalls = -0.25;
       }
 
-      AgentBot.bikeWall = new BikeWall();
+      
       graph.getChildrenByName("AllBikeWall")[0].addChild(AgentBot.bikeWall);
       AgentBot.bikeWall.mtxLocal.translate(new ƒ.Vector3(AgentBot.bike.mtxLocal.translation.x , 0.5, AgentBot.bike.mtxLocal.translation.z -1));
 
@@ -260,3 +304,29 @@ namespace Script {
 }
 
 
+// if(AgentBot.bike.ReadyToSetWall == true && AgentBot.bike.StartKey == true && AgentBot.bike.NumberOfWall % 2 == 0){ 
+ 
+//   if(AgentBot.bike.StartNewWallOnZ == true){
+//     AgentBot.bike.PostionForNextWall_Z  = AgentBot.bike.getComponent(ƒ.ComponentTransform).mtxLocal.translation.z ;
+//     AgentBot.bike.StartNewWallOnZ = false;    
+//   }
+
+//   if(AgentBot.bike.DirectionNumber == 2){
+//     AgentBot.bike.OffsetForWalls = -0.5;
+//   }
+
+//   if(AgentBot.bike.DirectionNumber == 0){
+//     AgentBot.bike.OffsetForWalls = 0.5;
+//   }
+
+//   AgentBot.bikeWall = new BikeWall();
+//   graph.getChildrenByName("AllBikeWall")[0].addChild(AgentBot.bikeWall); 
+//   AgentBot.bikeWall.mtxLocal.translate(new ƒ.Vector3(AgentBot.bike.mtxLocal.translation.x , 0.5, AgentBot.bike.mtxLocal.translation.z -1));
+//   AgentBot.bike.PositionAgentTempX = AgentBot.bike.getComponent(ƒ.ComponentTransform).mtxLocal.translation.x;
+//   AgentBot.bike.PositionAgentTempZ = AgentBot.bike.getComponent(ƒ.ComponentTransform).mtxLocal.translation.z;
+//   Matrix4x4.scaling.set(0.4, 0.5, Math.abs(Math.abs(AgentBot.bike.getComponent(ƒ.ComponentTransform).mtxLocal.translation.z) - Math.abs(AgentBot.bike.PostionForNextWall_Z))+2);
+//   AgentBot.bikeWall.getComponent(ƒ.ComponentTransform).mtxLocal.scaling = Matrix4x4.scaling;
+//   AgentBot.bikeWall.getComponent(ƒ.ComponentTransform).mtxLocal.translation = new ƒ.Vector3(AgentBot.bike.PositionAgentTempX, 0.5, (AgentBot.bike.PostionForNextWall_Z + AgentBot.bike.PositionAgentTempZ)/2 - AgentBot.bike.OffsetForWalls ); // +0.25
+//   AgentBot.bike.StartNewWallOnX = true;
+
+// }

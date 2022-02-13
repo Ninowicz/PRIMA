@@ -20,6 +20,16 @@ namespace Script {
   OutlookBot.color = new ƒ.Color(0,1,1,1);
   OutlookBot.name = "Outlook";
 
+  export let Excel: Bot;
+  Excel = new Bot();
+  Excel.color = new ƒ.Color(0,1,1,1);
+  Excel.name = "Excel";
+
+  export let Word: Bot;
+  Word = new Bot();
+  Word.color = new ƒ.Color(0,1,1,1);
+  Word.name = "Word";
+
   export let AgentBot: Bot;
   AgentBot = new Bot();
   AgentBot.color = new ƒ.Color(1,0,1,1);

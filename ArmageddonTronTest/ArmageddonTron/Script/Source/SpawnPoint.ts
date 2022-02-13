@@ -43,7 +43,7 @@ namespace Script {
 
   export let Toulouse : SpawnPoint;
   Toulouse = new SpawnPoint();
-  Toulouse.coordonates = new ƒ.Vector3(125, 0.5, 225);
+  Toulouse.coordonates = new ƒ.Vector3(125, 0.5, 225); //225
   Toulouse.orientation = new ƒ.Vector3(0, 180, 0);
   Toulouse.direction = SpawnPoint.Directions.North;
 

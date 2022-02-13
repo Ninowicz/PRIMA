@@ -54,6 +54,8 @@ declare namespace Script {
         constructor();
     }
     let OutlookBot: Bot;
+    let Excel: Bot;
+    let Word: Bot;
     let AgentBot: Bot;
     function SetBikeBot(_bot: Bot, _spawnpoint: SpawnPoint): void;
 }
