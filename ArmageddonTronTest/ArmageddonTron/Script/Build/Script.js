@@ -62,7 +62,8 @@ var Script;
             super("BikeWall");
             this.addComponent(new ƒ.ComponentTransform);
             this.addComponent(new ƒ.ComponentMesh(new ƒ.MeshCube("MeshBikeWall")));
-            this.addComponent(new ƒ.ComponentMaterial(new ƒ.Material("mtrBikeWall", ƒ.ShaderUniColor, new ƒ.CoatColored(new ƒ.Color(1, 0, 1, 1)))));
+            this.addComponent(new ƒ.ComponentMaterial(new ƒ.Material("mtrBikeWall", ƒ.ShaderUniColor, new ƒ.CoatColored(Script.AgentBot.color))) //new ƒ.Color(1, 0, 0, 0.5)
+            );
         }
     }
     Script.BikeWall = BikeWall;
@@ -82,16 +83,16 @@ var Script;
     }
     Script.Bot = Bot;
     Script.OutlookBot = new Bot();
-    Script.OutlookBot.color = new ƒ.Color(0, 1, 1, 1);
+    Script.OutlookBot.color = new ƒ.Color(1, 1, 0, 0.5);
     Script.OutlookBot.name = "Outlook";
     Script.Excel = new Bot();
-    Script.Excel.color = new ƒ.Color(0, 1, 1, 1);
+    Script.Excel.color = new ƒ.Color(0, 1, 0, 0.5);
     Script.Excel.name = "Excel";
     Script.Word = new Bot();
-    Script.Word.color = new ƒ.Color(0, 1, 1, 1);
+    Script.Word.color = new ƒ.Color(0, 0, 1, 0.5);
     Script.Word.name = "Word";
     Script.AgentBot = new Bot();
-    Script.AgentBot.color = new ƒ.Color(1, 0, 1, 1);
+    Script.AgentBot.color = new ƒ.Color(1, 0, 0, 0.5);
     function SetBikeBot(_bot, _spawnpoint) {
         _bot = new Bot();
         Script.graph.getChildrenByName("PlayerList")[0].addChild(_bot);
@@ -249,7 +250,7 @@ var Script;
             Script.AgentBot.bike.NumberOfWall = Script.AgentBot.bike.NumberOfWall + 1;
             Script.AgentBot.bike.ReadyToSetWall = true;
         }
-        let VitesseCam = 5;
+        let VitesseCam = 3;
         // Camera left turn
         if (RotationCameraTest_Left > 0) {
             camera.mtxLocal.rotateY(VitesseCam);
@@ -346,27 +347,6 @@ var Script;
         ƒ.AudioManager.default.update();
     }
 })(Script || (Script = {}));
-// if(AgentBot.bike.ReadyToSetWall == true && AgentBot.bike.StartKey == true && AgentBot.bike.NumberOfWall % 2 == 0){ 
-//   if(AgentBot.bike.StartNewWallOnZ == true){
-//     AgentBot.bike.PostionForNextWall_Z  = AgentBot.bike.getComponent(ƒ.ComponentTransform).mtxLocal.translation.z ;
-//     AgentBot.bike.StartNewWallOnZ = false;    
-//   }
-//   if(AgentBot.bike.DirectionNumber == 2){
-//     AgentBot.bike.OffsetForWalls = -0.5;
-//   }
-//   if(AgentBot.bike.DirectionNumber == 0){
-//     AgentBot.bike.OffsetForWalls = 0.5;
-//   }
-//   AgentBot.bikeWall = new BikeWall();
-//   graph.getChildrenByName("AllBikeWall")[0].addChild(AgentBot.bikeWall); 
-//   AgentBot.bikeWall.mtxLocal.translate(new ƒ.Vector3(AgentBot.bike.mtxLocal.translation.x , 0.5, AgentBot.bike.mtxLocal.translation.z -1));
-//   AgentBot.bike.PositionAgentTempX = AgentBot.bike.getComponent(ƒ.ComponentTransform).mtxLocal.translation.x;
-//   AgentBot.bike.PositionAgentTempZ = AgentBot.bike.getComponent(ƒ.ComponentTransform).mtxLocal.translation.z;
-//   Matrix4x4.scaling.set(0.4, 0.5, Math.abs(Math.abs(AgentBot.bike.getComponent(ƒ.ComponentTransform).mtxLocal.translation.z) - Math.abs(AgentBot.bike.PostionForNextWall_Z))+2);
-//   AgentBot.bikeWall.getComponent(ƒ.ComponentTransform).mtxLocal.scaling = Matrix4x4.scaling;
-//   AgentBot.bikeWall.getComponent(ƒ.ComponentTransform).mtxLocal.translation = new ƒ.Vector3(AgentBot.bike.PositionAgentTempX, 0.5, (AgentBot.bike.PostionForNextWall_Z + AgentBot.bike.PositionAgentTempZ)/2 - AgentBot.bike.OffsetForWalls ); // +0.25
-//   AgentBot.bike.StartNewWallOnX = true;
-// }
 var Script;
 (function (Script) {
     var ƒ = FudgeCore;

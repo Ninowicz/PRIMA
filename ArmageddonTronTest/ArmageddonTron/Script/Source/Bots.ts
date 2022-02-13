@@ -17,22 +17,22 @@ namespace Script {
 
   export let OutlookBot: Bot;
   OutlookBot = new Bot();
-  OutlookBot.color = new ƒ.Color(0,1,1,1);
+  OutlookBot.color = new ƒ.Color(1,1,0,0.5);
   OutlookBot.name = "Outlook";
 
   export let Excel: Bot;
   Excel = new Bot();
-  Excel.color = new ƒ.Color(0,1,1,1);
+  Excel.color = new ƒ.Color(0,1,0,0.5);
   Excel.name = "Excel";
 
   export let Word: Bot;
   Word = new Bot();
-  Word.color = new ƒ.Color(0,1,1,1);
+  Word.color = new ƒ.Color(0,0,1,0.5);
   Word.name = "Word";
 
   export let AgentBot: Bot;
   AgentBot = new Bot();
-  AgentBot.color = new ƒ.Color(1,0,1,1);
+  AgentBot.color = new ƒ.Color(1,0,0,0.5);
   
   export function SetBikeBot(_bot : Bot, _spawnpoint : SpawnPoint){
     _bot = new Bot();
