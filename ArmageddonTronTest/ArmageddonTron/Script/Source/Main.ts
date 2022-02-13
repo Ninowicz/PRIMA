@@ -118,27 +118,27 @@ namespace Script {
         AgentBot.bikeWall.mtxLocal.translate(new ƒ.Vector3(AgentBot.bike.mtxLocal.translation.x , 0.5, AgentBot.bike.mtxLocal.translation.z -1));
         AgentBot.bike.PositionAgentTempX = AgentBot.bike.getComponent(ƒ.ComponentTransform).mtxLocal.translation.x;
         AgentBot.bike.PositionAgentTempZ = AgentBot.bike.getComponent(ƒ.ComponentTransform).mtxLocal.translation.z;
-        Matrix4x4.scaling.set(0.4, 0.5, Math.abs(Math.abs(AgentBot.bike.getComponent(ƒ.ComponentTransform).mtxLocal.translation.z) - Math.abs(AgentBot.bike.PostionForNextWall_Z)-AgentBot.bike.OffsetForWalls));//+2
+        Matrix4x4.scaling.set(0.4, 0.5, Math.abs(Math.abs(AgentBot.bike.getComponent(ƒ.ComponentTransform).mtxLocal.translation.z) - Math.abs(AgentBot.bike.PostionForNextWall_Z) + AgentBot.bike.OffsetForWalls));//+2
         AgentBot.bikeWall.getComponent(ƒ.ComponentTransform).mtxLocal.scaling = Matrix4x4.scaling;
-        AgentBot.bikeWall.getComponent(ƒ.ComponentTransform).mtxLocal.translation = new ƒ.Vector3(AgentBot.bike.PositionAgentTempX, 0.5, (AgentBot.bike.PostionForNextWall_Z + AgentBot.bike.PositionAgentTempZ)/2 - AgentBot.bike.OffsetForWalls ); // +0.25
+        AgentBot.bikeWall.getComponent(ƒ.ComponentTransform).mtxLocal.translation = new ƒ.Vector3(AgentBot.bike.PositionAgentTempX, 0.5, (AgentBot.bike.PostionForNextWall_Z + AgentBot.bike.PositionAgentTempZ)/2 ); // +0.25
         AgentBot.bike.StartNewWallOnX = true;   
       }
 
       if(AgentBot.bike.DirectionNumber == 2){
-        AgentBot.bike.OffsetForWalls = 0.25;
+        AgentBot.bike.OffsetForWalls = 1; // -0.25
       }
 
       if(AgentBot.bike.DirectionNumber == 0){
-        AgentBot.bike.OffsetForWalls = -0.25;
+        AgentBot.bike.OffsetForWalls = -1; //-0.25
       }
 
       graph.getChildrenByName("AllBikeWall")[0].addChild(AgentBot.bikeWall); 
       AgentBot.bikeWall.mtxLocal.translate(new ƒ.Vector3(AgentBot.bike.mtxLocal.translation.x , 0.5, AgentBot.bike.mtxLocal.translation.z -1));
       AgentBot.bike.PositionAgentTempX = AgentBot.bike.getComponent(ƒ.ComponentTransform).mtxLocal.translation.x;
       AgentBot.bike.PositionAgentTempZ = AgentBot.bike.getComponent(ƒ.ComponentTransform).mtxLocal.translation.z;
-      Matrix4x4.scaling.set(0.4, 0.5, Math.abs(Math.abs(AgentBot.bike.getComponent(ƒ.ComponentTransform).mtxLocal.translation.z) - Math.abs(AgentBot.bike.PostionForNextWall_Z)-AgentBot.bike.OffsetForWalls)); // +2
+      Matrix4x4.scaling.set(0.4, 0.5, Math.abs(Math.abs(AgentBot.bike.getComponent(ƒ.ComponentTransform).mtxLocal.translation.z) - Math.abs(AgentBot.bike.PostionForNextWall_Z)+AgentBot.bike.OffsetForWalls)); // +2
       AgentBot.bikeWall.getComponent(ƒ.ComponentTransform).mtxLocal.scaling = Matrix4x4.scaling;
-      AgentBot.bikeWall.getComponent(ƒ.ComponentTransform).mtxLocal.translation = new ƒ.Vector3(AgentBot.bike.PositionAgentTempX, 0.5, (AgentBot.bike.PostionForNextWall_Z + AgentBot.bike.PositionAgentTempZ)/2 - AgentBot.bike.OffsetForWalls ); // +0.25
+      AgentBot.bikeWall.getComponent(ƒ.ComponentTransform).mtxLocal.translation = new ƒ.Vector3(AgentBot.bike.PositionAgentTempX, 0.5, (AgentBot.bike.PostionForNextWall_Z + AgentBot.bike.PositionAgentTempZ)/2 ); // +0.25
       AgentBot.bike.StartNewWallOnX = true;
 
     }
@@ -160,19 +160,19 @@ namespace Script {
         AgentBot.bike.PositionAgentTempX = AgentBot.bike.getComponent(ƒ.ComponentTransform).mtxLocal.translation.x;
         AgentBot.bike.PositionAgentTempZ = AgentBot.bike.getComponent(ƒ.ComponentTransform).mtxLocal.translation.z;
 
-        Matrix4x4.scaling.set(Math.abs(Math.abs(AgentBot.bike.getComponent(ƒ.ComponentTransform).mtxLocal.translation.x) - Math.abs(AgentBot.bike.PostionForNextWall_X))+2, 0.5, 0.4);
+        Matrix4x4.scaling.set(Math.abs(Math.abs(AgentBot.bike.getComponent(ƒ.ComponentTransform).mtxLocal.translation.x) - Math.abs(AgentBot.bike.PostionForNextWall_X)+AgentBot.bike.OffsetForWalls), 0.5, 0.4);
         AgentBot.bikeWall.getComponent(ƒ.ComponentTransform).mtxLocal.scaling = Matrix4x4.scaling;
-        AgentBot.bikeWall.getComponent(ƒ.ComponentTransform).mtxLocal.translation = new ƒ.Vector3((AgentBot.bike.PostionForNextWall_X + AgentBot.bike.PositionAgentTempX)/2 - AgentBot.bike.OffsetForWalls , 0.5, AgentBot.bike.PositionAgentTempZ); // X + 0.25
+        AgentBot.bikeWall.getComponent(ƒ.ComponentTransform).mtxLocal.translation = new ƒ.Vector3((AgentBot.bike.PostionForNextWall_X + AgentBot.bike.PositionAgentTempX)/2 , 0.5, AgentBot.bike.PositionAgentTempZ); // X + 0.25
 
         AgentBot.bike.StartNewWallOnZ = true ;
       }
 
       if(AgentBot.bike.DirectionNumber == 1){
-        AgentBot.bike.OffsetForWalls = -0.25; //bon 
+        AgentBot.bike.OffsetForWalls = 1; //bon 
       }
 
       if(AgentBot.bike.DirectionNumber == 3){
-        AgentBot.bike.OffsetForWalls = -0.25;
+        AgentBot.bike.OffsetForWalls = 1;
       }
 
       
@@ -182,9 +182,9 @@ namespace Script {
       AgentBot.bike.PositionAgentTempX = AgentBot.bike.getComponent(ƒ.ComponentTransform).mtxLocal.translation.x;
       AgentBot.bike.PositionAgentTempZ = AgentBot.bike.getComponent(ƒ.ComponentTransform).mtxLocal.translation.z;
 
-      Matrix4x4.scaling.set(Math.abs(Math.abs(AgentBot.bike.getComponent(ƒ.ComponentTransform).mtxLocal.translation.x) - Math.abs(AgentBot.bike.PostionForNextWall_X))+2, 0.5, 0.4);
+      Matrix4x4.scaling.set(Math.abs(Math.abs(AgentBot.bike.getComponent(ƒ.ComponentTransform).mtxLocal.translation.x) - Math.abs(AgentBot.bike.PostionForNextWall_X))+AgentBot.bike.OffsetForWalls, 0.5, 0.4);
       AgentBot.bikeWall.getComponent(ƒ.ComponentTransform).mtxLocal.scaling = Matrix4x4.scaling;
-      AgentBot.bikeWall.getComponent(ƒ.ComponentTransform).mtxLocal.translation = new ƒ.Vector3((AgentBot.bike.PostionForNextWall_X + AgentBot.bike.PositionAgentTempX)/2 -AgentBot.bike.OffsetForWalls , 0.5, AgentBot.bike.PositionAgentTempZ); // X + 0.25
+      AgentBot.bikeWall.getComponent(ƒ.ComponentTransform).mtxLocal.translation = new ƒ.Vector3((AgentBot.bike.PostionForNextWall_X + AgentBot.bike.PositionAgentTempX)/2, 0.5, AgentBot.bike.PositionAgentTempZ); // X + 0.25
 
       AgentBot.bike.StartNewWallOnZ = true ;
     }
