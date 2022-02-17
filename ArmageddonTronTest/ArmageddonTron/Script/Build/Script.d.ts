@@ -17,6 +17,11 @@ declare namespace Script {
         StartKey: boolean;
         KeyStatus_LeftTurn: boolean;
         KeyStatus_RightTurn: boolean;
+        Odds: number;
+        AllesGutZ: boolean;
+        AllesGutX: boolean;
+        EmergencyTurnX: boolean;
+        EmergencyTurnZ: boolean;
         RotationCameraTest_Left: number;
         TheChosenOne_Left: number;
         RotationCameraTest_Right: number;
@@ -30,6 +35,8 @@ declare namespace Script {
         }
     }
     let CartGraph: ƒ.Graph;
+    function turnRight(_bike: Bike): void;
+    function turnLeft(_bike: Bike): void;
 }
 declare namespace Script {
     import ƒ = FudgeCore;
@@ -45,12 +52,56 @@ declare namespace Script {
 }
 declare namespace Script {
     import ƒ = FudgeCore;
+    enum state {
+        Alive = 0,
+        Dead = 1
+    }
+    export class BikeWallExcel extends ƒ.Node {
+        State: state;
+        constructor();
+    }
+    export {};
+}
+declare namespace Script {
+    import ƒ = FudgeCore;
+    enum state {
+        Alive = 0,
+        Dead = 1
+    }
+    export class BikeWallOutlook extends ƒ.Node {
+        State: state;
+        constructor();
+    }
+    export {};
+}
+declare namespace Script {
+    import ƒ = FudgeCore;
+    enum state {
+        Alive = 0,
+        Dead = 1
+    }
+    export class BikeWallWord extends ƒ.Node {
+        State: state;
+        constructor();
+    }
+    export {};
+}
+declare namespace Script {
+    import ƒ = FudgeCore;
     class Bot extends ƒ.Node {
         bike: Bike;
         color: ƒ.Color;
         BotNode: ƒ.Node;
         bikeWall: BikeWall;
+        bikeWallOutlook: BikeWallOutlook;
+        bikeWallExcel: BikeWallExcel;
+        bikeWallWord: BikeWallWord;
         name: string;
+        LeftTurnAvailable: boolean;
+        LeftTurnAvailableCount: number;
+        RightTurnAvailable: boolean;
+        RightTurnAvailableCount: number;
+        StartingBug: number;
         constructor();
     }
     let OutlookBot: Bot;
@@ -58,6 +109,7 @@ declare namespace Script {
     let Word: Bot;
     let AgentBot: Bot;
     function SetBikeBot(_bot: Bot, _spawnpoint: SpawnPoint): void;
+    function BehaviorBot(_bot: Bot): void;
 }
 declare namespace Script {
     import ƒ = FudgeCore;

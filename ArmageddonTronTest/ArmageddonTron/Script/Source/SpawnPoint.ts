@@ -56,7 +56,7 @@ namespace Script {
   export let Bordeaux : SpawnPoint;
   Bordeaux = new SpawnPoint();
   Bordeaux.coordonates = new ƒ.Vector3(25, 0.5, 125);
-  Bordeaux.orientation = new ƒ.Vector3(0, -90, 0);
+  Bordeaux.orientation = new ƒ.Vector3(0, 90, 0);
   Bordeaux.direction = SpawnPoint.Directions.East;
 
   export function SetSpawnPoint(_bike : Bike , _spawnpoint : SpawnPoint ):void {

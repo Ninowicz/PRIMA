@@ -35,6 +35,12 @@ namespace Script {
     public KeyStatus_LeftTurn : boolean;
     public KeyStatus_RightTurn : boolean;
 
+    public Odds = -1;
+    public AllesGutZ = true;
+    public AllesGutX = true;
+    public EmergencyTurnX = false;
+    public EmergencyTurnZ = false;
+
     // Camera Agent
 
     public RotationCameraTest_Left : number = 0;
@@ -61,7 +67,17 @@ namespace Script {
       }
   }
   export let CartGraph: ƒ.Graph = <ƒ.Graph>FudgeCore.Project.resources["Graph|2021-12-26T12:21:36.268Z|87935"];
+
+  export function turnRight(_bike :Bike){
+    _bike.mtxLocal.rotateY(-90);
+  }
+  
+  export function turnLeft(_bike :Bike){
+    _bike.mtxLocal.rotateY(90);
+  }
 }
+
+
 
 // Graph for the bike : 
 //
