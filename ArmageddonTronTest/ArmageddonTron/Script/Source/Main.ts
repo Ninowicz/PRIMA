@@ -42,6 +42,9 @@ namespace Script {
     viewport.calculateTransforms();
     graph = viewport.getBranch();
  
+    ƒ.AudioManager.default.listenTo(graph);
+    ƒ.AudioManager.default.listenWith(graph.getComponent(ƒ.ComponentAudioListener));
+    
     SetBikeBot(AgentBot,Lille);
     graph.getChildrenByName("PlayerList")[0].addChild(AgentBot);
     AgentBot.bike = new Bike();
@@ -561,18 +564,28 @@ namespace Script {
     if(AgentBot.bike.mtxWorld.translation.x >= 249.5 || AgentBot.bike.mtxWorld.translation.z >= 249.5 || AgentBot.bike.mtxWorld.translation.x < 0 || AgentBot.bike.mtxWorld.translation.z < 0){
       AgentBot.bike.mtxLocal.translation = new ƒ.Vector3(125, 0.5, 125);
       AgentBot.bike.StartKey = false;
+      graph.removeAllChildren;
+      
     }
 
     if(OutlookBot.bike.mtxWorld.translation.x >= 249.5 || OutlookBot.bike.mtxWorld.translation.z >= 249.5 || OutlookBot.bike.mtxWorld.translation.x < 0 || OutlookBot.bike.mtxWorld.translation.z < 0){
-      OutlookBot.bike.mtxLocal.translation = new ƒ.Vector3(125, 0.5, 125);
+      //OutlookBot.bike.mtxLocal.translation = new ƒ.Vector3(125, 0.5, 125);
+      OutlookBot.bike.StartKey = false;
+      //graph.getChildrenByName("AllBikeWall")[0].removeChild(OutlookBot.bikeWallOutlook);
+      graph.getChildrenByName("PlayerList")[0].removeChild(OutlookBot);
     }
 
     if(Excel.bike.mtxWorld.translation.x >= 249.5 || Excel.bike.mtxWorld.translation.z >= 249.5 || Excel.bike.mtxWorld.translation.x < 0 || Excel.bike.mtxWorld.translation.z < 0){
-      Excel.bike.mtxLocal.translation = new ƒ.Vector3(125, 0.5, 125);
+      //Excel.bike.mtxLocal.translation = new ƒ.Vector3(125, 0.5, 125);
+      Excel.bike.StartKey = false;
+      //graph.getChildrenByName("AllBikeWall")[0].removeChild(Excel.bikeWallExcel);
+      graph.getChildrenByName("PlayerList")[0].removeChild(Excel);
     }
 
     if(Word.bike.mtxWorld.translation.x >= 249.5 || Word.bike.mtxWorld.translation.z >= 249.5 || Word.bike.mtxWorld.translation.x < 0 || Word.bike.mtxWorld.translation.z < 0){
-      Word.bike.mtxLocal.translation = new ƒ.Vector3(125, 0.5, 125);
+      //Word.bike.mtxLocal.translation = new ƒ.Vector3(125, 0.5, 125);
+      Word.bike.StartKey = false;
+      graph.getChildrenByName("PlayerList")[0].removeChild(Word);
     }
 
     // Behaviour

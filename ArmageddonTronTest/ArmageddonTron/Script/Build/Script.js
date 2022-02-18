@@ -276,6 +276,8 @@ var Script;
         viewport = _event.detail;
         viewport.calculateTransforms();
         Script.graph = viewport.getBranch();
+        ƒ.AudioManager.default.listenTo(Script.graph);
+        ƒ.AudioManager.default.listenWith(Script.graph.getComponent(ƒ.ComponentAudioListener));
         Script.SetBikeBot(Script.AgentBot, Script.Lille);
         Script.graph.getChildrenByName("PlayerList")[0].addChild(Script.AgentBot);
         Script.AgentBot.bike = new Script.Bike();
@@ -682,15 +684,24 @@ var Script;
         if (Script.AgentBot.bike.mtxWorld.translation.x >= 249.5 || Script.AgentBot.bike.mtxWorld.translation.z >= 249.5 || Script.AgentBot.bike.mtxWorld.translation.x < 0 || Script.AgentBot.bike.mtxWorld.translation.z < 0) {
             Script.AgentBot.bike.mtxLocal.translation = new ƒ.Vector3(125, 0.5, 125);
             Script.AgentBot.bike.StartKey = false;
+            Script.graph.removeAllChildren;
         }
         if (Script.OutlookBot.bike.mtxWorld.translation.x >= 249.5 || Script.OutlookBot.bike.mtxWorld.translation.z >= 249.5 || Script.OutlookBot.bike.mtxWorld.translation.x < 0 || Script.OutlookBot.bike.mtxWorld.translation.z < 0) {
-            Script.OutlookBot.bike.mtxLocal.translation = new ƒ.Vector3(125, 0.5, 125);
+            //OutlookBot.bike.mtxLocal.translation = new ƒ.Vector3(125, 0.5, 125);
+            Script.OutlookBot.bike.StartKey = false;
+            //graph.getChildrenByName("AllBikeWall")[0].removeChild(OutlookBot.bikeWallOutlook);
+            Script.graph.getChildrenByName("PlayerList")[0].removeChild(Script.OutlookBot);
         }
         if (Script.Excel.bike.mtxWorld.translation.x >= 249.5 || Script.Excel.bike.mtxWorld.translation.z >= 249.5 || Script.Excel.bike.mtxWorld.translation.x < 0 || Script.Excel.bike.mtxWorld.translation.z < 0) {
-            Script.Excel.bike.mtxLocal.translation = new ƒ.Vector3(125, 0.5, 125);
+            //Excel.bike.mtxLocal.translation = new ƒ.Vector3(125, 0.5, 125);
+            Script.Excel.bike.StartKey = false;
+            //graph.getChildrenByName("AllBikeWall")[0].removeChild(Excel.bikeWallExcel);
+            Script.graph.getChildrenByName("PlayerList")[0].removeChild(Script.Excel);
         }
         if (Script.Word.bike.mtxWorld.translation.x >= 249.5 || Script.Word.bike.mtxWorld.translation.z >= 249.5 || Script.Word.bike.mtxWorld.translation.x < 0 || Script.Word.bike.mtxWorld.translation.z < 0) {
-            Script.Word.bike.mtxLocal.translation = new ƒ.Vector3(125, 0.5, 125);
+            //Word.bike.mtxLocal.translation = new ƒ.Vector3(125, 0.5, 125);
+            Script.Word.bike.StartKey = false;
+            Script.graph.getChildrenByName("PlayerList")[0].removeChild(Script.Word);
         }
         // Behaviour
         //Outlook
