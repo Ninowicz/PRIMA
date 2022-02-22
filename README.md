@@ -2,7 +2,7 @@
 © Prof. Dipl.-Ing. Jirka R. Dell'Oro-Friedl, HFU
 | Nr | Criterion       | Explanation                                                                                                              |
 |---:|-------------------|---------------------------------------------------------------------------------------------------------------------|
-|  0 | Units and Positions | At first, the 0 was center, but it created many problems. The main one was when a Bike’s coordinate switched from negative to positive, the wall that was created by the bike was breaking in half. By moving the zero in one corner, the coordinates would always be positive.                                   |
+|  0 | Units and Positions | At first, the 0 was center, but it created many problems. The main one was when a Bike’s coordinate switched from negative to positive, the wall that was created by the bike was breaking in half. By moving the zero in one corner, the coordinates would always be positive. In this game, the 1 is the width of the bike, which is also 2 in length.                               |
 |  1 | Hierarchy         | Explain the setup of the graphs and the advantages you gain by it.                                                  |
 |  2 | Editor            | Use the visual editor and explain which parts are better done by coding and why.                                    |
 |  3 | Scriptcomponents  | Use scriptcomponents and explain if they were useful in your context or not and why.                                |
