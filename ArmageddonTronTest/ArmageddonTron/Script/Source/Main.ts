@@ -44,7 +44,7 @@ namespace Script {
  
     ƒ.AudioManager.default.listenTo(graph);
     ƒ.AudioManager.default.listenWith(graph.getComponent(ƒ.ComponentAudioListener));
-    
+
     SetBikeBot(AgentBot,Lille);
     graph.getChildrenByName("PlayerList")[0].addChild(AgentBot);
     AgentBot.bike = new Bike();
@@ -564,8 +564,6 @@ namespace Script {
     if(AgentBot.bike.mtxWorld.translation.x >= 249.5 || AgentBot.bike.mtxWorld.translation.z >= 249.5 || AgentBot.bike.mtxWorld.translation.x < 0 || AgentBot.bike.mtxWorld.translation.z < 0){
       AgentBot.bike.mtxLocal.translation = new ƒ.Vector3(125, 0.5, 125);
       AgentBot.bike.StartKey = false;
-      graph.removeAllChildren;
-      
     }
 
     if(OutlookBot.bike.mtxWorld.translation.x >= 249.5 || OutlookBot.bike.mtxWorld.translation.z >= 249.5 || OutlookBot.bike.mtxWorld.translation.x < 0 || OutlookBot.bike.mtxWorld.translation.z < 0){
@@ -614,7 +612,6 @@ namespace Script {
         if(OutlookOddsToLive > 80 || 1){
           OutlookBot.bike.EmergencyTurnX = true;
           OutlookBot.bike.AllesGutX = false;
-          console.log("oui1");
         }
       }
       if((OutlookBot.bike.mtxWorld.translation.z >= 240 || OutlookBot.bike.mtxWorld.translation.z < 10) && OutlookBot.bike.AllesGutZ == true){
@@ -622,7 +619,7 @@ namespace Script {
         if(OutlookOddsToLive > 80 || 1){
           OutlookBot.bike.EmergencyTurnZ = true;
           OutlookBot.bike.AllesGutZ = false;
-          console.log("oui2");
+          
         }
       }
 

@@ -684,7 +684,6 @@ var Script;
         if (Script.AgentBot.bike.mtxWorld.translation.x >= 249.5 || Script.AgentBot.bike.mtxWorld.translation.z >= 249.5 || Script.AgentBot.bike.mtxWorld.translation.x < 0 || Script.AgentBot.bike.mtxWorld.translation.z < 0) {
             Script.AgentBot.bike.mtxLocal.translation = new ƒ.Vector3(125, 0.5, 125);
             Script.AgentBot.bike.StartKey = false;
-            Script.graph.removeAllChildren;
         }
         if (Script.OutlookBot.bike.mtxWorld.translation.x >= 249.5 || Script.OutlookBot.bike.mtxWorld.translation.z >= 249.5 || Script.OutlookBot.bike.mtxWorld.translation.x < 0 || Script.OutlookBot.bike.mtxWorld.translation.z < 0) {
             //OutlookBot.bike.mtxLocal.translation = new ƒ.Vector3(125, 0.5, 125);
@@ -724,7 +723,6 @@ var Script;
                 if (OutlookOddsToLive > 80 || 1) {
                     Script.OutlookBot.bike.EmergencyTurnX = true;
                     Script.OutlookBot.bike.AllesGutX = false;
-                    console.log("oui1");
                 }
             }
             if ((Script.OutlookBot.bike.mtxWorld.translation.z >= 240 || Script.OutlookBot.bike.mtxWorld.translation.z < 10) && Script.OutlookBot.bike.AllesGutZ == true) {
@@ -732,7 +730,6 @@ var Script;
                 if (OutlookOddsToLive > 80 || 1) {
                     Script.OutlookBot.bike.EmergencyTurnZ = true;
                     Script.OutlookBot.bike.AllesGutZ = false;
-                    console.log("oui2");
                 }
             }
             Script.OutlookBot.bike.Odds = Math.floor(Math.random() * 10000) + 1;
